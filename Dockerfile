@@ -24,18 +24,17 @@ WORKDIR /app
 # Configure postgres
 RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/9.3/main/pg_hba.conf && \
     echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
-EXPOSE 5432
 
-# Install nominatim
+# Nominatim install
 RUN git clone --recursive git://github.com/twain47/Nominatim.git ./src && \
-    cmake ./src && make
+    cmake ./src && make && rm -rf ./src
 
-# Nominatim config file
+# Nominatim create site
 COPY local.php ./settings/local.php
 RUN rm -rf /var/www/html/* && ./utils/setup.php --create-website /var/www/html
-# Apache site config
+
+# Apache configure
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
-EXPOSE 8080
 
 # Load initial data
 ENV PBF_DATA http://download.geofabrik.de/europe/monaco-latest.osm.pbf
@@ -47,6 +46,9 @@ RUN service postgresql start && \
     useradd -m -p password1234 nominatim && \
     sudo -u nominatim ./utils/setup.php --osm-file /app/src/data.osm.pbf --all --threads 2 && \
     service postgresql stop
+
+EXPOSE 5432
+EXPOSE 8080
 
 COPY start.sh /app/start.sh
 CMD /app/start.sh
