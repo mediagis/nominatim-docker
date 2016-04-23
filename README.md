@@ -5,24 +5,38 @@ Run [http://wiki.openstreetmap.org/wiki/Nominatim](http://wiki.openstreetmap.org
 Uses Ubuntu 14.04 and PostgreSQL 9.3
 
 # Country
-It downloads Europe/Monacco (latest) from geofabrik.de.
+To check that everything is set up correctly, download and load to Postgres PBF file with minimal size - Europe/Monacco (latest) from geofabrik.de.
 
 If a different country should be used you can set `PBF_DATA` on build.
 
-# Building
+1. Clone repository
 
-To rebuild the image locally execute
+  ```
+  # git clone git@github.com:cartography/nominatim-docker.git
+  # cd nominatim-docker
+  ```
 
-```
-docker build -t nominatim .
-```
+2. Modify Dockerfile, set your url for PBF
 
+  ```
+  ENV PBF_DATA http://download.geofabrik.de/europe/monaco-latest.osm.pbf
+  ```
+3. Build 
+
+  ```
+  docker build -t nominatim .
+  ```
+4. Run
+
+  ```
+  docker run --restart=always -d -p 8080:8080 --name nominatim-monacco nominatim
+  ```
+  If this succeeds, open [http://localhost:8080/](http:/localhost:8080) in a web browser
 # Running
 
-To run the container execute.
+You can run Docker image from docher hub.
 
 ```
-docker run --restart=always -d -p 8080:8080 --name nominatim-monacco nominatim
+docker run --restart=always -d -p 8080:8080 --name nominatim cartography/nominatim-docker
 ```
-
-If this succeeds, open [http://localhost:8080/](http:/localhost:8080) in a web browser
+Service will run on [http://localhost:8080/](http:/localhost:8080)
