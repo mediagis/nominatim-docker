@@ -19,7 +19,7 @@ If a different country should be used you can set `PBF_DATA` on build.
 1. Clone repository
 
   ```
-  # git clone git@github.com:cartography/nominatim-docker.git
+  # git clone git@github.com:mediagis/nominatim-docker.git
   # cd nominatim-docker/2.5
   ```
 
@@ -44,6 +44,6 @@ If a different country should be used you can set `PBF_DATA` on build.
 You can run Docker image from docher hub.
 
 ```
-docker run --restart=always -d -p 8080:8080 --name nominatim cartography/nominatim-docker
+docker run --restart=always -d -p 8080:8080 --name nominatim mediagis/nominatim-docker:latest
 ```
 Service will run on [http://localhost:8080/](http:/localhost:8080)
