@@ -26,12 +26,15 @@ RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/9.3/main/pg_hba.
     echo "listen_addresses='*'" >> /etc/postgresql/9.3/main/postgresql.conf
 
 # Nominatim install
-RUN git clone --recursive git://github.com/twain47/Nominatim.git ./src && \
-    cmake ./src && make
+ENV NOMINATIM_VERSION v.2.5.0
+RUN git clone --recursive git://github.com/twain47/Nominatim.git ./src
+RUN cd ./src && git checkout $NOMINATIM_VERSION && git submodule update --recursive --init && \
+  ./autogen.sh && ./configure && make
+
 
 # Nominatim create site
-COPY local.php ./settings/local.php
-RUN rm -rf /var/www/html/* && ./utils/setup.php --create-website /var/www/html
+COPY local.php ./src/settings/local.php
+RUN rm -rf /var/www/html/* && ./src/utils/setup.php --create-website /var/www/html
 
 # Apache configure
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
@@ -44,7 +47,7 @@ RUN service postgresql start && \
     sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -u postgres createuser -SDR www-data && \
     sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim" && \
     useradd -m -p password1234 nominatim && \
-    sudo -u nominatim ./utils/setup.php --osm-file /app/src/data.osm.pbf --all --threads 2 && \
+    sudo -u nominatim ./src/utils/setup.php --osm-file /app/src/data.osm.pbf --all --threads 2 && \
     service postgresql stop
 
 EXPOSE 5432
