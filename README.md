@@ -2,6 +2,8 @@
 
 100% working container for [Nominatim](https://github.com/twain47/Nominatim).
 
+[![](https://images.microbadger.com/badges/image/mediagis/nominatim.svg)](https://microbadger.com/images/mediagis/nominatim "Get your own image badge on microbadger.com")
+
 # Supported tags and respective `Dockerfile` links #
 
 - [`2.5.0`, `2.5`, `latest`  (*2.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
