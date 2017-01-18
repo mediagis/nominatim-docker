@@ -30,22 +30,44 @@ If a different country should be used you can set `PBF_DATA` on build.
   ```
   ENV PBF_DATA http://download.geofabrik.de/europe/monaco-latest.osm.pbf
   ```
-3. Build 
+3. Configure incrimental update. By default CONST_Replication_Url configured for Monaco.
+If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/twain47/Nominatim/blob/master/docs/Import_and_update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
+  ```
+  @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
+  ```
+
+4. Build 
 
   ```
   docker build -t nominatim .
   ```
-4. Run
+5. Run
 
   ```
   docker run --restart=always -d -p 8080:8080 --name nominatim-monacco nominatim
   ```
   If this succeeds, open [http://localhost:8080/](http:/localhost:8080) in a web browser
+
 # Running
 
 You can run Docker image from docher hub.
 
 ```
-docker run --restart=always -d -p 8080:8080 --name nominatim mediagis/nominatim-docker:latest
+docker run --restart=always -d -p 8080:8080 --name nominatim mediagis/nominatim:latest
 ```
 Service will run on [http://localhost:8080/](http:/localhost:8080)
+
+# Update
+
+Full documentation for Nominatim update available [here](https://github.com/twain47/Nominatim/blob/master/docs/Import_and_update.md#updates). For a list of other methods see the output of:
+  ```
+  docker exec -it nominatim sudo -u nominatim ./src/utils/update.php --help
+  ```
+
+The following command will keep your database constantly up to date:
+  ```
+  docker exec -it nominatim sudo -u nominatim ./src/utils/update.php --import-osmosis-all --no-npi
+  ```
+If you have imported multiple country extracts and want to keep them
+up-to-date, have a look at the script in
+[issue #60](https://github.com/twain47/Nominatim/issues/60).
