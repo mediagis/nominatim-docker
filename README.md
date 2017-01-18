@@ -30,12 +30,18 @@ If a different country should be used you can set `PBF_DATA` on build.
   ```
   ENV PBF_DATA http://download.geofabrik.de/europe/monaco-latest.osm.pbf
   ```
-3. Build 
+3. Configure incrimental update. By default Nominatim is configured to update using the global minutely diffs.
+If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/twain47/Nominatim/blob/master/docs/Import_and_update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
+  ```
+  @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
+  ```
+
+4. Build 
 
   ```
   docker build -t nominatim .
   ```
-4. Run
+5. Run
 
   ```
   docker run --restart=always -d -p 8080:8080 --name nominatim-monacco nominatim
