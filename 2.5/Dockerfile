@@ -28,7 +28,7 @@ RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/9.3/main/pg_hba.
 
 # Nominatim install
 ENV NOMINATIM_VERSION v.2.5.0
-RUN git clone --recursive git://github.com/twain47/Nominatim.git ./src
+RUN git clone --recursive https://github.com/openstreetmap/Nominatim ./src
 RUN cd ./src && git checkout $NOMINATIM_VERSION && git submodule update --recursive --init && \
   ./autogen.sh && ./configure && make
 
