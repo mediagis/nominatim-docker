@@ -50,7 +50,7 @@ If you want a different update source, you will need to declare `CONST_Replicati
 
 # Running
 
-You can run Docker image from docher hub.
+You can run Docker image from docker hub.
 
 ```
 docker run --restart=always -d -p 8080:8080 --name nominatim mediagis/nominatim:latest
