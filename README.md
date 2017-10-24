@@ -35,12 +35,18 @@ If you want a different update source, you will need to declare `CONST_Replicati
   ```
   @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
   ```
+  Alternatively you could set a different CONST_Replication_Url on build tim by setting DYN_REPL_URL as build-arg. See "Build".
 
-4. Build 
+4. Build
 
   ```
   docker build -t nominatim .
   ```
+
+  with build-arg:
+  ```
+   docker build --build-arg DYN_REP_URL=http://download.geofabrik.de/europe/germany-updates PBF_DATA=http://download.geofabrik.de/europe/germany-latest.osm.pbf -t nominatim .
+   ```
 5. Run
 
   ```
