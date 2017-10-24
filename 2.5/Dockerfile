@@ -34,7 +34,11 @@ RUN cd ./src && git checkout $NOMINATIM_VERSION && git submodule update --recurs
 
 
 # Nominatim create site
+ARG DYN_REP_URL="http://download.geofabrik.de/monaco-updates"
+RUN echo $DYN_REP_URL
 COPY local.php ./src/settings/local.php
+RUN sed -i "s|http://download.geofabrik.de/monaco-updates|$DYN_REP_URL|g" ./src/settings/local.php
+RUN cat ./src/settings/local.php
 RUN rm -rf /var/www/html/* && ./src/utils/setup.php --create-website /var/www/html
 
 # Apache configure
