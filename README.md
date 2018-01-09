@@ -61,12 +61,12 @@ Service will run on [http://localhost:8080/](http:/localhost:8080)
 
 Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/Import-and-Update.md#updates). For a list of other methods see the output of:
   ```
-  docker exec -it nominatim sudo -u nominatim ./src/utils/update.php --help
+  docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
   ```
 
 The following command will keep your database constantly up to date:
   ```
-  docker exec -it nominatim sudo -u nominatim ./src/utils/update.php --import-osmosis-all --no-npi
+  docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --import-osmosis-all
   ```
 If you have imported multiple country extracts and want to keep them
 up-to-date, have a look at the script in
