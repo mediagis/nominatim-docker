@@ -14,6 +14,7 @@ RUN apt-get -y update -qq && \
     postgresql-server-dev-9.5 postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 \
     apache2 php php-pgsql libapache2-mod-php php-pear php-db \
     php-intl git curl sudo \
+    python-pip libboost-python-dev \
     osmosis && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
@@ -30,6 +31,9 @@ ENV NOMINATIM_VERSION v3.0.1
 RUN git clone --recursive https://github.com/openstreetmap/Nominatim ./src
 RUN cd ./src && git checkout tags/$NOMINATIM_VERSION && git submodule update --recursive --init && \
     mkdir build && cd build && cmake .. && make
+
+# Osmium install to run continuous updates
+RUN pip install osmium
 
 # Apache configure
 COPY local.php /app/src/build/settings/local.php
