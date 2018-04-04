@@ -1,4 +1,5 @@
 FROM ubuntu:xenial
+
 MAINTAINER dorukozturk <dorukozturk@kitware.com>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -40,8 +41,6 @@ COPY local.php /app/src/build/settings/local.php
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Load initial data
-ARG PBF_DATA=./merged.osm.pbf
-COPY $PBF_DATA /app/src/data.osm.pbf
 RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 
 EXPOSE 5432
@@ -50,4 +49,4 @@ EXPOSE 8080
 COPY start.sh /app/start.sh
 COPY init.sh /app/init.sh
 
-#CMD /app/start.sh
+
