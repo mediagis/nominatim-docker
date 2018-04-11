@@ -29,5 +29,7 @@ EXPOSE 5432
 
 COPY start.sh /app/start.sh
 
+CMD /app/start.sh
+
 
 
