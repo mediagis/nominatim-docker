@@ -1,5 +1,5 @@
 OSMFILE=$1
-
+PGDIR=$2
 THREADS=$3
 
 mkdir -p /data/$PGDIR && \
