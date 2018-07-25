@@ -20,6 +20,7 @@ RUN apt-get -y update --fix-missing && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* /var/tmp/*
 
+
 WORKDIR /app
 
 # Configure postgres
