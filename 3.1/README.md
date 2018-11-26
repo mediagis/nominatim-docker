@@ -18,7 +18,7 @@
 4. After the import is finished the /home/me/nominatimdata/postgresdata folder will contain the full postgress binaries of
    a postgis/nominatim database. The easiest way to start the nominatim as a single node is the following:
    ```
-   docker run --restart=always -p 6432:5432 -p 7070:8080 -d -v /home/me/nominatimdata/postgresdata:/var/lib/postgresql/9.5/main nominatim bash /app/start.sh
+   docker run --restart=always -p 6432:5432 -p 7070:8080 -d --name nominatim -v /home/me/nominatimdata/postgresdata:/var/lib/postgresql/9.5/main nominatim bash /app/start.sh
    ```
 
 5. Advanced configuration. If necessary you can split the osm installation into a database and restservice layer
@@ -52,14 +52,14 @@ If you want a different update source, you will need to declare `CONST_Replicati
 
 # Update
 
-Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/Import-and-Update.md#updates). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For a list of other methods see the output of:
   ```
-  docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
+  docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --help
   ```
 
 The following command will keep your database constantly up to date:
   ```
-  docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --import-osmosis-all
+  docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
   ```
 If you have imported multiple country extracts and want to keep them
 up-to-date, have a look at the script in
