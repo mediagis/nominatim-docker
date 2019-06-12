@@ -41,7 +41,7 @@
    ```
 
 6. Configure incremental update. By default CONST_Replication_Url configured for Monaco.
-If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/openstreetmap/Nominatim/blob/master/docs/Import-and-Update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
+If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
   ```
   @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
   ```
