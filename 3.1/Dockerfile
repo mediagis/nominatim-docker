@@ -9,14 +9,15 @@ RUN apt-get -y update -qq && \
     apt-get -y install locales && \
     locale-gen en_US.UTF-8 && \
     update-locale LANG=en_US.UTF-8 && \
-    apt-get install -y build-essential cmake g++ libboost-dev libboost-system-dev \
-    libboost-filesystem-dev libexpat1-dev zlib1g-dev libxml2-dev\
-    libbz2-dev libpq-dev libgeos-dev libgeos++-dev libproj-dev \
-    postgresql-server-dev-9.5 postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 \
-    apache2 php php-pgsql libapache2-mod-php php-pear php-db \
-    php-intl git curl sudo \
-    python-pip libboost-python-dev \
-    osmosis && \
+    apt-get install -o APT::Install-Recommends="false" -o APT::Install-Suggests="false" -y \
+        build-essential cmake g++ libboost-dev libboost-system-dev \
+        libboost-filesystem-dev libexpat1-dev zlib1g-dev libxml2-dev\
+        libbz2-dev libpq-dev libgeos-dev libgeos++-dev libproj-dev \
+        postgresql-server-dev-9.5 postgresql-9.5-postgis-2.2 postgresql-contrib-9.5 \
+        apache2 php php-pgsql libapache2-mod-php php-pear php-db \
+        php-intl git curl sudo \
+        python-pip libboost-python-dev \
+        osmosis && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* /var/tmp/*
