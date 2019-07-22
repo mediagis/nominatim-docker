@@ -8,11 +8,11 @@
 
 3. Initialize Nominatim Database
   ```
-  docker run -t -v /home/me/nominatimdata:/data nominatim  sh /app/init.sh /data/merged.osm.pbf postgresdata 4
+  docker run -t -v /home/me/nominatimdata:/data nominatim  sh /app/init.sh /data/<your_country>.osm.pbf postgresdata 4
   ```
   Where 4 is the number of threads to use during import. In general the import of data in postgres is a very time consuming
   process that may take hours or days. If you run this process on a multiprocessor system make sure that it makes the best use
-  of it. You can delete the /home/me/nominatimdata/merged.osm.pbf once the import is finished.
+  of it. You can delete the /home/me/nominatimdata/<your_country>.osm.pbf once the import is finished.
 
 
 4. After the import is finished the /home/me/nominatimdata/postgresdata folder will contain the full postgress binaries of
