@@ -7,6 +7,7 @@
 
 # Supported tags and respective `Dockerfile` links #
 
+- [`3.4.0`, `3.4`  (*3.4/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
 - [`3.3.0`, `3.3`  (*3.3/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
 - [`3.2.0`, `3.2`  (*3.2/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.2)
 - [`3.1.0`, `3.1`  (*3.1/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.1)
@@ -15,7 +16,7 @@
 
 Run [http://wiki.openstreetmap.org/wiki/Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim) in a docker container. Clones the current master and builds it. This is always the latest version, be cautious as it may be unstable.
 
-Uses Ubuntu 19.04 and PostgreSQL 11.3
+Uses Ubuntu 19.10 and PostgreSQL 11.3
 
 # Country
 To check that everything is set up correctly, download and load to Postgres PBF file with minimal size - Europe/Monacco (latest) from geofabrik.de.
