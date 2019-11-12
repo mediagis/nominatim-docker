@@ -24,6 +24,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "philipkozeny",
+      "name": "Philip Kozeny",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16721635?v=4",
+      "profile": "http://www.symvaro.com",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
