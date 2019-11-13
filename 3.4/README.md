@@ -1,4 +1,4 @@
-# Nominatim Docker (Nominatim version 3.3)
+# Nominatim Docker (Nominatim version 3.4)
 
 1. Build
   ```
