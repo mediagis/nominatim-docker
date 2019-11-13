@@ -4,10 +4,6 @@
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
 [![](https://images.microbadger.com/badges/image/mediagis/nominatim.svg)](https://microbadger.com/images/mediagis/nominatim "Get your own image badge on microbadger.com")
-
-# Vote for Docker support in official repository
-Hello guys. I would like docker support to be in the official repository. Let's vote for it: https://github.com/openstreetmap/Nominatim/issues/1565
-
 # Supported tags and respective `Dockerfile` links #
 
 - [`3.4.0`, `3.4`  (*3.4/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
