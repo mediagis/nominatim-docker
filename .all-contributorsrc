@@ -1,0 +1,44 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "dlucia",
+      "name": "Donato Lucia",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1665623?v=4",
+      "profile": "https://github.com/dlucia",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    },
+    {
+      "login": "geomark",
+      "name": "Georgios Markakis",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1500692?v=4",
+      "profile": "https://github.com/geomark",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    },
+    {
+      "login": "philipkozeny",
+      "name": "Philip Kozeny",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/16721635?v=4",
+      "profile": "http://www.symvaro.com",
+      "contributions": [
+        "infra",
+        "code"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "nominatim-docker",
+  "projectOwner": "mediagis",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

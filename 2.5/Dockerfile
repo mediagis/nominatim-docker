@@ -11,7 +11,7 @@ RUN apt-get -y update --fix-missing && \
     apt-get install -y build-essential libxml2-dev libpq-dev libbz2-dev libtool automake \
     libproj-dev libboost-dev libboost-system-dev libboost-filesystem-dev \
     libboost-thread-dev libexpat-dev gcc proj-bin libgeos-c1 libgeos++-dev \
-    libexpat-dev php5 php-pear php5-pgsql php5-json php-db libapache2-mod-php5 \
+    libexpat-dev php5 php-pear php5-pgsql php5-json php-db libapache2-mod-php5 php5-intl \
     postgresql postgis postgresql-contrib postgresql-9.3-postgis-2.1 \
     postgresql-server-dev-9.3 curl git autoconf-archive cmake python \
     lua5.1 liblua5.1-dev libluabind-dev \
@@ -19,6 +19,7 @@ RUN apt-get -y update --fix-missing && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /tmp/* /var/tmp/*
+
 
 WORKDIR /app
 
@@ -44,7 +45,7 @@ COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Load initial data
 ARG PBF_DATA=http://download.geofabrik.de/europe/monaco-latest.osm.pbf
-RUN curl -L $PBF_DATA --create-dirs -o /app/src/data.osm.pbf
+RUN curl -L -f $PBF_DATA --create-dirs -o /app/src/data.osm.pbf
 RUN service postgresql start && \
     sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -u postgres createuser -s nominatim && \
     sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -u postgres createuser -SDR www-data && \
