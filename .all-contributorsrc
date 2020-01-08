@@ -44,6 +44,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "thomasnordquist",
+      "name": "Thomas Nordquist",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/7721625?v=4",
+      "profile": "https://github.com/thomasnordquist",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
