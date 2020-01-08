@@ -34,11 +34,22 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "therek",
+      "name": "Cezary Morga",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/89052?v=4",
+      "profile": "http://www.therek.net/",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
   "projectName": "nominatim-docker",
   "projectOwner": "mediagis",
   "repoType": "github",
-  "repoHost": "https://github.com"
+  "repoHost": "https://github.com",
+  "skipCi": true
 }
