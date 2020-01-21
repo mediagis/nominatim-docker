@@ -15,5 +15,6 @@ sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim" && \
 useradd -m -p password1234 nominatim && \
 chown -R nominatim:nominatim ./src && \
 sudo -u nominatim ./src/build/utils/setup.php --osm-file $OSMFILE --all --threads $THREADS && \
+sudo -u nominatim ./src/build/utils/check_import_finished.php && \
 sudo -u postgres /usr/lib/postgresql/11/bin/pg_ctl -D /data/$PGDIR stop && \
 sudo chown -R postgres:postgres /data/$PGDIR
