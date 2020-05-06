@@ -26,7 +26,7 @@ RUN echo "host all  all    0.0.0.0/0  trust" >> /etc/postgresql/11/main/pg_hba.c
     echo "listen_addresses='*'" >> /etc/postgresql/11/main/postgresql.conf
 
 # Nominatim install
-ENV NOMINATIM_VERSION v3.4.1
+ENV NOMINATIM_VERSION v3.4.2
 RUN git clone --recursive https://github.com/openstreetmap/Nominatim ./src
 RUN cd ./src && git checkout tags/$NOMINATIM_VERSION && git submodule update --recursive --init && \
     mkdir build && cd build && cmake .. && make
