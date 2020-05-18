@@ -54,6 +54,15 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "davkorss",
+      "name": "Andrey Ruíz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5597595?v=4",
+      "profile": "https://keybase.io/davkorss",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
