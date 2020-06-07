@@ -2,6 +2,7 @@ OSMFILE=$1
 PGDIR=$2
 THREADS=$3
 
+rm -rf /data/$PGDIR && \
 mkdir -p /data/$PGDIR && \
 
 chown postgres:postgres /data/$PGDIR && \
