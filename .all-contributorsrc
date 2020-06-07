@@ -63,6 +63,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "UntitleDude",
+      "name": "UntitleDude",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/14983691?v=4",
+      "profile": "https://github.com/UntitleDude",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
