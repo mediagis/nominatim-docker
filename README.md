@@ -6,29 +6,32 @@
 [![](https://images.microbadger.com/badges/image/mediagis/nominatim.svg)](https://microbadger.com/images/mediagis/nominatim "Get your own image badge on microbadger.com")
 # Supported tags and respective `Dockerfile` links #
 
+- [`3.5.0`, `3.5`  (*3.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.5)
 - [`3.4.2`, `3.4`  (*3.4/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
 - [`3.3.1`, `3.3`  (*3.3/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
 - [`3.2.1`, `3.2`  (*3.2/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.2)
 - [`3.1.0`, `3.1`  (*3.1/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.1)
 - [`3.0.1`, `3.0`  (*3.0/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.0)
-- [`2.5.1`, `2.5`, `latest`  (*2.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
+- [`2.5.1`, `2.5`  (*2.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
 
-Run [http://wiki.openstreetmap.org/wiki/Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim) in a docker container. Clones the current master and builds it. This is always the latest version, be cautious as it may be unstable.
+Run [http://wiki.openstreetmap.org/wiki/Nominatim](http://wiki.openstreetmap.org/wiki/Nominatim) in a docker container. Clones the tagged release and builds it. 
 
-Uses Ubuntu 19.10 and PostgreSQL 11.3
+**Caution:** When you upgrade to another version (e.g. 3.4 to 3.5) there may be major version changes like Postgres and data incompatiblity. See the relevant instructions for each version. Also check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
 
-# Country
+The latest version uses Ubuntu 20.04 and PostgreSQL 12.
+
 To check that everything is set up correctly, download and load to Postgres PBF file with minimal size - Europe/Monacco (latest) from geofabrik.de.
 
 If a different country should be used you can set `PBF_DATA` on build.
 
-1. Clone repository
+# How to use
+Clone repository
 
   ```
   # git clone git@github.com:mediagis/nominatim-docker.git
   # cd nominatim-docker/<version>
   ```
-See relevant installation instructions for each version
+See relevant installation instructions for each version in the <version>/README.md
 
 ## Contributors
 
