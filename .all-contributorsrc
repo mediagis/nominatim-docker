@@ -73,6 +73,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "jmcker",
+      "name": "Jack McKernan",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/25001741?v=4",
+      "profile": "https://www.linkedin.com/in/jmcker",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
