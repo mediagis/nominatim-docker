@@ -49,6 +49,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://www.linkedin.com/in/jmcker"><img src="https://avatars3.githubusercontent.com/u/25001741?v=4" width="100px;" alt=""/><br /><sub><b>Jack McKernan</b></sub></a><br /><a href="#infra-jmcker" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=jmcker" title="Code">💻</a></td>
+    <td align="center"><a href="https://twitter.com/mtmthemovie"><img src="https://avatars1.githubusercontent.com/u/3727288?v=4" width="100px;" alt=""/><br /><sub><b>mtmail</b></sub></a><br /><a href="#infra-mtmail" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=mtmail" title="Code">💻</a></td>
   </tr>
 </table>
 
