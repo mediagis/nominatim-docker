@@ -73,6 +73,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "mtmail",
+      "name": "mtmail",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/3727288?v=4",
+      "profile": "https://twitter.com/mtmthemovie",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
