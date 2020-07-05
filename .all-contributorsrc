@@ -93,6 +93,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "eSlider",
+      "name": "Andrey Oblivantsev",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/1188335?v=4",
+      "profile": "https://angel.co/eSlider",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
