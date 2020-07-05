@@ -33,7 +33,7 @@ RUN pip3 install osmium
 ENV NOMINATIM_VERSION v3.5.1
 RUN git clone --recursive https://github.com/openstreetmap/Nominatim ./src
 RUN cd ./src && git checkout tags/$NOMINATIM_VERSION && git submodule update --recursive --init && \
-    mkdir build && cd build && cmake .. && make
+    mkdir build && cd build && cmake .. && make -j`nproc`
 
 # Apache configure
 COPY local.php /app/src/build/settings/local.php
