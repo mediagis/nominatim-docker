@@ -34,7 +34,7 @@ RUN cd ./src && git checkout tags/$NOMINATIM_VERSION && git submodule update --r
     mkdir build && cd build && cmake .. && make
 
 # Osmium install to run continuous updates
-RUN pip install osmium
+RUN pip install osmium==2.15.4
 
 # Apache configure
 COPY local.php /app/src/build/settings/local.php
