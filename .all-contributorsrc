@@ -103,6 +103,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "sromano1992",
+      "name": "Simone",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/6860423?v=4",
+      "profile": "https://www.linkedin.com/in/simoneromano92/",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
