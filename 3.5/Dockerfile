@@ -43,6 +43,9 @@ COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 RUN chmod o=rwx /app/src/build
 
+# Hide "sudo: setrlimit(RLIMIT_CORE): Operation not permitted"
+RUN echo "Set disable_coredump false" >> /etc/sudo.conf
+
 EXPOSE 5432
 EXPOSE 8080
 
