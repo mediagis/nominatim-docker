@@ -4,6 +4,8 @@
   ```
   docker build --pull --rm -t nominatim .
   ```
+  See below for optional build arguments to include postcode data in your image.
+
 2. Copy <your_country>.osm.pbf to a local directory (i.e. /home/me/nominatimdata)
 
 3. Initialize Nominatim Database
@@ -49,6 +51,14 @@ If you want a different update source, you will need to declare `CONST_Replicati
   Now you will have a fully functioning nominatim instance available at : [http://localhost:7070/](http://localhost:7070). Unlike the previous versions
   this one does not store data in the docker context and this results to a much slimmer docker image.
 
+# Postcodes
+
+Nominatim requires additional data files to accurately assign postcodes data in the US and Great Britain (Northern Ireland postcodes are not included in this file) as described in [these Nominatim docs](https://nominatim.org/release-docs/latest/admin/Import-and-Update/#downloading-additional-data). Without this data, you may get incorrect postcodes for some address lookups.
+
+These data files aren't downloaded by default, but you can add them with additional arguments at the build stage. To include the US postcode data file, add "--build-arg with_postcodes_us=1" to the command line in stage 1, above. To include GB postcodes, run with "--build-arg with_postcodes_gb=1". You can run with both at once if desired, eg:
+  ```
+  docker build --pull --rm -t nominatim --build-arg with_postcodes_us=1 --build-arg with_postcodes_gb=1 .
+  ```
 
 # Update
 
