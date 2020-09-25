@@ -80,6 +80,16 @@ If you have imported multiple country extracts and want to keep them
 up-to-date, have a look at the script in
 [issue #60](https://github.com/openstreetmap/Nominatim/issues/60).
 
+# Upgrade Guide for 3.5.x
+
+## Upgrade to 3.5.2
+
+As referenced in the Nominatim release ([https://github.com/osm-search/Nominatim/releases/tag/v3.5.2](https://github.com/osm-search/Nominatim/releases/tag/v3.5.2)) you need to make sure to run the following command after the upgrade: 
+
+```
+docker exec -it nominatim sudo -u postgres ./src/build/utils/setup.php --create-functions --enable-diff-updates
+```
+
 # Docker image upgrade to 3.5
 
 With 3.5 we have switched to Ubuntu 20.04 (LTS) which uses PostgreSQL 12. If you want to reuse your old data dictionary without importing the data again you have to make sure to migrate the data from PostgreSQL 11 to 12 with a command like ```pg_upgrade``` (see: [https://www.postgresql.org/docs/current/pgupgrade.html](https://www.postgresql.org/docs/current/pgupgrade.html)). 
