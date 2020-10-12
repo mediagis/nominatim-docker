@@ -62,7 +62,7 @@ These data files aren't downloaded by default, but you can add them with additio
 
 # Update
 
-Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://github.com/osm-search/Nominatim/blob/master/docs/admin/Update.md). For a list of other methods see the output of:
   ```
   docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --help
   ```
