@@ -123,6 +123,15 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "Iikeli",
+      "name": "Iiro Alhonen",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/18322926?v=4",
+      "profile": "http://iiroalhonen.com",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7,
