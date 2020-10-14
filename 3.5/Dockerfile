@@ -118,7 +118,6 @@ RUN true \
         libclang-*-dev \
         build-essential \
         postgresql-server-dev-12 \
-    # && apt-get -y autoremove \
     && apt-get clean \
     # Clear temporary files and directories.
     && rm -rf \
