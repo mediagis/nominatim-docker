@@ -142,6 +142,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "FritschAuctores",
+      "name": "FritschAuctores",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/43264099?v=4",
+      "profile": "https://github.com/FritschAuctores",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
