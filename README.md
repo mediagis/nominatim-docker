@@ -59,6 +59,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://iiroalhonen.com"><img src="https://avatars2.githubusercontent.com/u/18322926?v=4" width="100px;" alt=""/><br /><sub><b>Iiro Alhonen</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=Iikeli" title="Documentation">📖</a></td>
     <td align="center"><a href="https://www.ufoproger.ru"><img src="https://avatars3.githubusercontent.com/u/212711?v=4" width="100px;" alt=""/><br /><sub><b>Mikhail Snetkov</b></sub></a><br /><a href="#infra-ufoproger" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=ufoproger" title="Code">💻</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/FritschAuctores"><img src="https://avatars2.githubusercontent.com/u/43264099?v=4" width="100px;" alt=""/><br /><sub><b>FritschAuctores</b></sub></a><br /><a href="#infra-FritschAuctores" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=FritschAuctores" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-enable -->
