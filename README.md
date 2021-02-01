@@ -6,6 +6,7 @@
 [![](https://images.microbadger.com/badges/image/mediagis/nominatim.svg)](https://microbadger.com/images/mediagis/nominatim "Get your own image badge on microbadger.com")
 # Supported tags and respective `Dockerfile` links #
 
+- [`3.6.0`, `3.6`  (*3.6/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.6)
 - [`3.5.2`, `3.5`  (*3.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.5)
 - [`3.4.2`, `3.4`  (*3.4/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
 - [`3.3.1`, `3.3`  (*3.3/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
