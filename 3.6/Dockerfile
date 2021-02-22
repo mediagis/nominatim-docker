@@ -77,7 +77,6 @@ RUN true \
     && cd build \
     && cmake .. \
     && make -j`nproc` \
-    && ./utils/setup.php --setup-website \
     && chmod o=rwx .
 
 # Apache configure.
