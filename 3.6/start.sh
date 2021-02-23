@@ -6,6 +6,8 @@ stopServices() {
 }
 trap stopServices TERM
 
+/app/src/build/utils/setup.php --setup-website
+
 service postgresql start
 service apache2 start
 
