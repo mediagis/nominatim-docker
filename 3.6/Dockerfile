@@ -54,7 +54,7 @@ RUN true \
 
 # Configure postgres.
 RUN true \
-    && echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/12/main/pg_hba.conf \
+    && echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf \
     && echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
 
 # Osmium install to run continuous updates.
@@ -125,8 +125,7 @@ RUN true \
         /var/tmp/* \
         /root/.cache \
         /app/src/.git \
-        /var/lib/apt/lists/* \
-        /var/lib/postgresql/12/main/*
+        /var/lib/apt/lists/*
 
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
@@ -142,3 +141,10 @@ WORKDIR /app
 
 EXPOSE 5432
 EXPOSE 8080
+
+# Please override this
+ENV NOMINATIM_PASSWORD qaIACxO6wMR3
+# how many threads should be use for importing
+ENV THREADS=16
+
+CMD /app/start.sh

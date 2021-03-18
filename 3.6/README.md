@@ -1,95 +1,90 @@
 # Nominatim Docker (Nominatim version 3.6)
 
-1. Build
-  ```
-  docker build --pull --rm -t nominatim .
-  ```
-  See below for optional build arguments to include postcode data in your image.
 
-2. Copy <your_country>.osm.pbf to a local directory (i.e. /home/me/nominatimdata)
+## Automatic import
 
-3. Initialize Nominatim Database
-  ```
-  docker run -t -v /home/me/nominatimdata:/data nominatim  sh /app/init.sh /data/<your_country>.osm.pbf postgresdata 4
-  ```
-  Where 4 is the number of threads to use during import. In general the import of data in postgres is a very time consuming
-  process that may take hours or days. If you run this process on a multiprocessor system make sure that it makes the best use
-  of it. You can delete the /home/me/nominatimdata/<your_country>.osm.pbf once the import is finished.
+Download the required data, initialize the database and start nominatim in one go
 
+```
+  docker run -it --rm \
+    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+    -e IMPORT_WIKIPEDIA=true \
+    -p 5432:5432 \
+    -p 8080:8080 \
+    --name nominatim \
+    stadtnavi/nominatim:3.6
+```
 
-4. After the import is finished the /home/me/nominatimdata/postgresdata folder will contain the full postgress binaries of
-   a postgis/nominatim database. The easiest way to start the nominatim as a single node is the following:
-   ```
-   docker run --restart=always -p 6432:5432 -p 7070:8080 -d --name nominatim -v /home/me/nominatimdata/postgresdata:/var/lib/postgresql/12/main nominatim bash /app/start.sh
-   ```
+The port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
 
-5. Advanced configuration. If necessary you can split the osm installation into a database and restservice layer
+If you want to check that your data import was sucessful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
 
-   In order to set the  nominatib-db only node:
+## Configuration
 
-   ```
-   docker run --restart=always -p 6432:5432 -d -v /home/me/nominatimdata/postgresdata:/var/lib/postgresql/12/main nominatim sh /app/startpostgres.sh
-   ```
-   After doing this create the /home/me/nominatimdata/conf folder and copy there the docker/local.php file. Then uncomment the following line:
+The the environment variables are available:
 
-   ```
-   @define('CONST_Database_DSN', 'pgsql://nominatim:password1234@192.168.1.128:6432/nominatim'); // <driver>://<username>:<password>@<host>:<port>/<database>
-   ```
+  - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
+  - `REPLICATION_URL`: Where to get updates from. Also availble from Geofabrik.
+  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `true`)
+  - `THREADS`: How many treads should be used to import (default: `16`)
+  - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
-   You can start the  nominatib-rest only node with the following command:
+## Password
 
-   ```
-   docker run --restart=always -p 7070:8080 -d -v /home/me/nominatimdata/conf:/data nominatim sh /app/startapache.sh
-   ```
+In order to override the default password for the database access use the environment variable `NOMINATIM_PASSWORD`. An example is given in the
+next section.
 
-6. Configure incremental update. By default CONST_Replication_Url configured for Monaco.
-If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
-  ```
-  @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
-  ```
+## Persistent container data
 
-  Now you will have a fully functioning nominatim instance available at : [http://localhost:7070/](http://localhost:7070). Unlike the previous versions
-  this one does not store data in the docker context and this results to a much slimmer docker image.
+There are two folders inside the contain the can be persisted across container creation and removal.
 
-# Postcodes
+- `/app/src` holds the state about whether the import was succesful and general nominatim config
+- `/var/lib/postgresql/12/main` is the storage location of the Postgres database
 
-Nominatim requires additional data files to accurately assign postcodes data in the US and Great Britain (Northern Ireland postcodes are not included in this file) as described in [these Nominatim docs](https://nominatim.org/release-docs/latest/admin/Import-and-Update/#downloading-additional-data). Without this data, you may get incorrect postcodes for some address lookups.
+So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
-These data files aren't downloaded by default, but you can add them with additional arguments at the build stage. To include the US postcode data file, add "--build-arg with_postcodes_us=1" to the command line in stage 1, above. To include GB postcodes, run with "--build-arg with_postcodes_gb=1". You can run with both at once if desired, eg:
-  ```
-  docker build --pull --rm -t nominatim --build-arg with_postcodes_us=1 --build-arg with_postcodes_gb=1 .
-  ```
+```
+  docker run -it --rm \
+    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+    -e IMPORT_WIKIPEDIA=false \
+    -e NOMINATIM_PASSWORD=very_secure_password \
+    -v nominatim-config:/app/src \
+    -v nominatim-postgres:/var/lib/postgresql/12/main \
+    -p 5432:5432 \
+    -p 8080:8080 \
+    --name nominatim \
+    stadtnavi/nominatim:3.6
+```
 
-# Update
+## Updating the database
 
-Full documentation for Nominatim update available [here](https://github.com/osm-search/Nominatim/blob/master/docs/admin/Update.md). For a list of other methods see the output of:
-  ```
-  docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --help
-  ```
+Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For a list of other methods see the output of:
+```
+docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --help
+```
 
-To initialise the updates run
-  ```
-  docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --init-updates
-  ```
+The following command will keep updating the database forever:
 
-The following command will keep your database constantly up to date:
-  ```
-  docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
-  ```
-If you have imported multiple country extracts and want to keep them
-up-to-date, have a look at the script in
-[issue #60](https://github.com/openstreetmap/Nominatim/issues/60).
+```
+docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
+```
 
-# Upgrade Guide for 3.6.x
+If there are no updates available this process will sleep for 15 minutes and try again.
 
-## Upgrade from 3.5.0 to  3.6.0
+## Development
 
-As referenced in the Nominatim release ([https://github.com/osm-search/Nominatim/releases/tag/v3.5.2](https://github.com/osm-search/Nominatim/releases/tag/v3.6.0)) the HTML frontend was removed from the project and moved to a separate project ([https://github.com/osm-search/nominatim-ui](https://github.com/osm-search/nominatim-ui)) if you need more than the API.
+If you want to work on the Docker image you can use the following command to build an local
+image and run the container with
 
-In addition there is an extensive migration path to upgrade from 3.5 to 3.6 (see: [https://nominatim.org/release-docs/latest/admin/Migration/#350-360](https://nominatim.org/release-docs/latest/admin/Migration/#350-360)), so you should consider a full reimport of your data.
-
-# Docker image upgrade to 3.6 from <= 3.4
-
-With 3.5 we have switched to Ubuntu 20.04 (LTS) which uses PostgreSQL 12. If you want to reuse your old data dictionary without importing the data again you have to make sure to migrate the data from PostgreSQL 11 to 12 with a command like ```pg_upgrade``` (see: [https://www.postgresql.org/docs/current/pgupgrade.html](https://www.postgresql.org/docs/current/pgupgrade.html)). 
-
-You can try a script like [https://github.com/tianon/docker-postgres-upgrade](https://github.com/tianon/docker-postgres-upgrade) with some modifications.
+```
+docker build -t nominatim . && \
+docker run -it --rm \
+    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+    -p 5432:5432 \
+    -p 8080:8080 \
+    --name nominatim \
+    nominatim
+```
