@@ -62,13 +62,13 @@ So if you want to be able to kill your container and start it up again with all 
 
 Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For a list of other methods see the output of:
 ```
-docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --help
+docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
 ```
 
 The following command will keep updating the database forever:
 
 ```
-docker exec -it nominatim sudo -u postgres ./src/build/utils/update.php --import-osmosis-all
+docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --import-osmosis-all
 ```
 
 If there are no updates available this process will sleep for 15 minutes and try again.
