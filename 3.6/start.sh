@@ -6,6 +6,11 @@ stopServices() {
 }
 trap stopServices TERM
 
+if id "$1" >/dev/null 2>&1; then
+  echo "user nominatim already exists"
+else
+  useradd -m -p ${NOMINATIM_PASSWORD} nominatim
+fi
 
 IMPORT_FINISHED=/app/src/data/import-finished
 

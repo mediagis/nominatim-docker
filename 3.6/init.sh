@@ -38,7 +38,6 @@ sudo -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWOR
 sudo -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
 
 sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim" && \
-useradd -m -p ${NOMINATIM_PASSWORD} nominatim && \
 chown -R nominatim:nominatim ./src && \
 sudo -u nominatim ./src/build/utils/setup.php --osm-file $OSMFILE --all --threads $THREADS && \
 sudo -u nominatim ./src/build/utils/check_import_finished.php && \
