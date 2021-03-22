@@ -11,7 +11,7 @@ fi;
 
 if [ "$REPLICATION_URL" = "" ]; then
   echo "You need to specify the environmental REPLICATION_URL"
-  echo "docker run -e REPLICATION_URL=http://download.geofabrik.de/europe/germany-updates/ ..."
+  echo "docker run -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ ..."
   exit 1
 else
   sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" /app/src/build/settings/local.php
