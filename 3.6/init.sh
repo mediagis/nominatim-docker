@@ -4,13 +4,13 @@ DATA_DIR=/app/src/data
 OSMFILE=${DATA_DIR}/data.osm.pbf
 
 if [ "$PBF_URL" = "" ]; then
-  echo "You need to specify the environmental PBF_URL"
+  echo "You need to specify the environment variable PBF_URL"
   echo "docker run -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf ..."
   exit 1
 fi;
 
 if [ "$REPLICATION_URL" = "" ]; then
-  echo "You need to specify the environmental REPLICATION_URL"
+  echo "You need to specify the environment variable REPLICATION_URL"
   echo "docker run -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ ..."
   exit 1
 else

@@ -15,7 +15,6 @@ fi
 IMPORT_FINISHED=/app/src/data/import-finished
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
-  #chmod +x /app/init.sh
   /app/init.sh
   touch ${IMPORT_FINISHED}
 fi
