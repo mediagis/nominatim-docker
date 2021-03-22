@@ -83,24 +83,6 @@ RUN true \
 COPY local.php /app/src/build/settings/local.php
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
-# Load initial data.
-ARG with_postcodes_gb
-ARG with_postcodes_us
-
-RUN if [ "$with_postcodes_gb" = "" ]; then \
-    echo "Skipping optional GB postcode file"; \
-    else \
-    echo "Downloading optional GB postcode file"; \
-    curl http://www.nominatim.org/data/gb_postcode_data.sql.gz > /app/src/data/gb_postcode_data.sql.gz; \
-    fi;
-
-RUN if [ "$with_postcodes_us" = "" ]; then \
-    echo "Skipping optional US postcode file"; \
-    else \
-    echo "Downloading optional US postcode file"; \
-    curl http://www.nominatim.org/data/us_postcode_data.sql.gz > /app/src/data/us_postcode_data.sql.gz; \
-    fi;
-
 RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 
 RUN true \
