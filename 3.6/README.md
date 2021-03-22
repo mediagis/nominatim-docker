@@ -27,6 +27,8 @@ The the environment variables are available:
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
   - `REPLICATION_URL`: Where to get updates from. Also availble from Geofabrik.
   - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `true`)
+  - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
+  - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
   - `THREADS`: How many treads should be used to import (default: `16`)
   - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
