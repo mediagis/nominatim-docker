@@ -1,17 +1,33 @@
-name: Build docker image
+name: CI
 
 on:
   push:
 
 jobs:
   docker:
-    name: Build docker image
+    name: Build and test docker image
 
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Build 3.6 Docker image
-        run: |-
-          docker build . -t nominatim
+
+      - name: Build docker image
+        run: docker build . -t nominatim
         working-directory: 3.6
+
+      - name: Start docker container and run in the background
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -p 8080:8080 \
+            nominatim &
+          sleep 45
+
+      - name: Query API with curl
+        uses: nick-invision/retry@v2
+        with:
+          timeout_minutes: 2
+          max_attempts: 12
+          command: curl --no-progress-meter --fail "http://localhost:8080/search.php?q=avenue%20pasteur" | jq .
 
