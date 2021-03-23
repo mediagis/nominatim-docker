@@ -1,0 +1,17 @@
+name: Build docker image
+
+on:
+  push:
+
+jobs:
+  docker:
+    name: Build docker image
+
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build 3.6 Docker image
+        run: |-
+          docker build . -t nominatim
+        working-directory: 3.6
+
