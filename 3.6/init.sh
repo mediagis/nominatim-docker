@@ -62,3 +62,6 @@ sudo service postgresql stop
 
 sed -i "s/fsync = off/fsync = on/g" /etc/postgresql/12/main/postgresql.conf
 sed -i "s/full_page_writes = off/full_page_writes = on/g" /etc/postgresql/12/main/postgresql.conf
+
+echo "Deleting downloaded dumps in ${DATA_DIR}"
+rm ${DATA_DIR}/*sql.gz ${OSMFILE}
