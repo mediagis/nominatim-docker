@@ -24,10 +24,7 @@ jobs:
             nominatim &
           sleep 45
 
-      - name: Query API with curl
-        uses: nick-invision/retry@v2
-        with:
-          timeout_minutes: 2
-          max_attempts: 12
-          command: curl --no-progress-meter --fail "http://localhost:8080/search.php?q=avenue%20pasteur" | jq .
+      - name: Check API response
+        working-directory: .github/workflows
+        run: ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
 
