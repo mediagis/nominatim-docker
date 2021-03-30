@@ -11,6 +11,7 @@ RUN true \
     && chmod +x /usr/sbin/policy-rc.d \
     # Install all required packages.
     && apt-get -y update -qq \
+    && apt-get -y install wget \
     && apt-get -y install \
         locales \
     && locale-gen en_US.UTF-8 \
@@ -72,6 +73,11 @@ RUN true \
         --recursive \
         https://github.com/openstreetmap/Nominatim \
         src \
+    && mkdir nominatim \
+    && cd nominatim \
+    && mkdir build \
+    && mkdir update \
+    && cd .. \
     && cd src \
     && mkdir build \
     && cd build \
@@ -82,6 +88,9 @@ RUN true \
 # Apache configure.
 COPY local.php /app/src/build/settings/local.php
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
+
+# Multiple regions script
+COPY import_multiple_regions.sh /app/src/build/utils/import_multiple_regions.sh
 
 # Load initial data.
 ARG with_postcodes_gb
