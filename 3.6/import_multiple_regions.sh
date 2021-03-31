@@ -30,13 +30,13 @@ COUNTRIES="europe/france/auvergne/haute_loire europe/france/auvergne/cantal"
 
 # SET TO YOUR NOMINATIM build FOLDER PATH:
 
-NOMINATIMBUILD="./nominatim/build"
-SETUPFILE="./src/build/utils/setup.php"
-UPDATEFILE="./src/build/utils/update.php"
+NOMINATIMBUILD="/app/nominatim/build"
+SETUPFILE="/app/src/build/utils/setup.php"
+UPDATEFILE="/app/src/build/utils/update.php"
 
 # SET TO YOUR update FOLDER PATH:
 
-UPDATEDIR="./nominatim/update"
+UPDATEDIR="/app/nominatim/update"
 
 # SET TO YOUR replication server URL:
 
