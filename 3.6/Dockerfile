@@ -11,7 +11,6 @@ RUN true \
     && chmod +x /usr/sbin/policy-rc.d \
     # Install all required packages.
     && apt-get -y update -qq \
-    && apt-get -y install wget \
     && apt-get -y install \
         locales \
     && locale-gen en_US.UTF-8 \
@@ -48,6 +47,10 @@ RUN true \
         python3-tidylib \
         python3-psycopg2 \
         python3-setuptools \
+        # Osmium
+        wget \ 
+        clang \
+        osmium-tool \
         # Misc.
         git \
         curl \
