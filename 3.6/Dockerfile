@@ -93,9 +93,10 @@ COPY local.php /app/src/build/settings/local.php
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Multiple regions script
-COPY import_multiple_regions.sh /app/src/build/utils/import_multiple_regions.sh
-COPY update_multiple_regions.sh /app/src/build/utils/update_multiple_regions.sh
-COPY update_regions.sh /app/update_regions.sh
+COPY start_init_multiple_regions.sh /app/start_init_multiple_regions.sh
+COPY start_add_multiple_regions.sh /app/start_add_multiple_regions.sh
+COPY init_multiple_regions.sh /app/src/build/utils/init_multiple_regions.sh
+COPY add_multiple_regions.sh /app/src/build/utils/add_multiple_regions.sh
 
 # Load initial data.
 ARG with_postcodes_gb
@@ -142,7 +143,6 @@ RUN true \
         /var/lib/apt/lists/* \
         /var/lib/postgresql/12/main/*
 
-COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
