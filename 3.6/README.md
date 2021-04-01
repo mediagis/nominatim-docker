@@ -107,7 +107,17 @@ You can try a script like [https://github.com/tianon/docker-postgres-upgrade](ht
 
 ### Custom
 
+To build database:
 `docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/init.sh /data/cantal.osm.pbf postgresdata 4`
+
+To build database with multiple regions:
+`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/init.sh /data/cantal.osm.pbf postgresdata 4`
+
+To update database:
+`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/update_regions.sh /data/cantal.osm.pbf postgresdata 4`
+
+To run Nominatim API:
+`docker run --restart=always -p 6432:5432 -p 7070:8080 -d --name nominatim -v /Users/maximecharruel/Desktop/FT/osmFiles/postgresdata:/var/lib/postgresql/12/main nominatim bash /app/start.sh`
 
 To start adminer and access to nominatim database, run:
 `docker run --link nominatim:db -p 8080:8080 adminer`

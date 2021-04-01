@@ -94,6 +94,8 @@ COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Multiple regions script
 COPY import_multiple_regions.sh /app/src/build/utils/import_multiple_regions.sh
+COPY update_multiple_regions.sh /app/src/build/utils/update_multiple_regions.sh
+COPY update_regions.sh /app/update_regions.sh
 
 # Load initial data.
 ARG with_postcodes_gb

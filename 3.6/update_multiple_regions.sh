@@ -26,8 +26,7 @@ touch2() { mkdir -p "$(dirname "$1")" && touch "$1" ; }
 
 # REPLACE WITH LIST OF YOUR "COUNTRIES":
 
-# COUNTRIES="europe/france/auvergne/haute_loire europe/france/auvergne/cantal"
-COUNTRIES="europe/monaco europe/vatican_city"
+COUNTRIES="europe/gibraltar europe/san_marino"
 
 # SET TO YOUR NOMINATIM build FOLDER PATH:
 
@@ -86,7 +85,6 @@ ${COMBINEFILES} -o combined.osm.pbf
 
 echo "===================================================================="
 echo "Setting up nominatim db"
-${SETUPFILE} --osm-file ${UPDATEDIR}/tmp/combined.osm.pbf --all 2>&1
-
 # ${UPDATEFILE} --import-file ${UPDATEDIR}/tmp/combined.osm.pbf 2>&1
+${UPDATEFILE} --import-file ${UPDATEDIR}/tmp/combined.osm.pbf --index --index-instances 4 2>&1
 echo "===================================================================="
