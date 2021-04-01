@@ -12,11 +12,11 @@ else
   useradd -m -p ${NOMINATIM_PASSWORD} nominatim
 fi
 
-IMPORT_FINISHED=/app/src/data/import-finished
+IMPORT_FINISHED=/app/data/import-finished
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
-  touch ${IMPORT_FINISHED}
+  [ -d /app/data ] && touch ${IMPORT_FINISHED}
 fi
 
 /app/src/build/utils/setup.php --setup-website

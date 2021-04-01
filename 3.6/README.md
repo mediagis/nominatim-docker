@@ -12,7 +12,7 @@ Download the required data, initialize the database and start nominatim in one g
     -e IMPORT_WIKIPEDIA=true \
     -p 8080:8080 \
     --name nominatim \
-    stadtnavi/nominatim:3.6
+    mediagis/nominatim:3.6
 ```
 
 The port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
@@ -40,7 +40,7 @@ next section.
 
 There are two folders inside the contain the can be persisted across container creation and removal.
 
-- `/app/src` holds the state about whether the import was succesful and general nominatim config
+- `/app/data` holds the state about whether the import was succesful
 - `/var/lib/postgresql/12/main` is the storage location of the Postgres database
 
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
@@ -51,7 +51,7 @@ So if you want to be able to kill your container and start it up again with all 
     -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
     -e IMPORT_WIKIPEDIA=false \
     -e NOMINATIM_PASSWORD=very_secure_password \
-    -v nominatim-config:/app/src \
+    -v nominatim-config:/app/data \
     -v nominatim-postgres:/var/lib/postgresql/12/main \
     -p 8080:8080 \
     --name nominatim \
