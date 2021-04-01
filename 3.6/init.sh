@@ -42,8 +42,7 @@ sudo -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASS
 
 sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim" && \
 chown -R nominatim:nominatim ./src && \
-chown -R nominatim:nominatim ./nominatim && \
-sudo -u nominatim sh ./src/build/utils/import_multiple_regions.sh && \
+sudo -u nominatim ./src/build/utils/setup.php --osm-file $OSMFILE --all --threads $THREADS && \
 sudo -u nominatim ./src/build/utils/check_import_finished.php && \
 sudo -u nominatim ./src/build/utils/update.php --init-updates
 
