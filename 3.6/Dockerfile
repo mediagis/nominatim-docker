@@ -76,11 +76,6 @@ RUN true \
         --recursive \
         https://github.com/openstreetmap/Nominatim \
         src \
-    && mkdir nominatim \
-    && cd nominatim \
-    && mkdir build \
-    && mkdir update \
-    && cd .. \
     && cd src \
     && mkdir build \
     && cd build \
