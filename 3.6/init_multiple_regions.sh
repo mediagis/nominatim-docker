@@ -27,21 +27,21 @@ touch2() { mkdir -p "$(dirname "$1")" && touch "$1" ; }
 # REPLACE WITH LIST OF YOUR "COUNTRIES":
 
 # COUNTRIES="europe/france/auvergne/haute_loire europe/france/auvergne/cantal"
-COUNTRIES="europe/monaco europe/vatican_city"
+COUNTRIES="europe/monaco europe/andorra"
 
 # SET TO YOUR NOMINATIM build FOLDER PATH:
 
-NOMINATIMBUILD="/app/nominatim/build"
+NOMINATIMBUILD="/data/nominatim/build"
 SETUPFILE="/app/src/build/utils/setup.php"
 UPDATEFILE="/app/src/build/utils/update.php"
 
 # SET TO YOUR update FOLDER PATH:
 
-UPDATEDIR="/app/nominatim/update"
+UPDATEDIR="/data/nominatim/update"
 
 # SET TO YOUR replication server URL:
 
-BASEURL="https://download.openstreetmap.fr/extracts"
+BASEURL="https://download.geofabrik.de"
 DOWNCOUNTRYPOSTFIX="-latest.osm.pbf"
 
 # End of configuration section

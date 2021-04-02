@@ -119,6 +119,9 @@ To build database with multiple regions:
 To add regions to already initialized database:
 `docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/start_add_multiple_regions.sh postgresdata`
 
+To update regions in database:
+`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/start_update_multiple_regions.sh postgresdata`
+
 To run Nominatim API:
 `docker run --restart=always -p 6432:5432 -p 7070:8080 -d --name nominatim -v /Users/maximecharruel/Desktop/FT/osmFiles/postgresdata:/var/lib/postgresql/12/main nominatim bash /app/start.sh`
 

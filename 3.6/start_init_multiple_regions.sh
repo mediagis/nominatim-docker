@@ -2,8 +2,14 @@ PGDIR=$1
 
 rm -rf /data/$PGDIR && \
 mkdir -p /data/$PGDIR && \
+rm -rf /data/nominatim && \
+mkdir -p /data/nominatim/build && \
+mkdir -p /data/nominatim/update && \
 
 chown postgres:postgres /data/$PGDIR && \
+chown postgres:postgres /data/nominatim && \
+chown postgres:postgres /data/nominatim/build && \
+chown postgres:postgres /data/nominatim/update && \
 
 export  PGDATA=/data/$PGDIR  && \
 sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /data/$PGDIR && \
