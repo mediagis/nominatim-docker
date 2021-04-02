@@ -47,6 +47,10 @@ RUN true \
         python3-tidylib \
         python3-psycopg2 \
         python3-setuptools \
+        # Osmium
+        wget \ 
+        clang \
+        osmium-tool \
         # Misc.
         git \
         curl \
@@ -132,6 +136,14 @@ COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
+
+# Multiple regions scripts
+COPY multiple_regions/init.sh /app/multiple_regions/init.sh 
+COPY multiple_regions/add.sh /app/multiple_regions/add.sh
+COPY multiple_regions/update.sh /app/multiple_regions/update.sh
+COPY multiple_regions/init_multiple_regions.sh /app/src/build/utils/init_multiple_regions.sh
+COPY multiple_regions/add_multiple_regions.sh /app/src/build/utils/add_multiple_regions.sh
+COPY multiple_regions/update_multiple_regions.sh /app/src/build/utils/update_multiple_regions.sh
 
 # Collapse image to single layer.
 FROM scratch
