@@ -132,6 +132,7 @@ RUN true \
         /var/lib/apt/lists/* \
         /var/lib/postgresql/12/main/*
 
+COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
