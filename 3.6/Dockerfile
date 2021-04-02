@@ -128,13 +128,13 @@ COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
 
-# Multiple regions script
-COPY start_init_multiple_regions.sh /app/start_init_multiple_regions.sh
-COPY start_add_multiple_regions.sh /app/start_add_multiple_regions.sh
-COPY start_update_multiple_regions.sh /app/start_update_multiple_regions.sh
-COPY init_multiple_regions.sh /app/src/build/utils/init_multiple_regions.sh
-COPY add_multiple_regions.sh /app/src/build/utils/add_multiple_regions.sh
-COPY update_multiple_regions.sh /app/src/build/utils/update_multiple_regions.sh
+# Multiple regions scripts
+COPY multiple_regions/init.sh /app/multiple_regions/init.sh 
+COPY multiple_regions/add.sh /app/multiple_regions/add.sh
+COPY multiple_regions/update.sh /app/multiple_regions/update.sh
+COPY multiple_regions/init_multiple_regions.sh /app/src/build/utils/init_multiple_regions.sh
+COPY multiple_regions/add_multiple_regions.sh /app/src/build/utils/add_multiple_regions.sh
+COPY multiple_regions/update_multiple_regions.sh /app/src/build/utils/update_multiple_regions.sh
 
 # Collapse image to single layer.
 FROM scratch
