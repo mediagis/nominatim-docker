@@ -8,9 +8,7 @@ mkdir -p /data/$NOMDIR/build && \
 mkdir -p /data/$NOMDIR/update && \
 
 chown postgres:postgres /data/$PGDIR && \
-chown postgres:postgres /data/$NOMDIR && \
-chown postgres:postgres /data/$NOMDIR/build && \
-chown postgres:postgres /data/$NOMDIR/update && \
+chown -R postgres:postgres /data/$NOMDIR && \
 
 export  PGDATA=/data/$PGDIR  && \
 sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /data/$PGDIR && \

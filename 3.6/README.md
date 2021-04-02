@@ -104,29 +104,3 @@ In addition there is an extensive migration path to upgrade from 3.5 to 3.6 (see
 With 3.5 we have switched to Ubuntu 20.04 (LTS) which uses PostgreSQL 12. If you want to reuse your old data dictionary without importing the data again you have to make sure to migrate the data from PostgreSQL 11 to 12 with a command like `pg_upgrade` (see: [https://www.postgresql.org/docs/current/pgupgrade.html](https://www.postgresql.org/docs/current/pgupgrade.html)).
 
 You can try a script like [https://github.com/tianon/docker-postgres-upgrade](https://github.com/tianon/docker-postgres-upgrade) with some modifications.
-
-### Custom
-
-To build Nominatim Image:
-`docker build --pull --rm -t nominatim .`
-
-To build database:
-`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/init.sh /data/cantal.osm.pbf postgresdata 4`
-
-To build database with multiple regions:
-`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/multiple_regions/init.sh`
-
-To add regions to already initialized database:
-`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/multiple_regions/add.sh`
-
-To update regions in database:
-`docker run -t -v /Users/maximecharruel/Desktop/FT/osmFiles:/data nominatim sh /app/multiple_regions/update.sh`
-
-To run Nominatim API:
-`docker run --restart=always -p 6432:5432 -p 7070:8080 -d --name nominatim -v /Users/maximecharruel/Desktop/FT/osmFiles/postgresdata:/var/lib/postgresql/12/main nominatim bash /app/start.sh`
-
-To start adminer and access to nominatim database, run:
-`docker run --link nominatim:db -p 8080:8080 adminer`
-
-To exec bash command in nominatim container, run:
-`docker run -it nominatim sh`
