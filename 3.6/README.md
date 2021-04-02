@@ -103,6 +103,7 @@ If there are no updates available this process will sleep for 15 minutes and try
 If you want to work on the Docker image you can use the following command to build a local
 image and run the container with
 
+<<<<<<< HEAD
 ```
 docker build -t nominatim . && \
 docker run -it --rm \
@@ -116,3 +117,10 @@ docker run -it --rm \
 ## Docker Compose
 
 In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed.
+=======
+# Docker image upgrade to 3.6 from <= 3.4
+
+With 3.5 we have switched to Ubuntu 20.04 (LTS) which uses PostgreSQL 12. If you want to reuse your old data dictionary without importing the data again you have to make sure to migrate the data from PostgreSQL 11 to 12 with a command like `pg_upgrade` (see: [https://www.postgresql.org/docs/current/pgupgrade.html](https://www.postgresql.org/docs/current/pgupgrade.html)).
+
+You can try a script like [https://github.com/tianon/docker-postgres-upgrade](https://github.com/tianon/docker-postgres-upgrade) with some modifications.
+>>>>>>> b836e40 (Reset 3.6 scripts and Readme)
