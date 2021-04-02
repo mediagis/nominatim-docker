@@ -1,4 +1,4 @@
-PGDIR=$1
+PGDIR=postgresdata
 
 chown postgres:postgres /data/$PGDIR && \
 

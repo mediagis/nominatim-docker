@@ -61,17 +61,14 @@ do
     FILE="$DIR/sequence.state"
     BASEURL="$UPDATEBASEURL/$COUNTRY$UPDATECOUNTRYPOSTFIX"
     FILENAME="$( echo "$COUNTRY" | tr  '/' '_'  )"
-    echo "Filename: $FILENAME"
 
     mkdir -p ${DIR}
     cd ${DIR}
 
     echo "Attempting to get changes"
-    echo "pyosmium-get-changes -o ${DIR}/${FILENAME}.osc.gz -f ${FILE} --server $BASEURL -v"
     pyosmium-get-changes -o ${DIR}/${FILENAME}.osc.gz -f ${FILE} --server $BASEURL -v
 
     echo "Attempting to import diffs"
-    echo "${UPDATEFILE} --import-diff ${DIR}/${FILENAME}.osc.gz"
     ${UPDATEFILE} --import-diff ${DIR}/${FILENAME}.osc.gz
     rm ${DIR}/${FILENAME}.osc.gz
 
