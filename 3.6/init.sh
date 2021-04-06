@@ -41,6 +41,7 @@ fi;
 echo Downloading OSM extract from "$PBF_URL"
 curl -L "$PBF_URL" --create-dirs -o $OSMFILE
 
+# if we use a bind mount then the PG directory is empty and we have to create it
 if [ ! -f /var/lib/postgresql/12/main/PG_VERSION ]; then
   chown postgres /var/lib/postgresql/12/main
   sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/12/main

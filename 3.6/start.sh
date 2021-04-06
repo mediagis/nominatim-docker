@@ -12,11 +12,11 @@ else
   useradd -m -p ${NOMINATIM_PASSWORD} nominatim
 fi
 
-IMPORT_FINISHED=/app/data/import-finished
+IMPORT_FINISHED=/var/lib/postgresql/12/main/import-finished
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
-  [ -d /app/data ] && touch ${IMPORT_FINISHED}
+  touch ${IMPORT_FINISHED}
 fi
 
 /app/src/build/utils/setup.php --setup-website
