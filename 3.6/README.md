@@ -38,10 +38,9 @@ next section.
 
 ## Persistent container data
 
-There are two folders inside the contain the can be persisted across container creation and removal.
+There is one folder the can be persisted across container creation and removal.
 
-- `/app/data` holds the state about whether the import was succesful
-- `/var/lib/postgresql/12/main` is the storage location of the Postgres database
+- `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was succesful
 
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
@@ -51,11 +50,10 @@ So if you want to be able to kill your container and start it up again with all 
     -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
     -e IMPORT_WIKIPEDIA=false \
     -e NOMINATIM_PASSWORD=very_secure_password \
-    -v nominatim-config:/app/data \
-    -v nominatim-postgres:/var/lib/postgresql/12/main \
+    -v nominatim-data:/var/lib/postgresql/12/main \
     -p 8080:8080 \
     --name nominatim \
-    stadtnavi/nominatim:3.6
+    mediagis/nominatim:3.6
 ```
 
 ## Updating the database
