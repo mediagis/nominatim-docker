@@ -162,6 +162,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "leonardehrenfried",
+      "name": "Leonard Ehrenfried",
+      "avatar_url": "https://avatars.githubusercontent.com/u/151346?v=4",
+      "profile": "http://leonard.io/blog/",
+      "contributions": [
+        "infra",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
