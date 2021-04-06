@@ -54,7 +54,7 @@ RUN true \
 
 # Configure postgres.
 RUN true \
-    && echo "host all all 0.0.0.0/0 trust" >> /etc/postgresql/12/main/pg_hba.conf \
+    && echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf \
     && echo "listen_addresses='*'" >> /etc/postgresql/12/main/postgresql.conf
 
 # Osmium install to run continuous updates.
@@ -83,24 +83,6 @@ RUN true \
 COPY local.php /app/src/build/settings/local.php
 COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 
-# Load initial data.
-ARG with_postcodes_gb
-ARG with_postcodes_us
-
-RUN if [ "$with_postcodes_gb" = "" ]; then \
-    echo "Skipping optional GB postcode file"; \
-    else \
-    echo "Downloading optional GB postcode file"; \
-    curl http://www.nominatim.org/data/gb_postcode_data.sql.gz > /app/src/data/gb_postcode_data.sql.gz; \
-    fi;
-
-RUN if [ "$with_postcodes_us" = "" ]; then \
-    echo "Skipping optional US postcode file"; \
-    else \
-    echo "Downloading optional US postcode file"; \
-    curl http://www.nominatim.org/data/us_postcode_data.sql.gz > /app/src/data/us_postcode_data.sql.gz; \
-    fi;
-
 RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 
 RUN true \
@@ -125,8 +107,7 @@ RUN true \
         /var/tmp/* \
         /root/.cache \
         /app/src/.git \
-        /var/lib/apt/lists/* \
-        /var/lib/postgresql/12/main/*
+        /var/lib/apt/lists/*
 
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
@@ -142,3 +123,10 @@ WORKDIR /app
 
 EXPOSE 5432
 EXPOSE 8080
+
+# Please override this
+ENV NOMINATIM_PASSWORD qaIACxO6wMR3
+# how many threads should be use for importing
+ENV THREADS=16
+
+CMD /app/start.sh
