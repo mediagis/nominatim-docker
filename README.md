@@ -21,10 +21,6 @@ Run [http://wiki.openstreetmap.org/wiki/Nominatim](http://wiki.openstreetmap.org
 
 The latest version uses Ubuntu 20.04 and PostgreSQL 12.
 
-To check that everything is set up correctly, download and load to Postgres PBF file with minimal size - Europe/Monaco (latest) from geofabrik.de.
-
-If a different country should be used you can set `PBF_DATA` on build.
-
 # How to use
 Clone repository
 
