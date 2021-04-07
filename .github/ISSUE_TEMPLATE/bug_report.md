@@ -23,7 +23,8 @@ If applicable, add screenshots & logs to help explain your problem.
 
 **Desktop / Server (please complete the following information):**
  - OS & Version: [e.g. Debian 10]
- - Docker Version [e.g. 20.10.5]
+ - Docker Version: [e.g. 20.10.5]
+ - Nominatim Version: [e.g. 3.7.0]
 
 **Additional context**
 Add any other context about the problem here.
