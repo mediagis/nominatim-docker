@@ -1,18 +1,17 @@
 # Nominatim Docker (Nominatim version 3.6)
 
-
 ## Automatic import
 
 Download the required data, initialize the database and start nominatim in one go
 
 ```
-  docker run -it --rm \
-    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-    -e IMPORT_WIKIPEDIA=true \
-    -p 8080:8080 \
-    --name nominatim \
-    mediagis/nominatim:3.6
+docker run -it --rm \
+  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e IMPORT_WIKIPEDIA=true \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:3.6
 ```
 
 The port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
@@ -21,20 +20,15 @@ If you want to check that your data import was sucessful, you can use the API wi
 
 ## Configuration
 
-The the environment variables are available:
+The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
   - `REPLICATION_URL`: Where to get updates from. Also availble from Geofabrik.
   - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `true`)
   - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
-  - `THREADS`: How many treads should be used to import (default: `16`)
+  - `THREADS`: How many threads should be used to import (default: `16`)
   - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
-
-## Password
-
-In order to override the default password for the database access use the environment variable `NOMINATIM_PASSWORD`. An example is given in the
-next section.
 
 ## Persistent container data
 
@@ -45,15 +39,15 @@ There is one folder the can be persisted across container creation and removal.
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
 ```
-  docker run -it --rm \
-    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-    -e IMPORT_WIKIPEDIA=false \
-    -e NOMINATIM_PASSWORD=very_secure_password \
-    -v nominatim-data:/var/lib/postgresql/12/main \
-    -p 8080:8080 \
-    --name nominatim \
-    mediagis/nominatim:3.6
+docker run -it --rm \
+  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e IMPORT_WIKIPEDIA=false \
+  -e NOMINATIM_PASSWORD=very_secure_password \
+  -v nominatim-data:/var/lib/postgresql/12/main \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:3.6
 ```
 
 ## Updating the database
