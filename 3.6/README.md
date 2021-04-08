@@ -52,7 +52,7 @@ docker run -it --rm \
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/admin/Import-and-Update.md#updates). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.6.0/admin/Update/). For a list of other methods see the output of:
 ```
 docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
 ```
