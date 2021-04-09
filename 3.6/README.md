@@ -24,7 +24,7 @@ The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
   - `REPLICATION_URL`: Where to get updates from. Also availble from Geofabrik.
-  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `true`)
+  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `false`)
   - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
   - `THREADS`: How many threads should be used to import (default: `16`)
@@ -67,7 +67,7 @@ If there are no updates available this process will sleep for 15 minutes and try
 
 ## Development
 
-If you want to work on the Docker image you can use the following command to build an local
+If you want to work on the Docker image you can use the following command to build a local
 image and run the container with
 
 ```
