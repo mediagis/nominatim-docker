@@ -33,10 +33,6 @@ if [ ! -f /var/lib/postgresql/12/main/PG_VERSION ]; then
   sudo -u postgres /usr/lib/postgresql/12/bin/initdb -D /var/lib/postgresql/12/main
 fi
 
-# Update postgres config to improve import performance
-sed -i "s/fsync = on/fsync = off/g" /etc/postgresql/12/main/postgresql.conf
-sed -i "s/full_page_writes = on/full_page_writes = off/g" /etc/postgresql/12/main/postgresql.conf
-
 sudo service postgresql start && \
 sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -u postgres createuser -s nominatim && \
 sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -u postgres createuser -SDR www-data && \
@@ -52,8 +48,8 @@ sudo -u nominatim ./src/build/utils/update.php --init-updates
 
 sudo service postgresql stop
 
-sed -i "s/fsync = off/fsync = on/g" /etc/postgresql/12/main/postgresql.conf
-sed -i "s/full_page_writes = off/full_page_writes = on/g" /etc/postgresql/12/main/postgresql.conf
+# Remove slightly unsafe postgres config overrides that made the import faster
+rm /etc/postgresql/12/main/postgresql.auto.conf
 
 echo "Deleting downloaded dumps in ${DATA_DIR}"
 rm ${DATA_DIR}/*sql.gz ${OSMFILE}

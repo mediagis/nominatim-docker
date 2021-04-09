@@ -79,10 +79,6 @@ RUN true \
     && make -j`nproc` \
     && chmod o=rwx .
 
-# Apache configure.
-COPY local.php /app/src/build/settings/local.php
-COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
-
 RUN curl http://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 
 RUN true \
@@ -108,6 +104,13 @@ RUN true \
         /root/.cache \
         /app/src/.git \
         /var/lib/apt/lists/*
+
+# Apache configuration
+COPY local.php /app/src/build/settings/local.php
+COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
+
+# Postgres config overrides to improve import performance (but reduce crash recovery safety)
+COPY postgresql.auto.conf /etc/postgresql/12/main/
 
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
