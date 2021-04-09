@@ -41,14 +41,14 @@ jobs:
           ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
 
       - name: Login to DockerHub
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Push docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' }}
+        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |
           # we tag the image with the version number of nominatim but also
           # a second tag which adds the git commit ID so that you can refer
