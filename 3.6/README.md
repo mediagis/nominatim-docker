@@ -30,6 +30,20 @@ The following environment variables are available for configuration:
   - `THREADS`: How many threads should be used to import (default: `16`)
   - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
+The following environment variables are available to tune PostgreSQL:
+
+  - `POSTGRES_SHARED_BUFFERS` (default: `2GB`)
+  - `POSTGRES_MAINTAINENCE_WORK_MEM` (default: `10GB`)
+  - `POSTGRES_AUTOVACUUM_WORK_MEM` (default: `2GB`)
+  - `POSTGRES_WORK_MEM` (default: `50MB`)
+  - `POSTGRES_EFFECTIVE_CACHE_SIZE` (default: `24GB`)
+  - `POSTGRES_SYNCHRONOUS_COMMIT` (default: `off`)
+  - `POSTGRES_MAX_WAL_SIZE` (default: `1GB`)
+  - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
+  - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
+
+See https://nominatim.org/release-docs/3.6.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+
 ## Persistent container data
 
 There is one folder the can be persisted across container creation and removal.

@@ -49,7 +49,7 @@ sudo -u nominatim ./src/build/utils/update.php --init-updates
 sudo service postgresql stop
 
 # Remove slightly unsafe postgres config overrides that made the import faster
-rm /etc/postgresql/12/main/postgresql.auto.conf
+rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${DATA_DIR}"
 rm ${DATA_DIR}/*sql.gz ${OSMFILE}
