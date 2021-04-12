@@ -106,12 +106,14 @@ RUN true \
         /var/lib/apt/lists/*
 
 # Apache configuration
-COPY local.php /app/src/build/settings/local.php
-COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
+COPY conf.d/local.php /app/src/build/settings/local.php
+COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
-COPY postgresql.auto.conf /etc/postgresql/12/main/
+COPY conf.d/postgres-import.conf /etc/postgresql/12/main/conf.d/
+COPY conf.d/postgres-tuning.conf /etc/postgresql/12/main/conf.d/
 
+COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
