@@ -24,7 +24,7 @@ jobs:
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -p 8080:8080 \
             nominatim &
-          sleep 45
+          sleep 30
           ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
 
       - name: Check import with mount
@@ -37,7 +37,19 @@ jobs:
             -v nominatim-postgres:/var/lib/postgresql/12/main \
             -p 8081:8080 \
             nominatim &
-          sleep 45
+          sleep 30
+          ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
+
+      - name: Check import with bind-mount
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -v /tmp/nominatim-postgres:/var/lib/postgresql/12/main \
+            -p 8081:8080 \
+            nominatim &
+          sleep 30
           ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
 
       - name: Login to DockerHub
