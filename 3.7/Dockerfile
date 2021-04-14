@@ -39,6 +39,7 @@ RUN true \
         php \
         php-intl \
         php-pgsql \
+        php-cgi \
         apache2 \
         libapache2-mod-php \
         # Python 3.
@@ -47,6 +48,11 @@ RUN true \
         python3-tidylib \
         python3-psycopg2 \
         python3-setuptools \
+        python3-dotenv \
+        python3-psutil \
+        python3-jinja2 \
+        python3-icu git \
+        python3-argparse-manpage \
         # Misc.
         git \
         curl \
@@ -61,25 +67,18 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION v3.6.0
+ENV NOMINATIM_VERSION 3.7.0
 
 RUN true \
-    && git clone \
-        --config advice.detachedHead=false \
-        --single-branch \
-        --branch $NOMINATIM_VERSION \
-        --depth 1 \
-        --recursive \
-        https://github.com/openstreetmap/Nominatim \
-        src \
-    && cd src \
+    && curl https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
+    && tar xf nominatim.tar.bz2 \
     && mkdir build \
     && cd build \
-    && cmake .. \
-    && make -j`nproc` \
-    && chmod o=rwx .
-
-RUN curl https://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
+    # for some reason the country grid needs to be downloaded before the installation
+    #&& curl --create-dirs http://www.nominatim.org/data/country_grid.sql.gz -o /app/src/data/country_osm_grid.sql.gz \
+    && cmake ../Nominatim-$NOMINATIM_VERSION \
+    && make \
+    && make install
 
 RUN true \
     # Remove development and unused packages.
@@ -106,8 +105,8 @@ RUN true \
         /var/lib/apt/lists/*
 
 # Apache configuration
-COPY conf.d/local.php /app/src/build/settings/local.php
 COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
+CMD a2enconf nominatim
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/12/main/conf.d/
@@ -133,5 +132,10 @@ EXPOSE 8080
 ENV NOMINATIM_PASSWORD qaIACxO6wMR3
 # how many threads should be use for importing
 ENV THREADS=16
+
+ENV PROJECT_DIR /nominatim
+CMD mkdir ${PROJECT_DIR}
+
+COPY conf.d/env $PROJECT_DIR/.env
 
 CMD /app/start.sh

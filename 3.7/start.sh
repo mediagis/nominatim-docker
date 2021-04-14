@@ -21,7 +21,7 @@ if [ ! -f ${IMPORT_FINISHED} ]; then
   touch ${IMPORT_FINISHED}
 fi
 
-/app/src/build/utils/setup.php --setup-website
+cd ${PROJECT_DIR} && nominatim refresh --website
 
 service postgresql start
 service apache2 start

@@ -9,7 +9,7 @@ if [ "$REPLICATION_URL" = "" ]; then
     echo "docker run -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ ..."
     exit 1
 else
-    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" /app/src/build/settings/local.php
+    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${PROJECT_DIR}/.env
 fi
 
 # PostgreSQL Tuning

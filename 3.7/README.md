@@ -7,8 +7,7 @@ Download the required data, initialize the database and start nominatim in one g
 ```
 docker run -it --rm \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
-  -e IMPORT_WIKIPEDIA=true \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/
   -p 8080:8080 \
   --name nominatim \
   mediagis/nominatim:3.6
@@ -33,7 +32,7 @@ The following environment variables are available for configuration:
 The following environment variables are available to tune PostgreSQL:
 
   - `POSTGRES_SHARED_BUFFERS` (default: `2GB`)
-  - `POSTGRES_MAINTENANCE_WORK_MEM` (default: `10GB`)
+  - `POSTGRES_MAINTAINENCE_WORK_MEM` (default: `10GB`)
   - `POSTGRES_AUTOVACUUM_WORK_MEM` (default: `2GB`)
   - `POSTGRES_WORK_MEM` (default: `50MB`)
   - `POSTGRES_EFFECTIVE_CACHE_SIZE` (default: `24GB`)
@@ -89,13 +88,13 @@ docker run -it --rm --shm-size=1g \
 
 Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.6.0/admin/Update/). For a list of other methods see the output of:
 ```
-docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
+docker exec -it nominatim sudo -u nominatim nominatim replication --help
 ```
 
 The following command will keep updating the database forever:
 
 ```
-docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --import-osmosis-all
+docker exec -it nominatim sudo -u nominatim nominatim replication --project-dir /nominatim
 ```
 
 If there are no updates available this process will sleep for 15 minutes and try again.

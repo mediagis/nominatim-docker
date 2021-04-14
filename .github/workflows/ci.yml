@@ -16,16 +16,19 @@ jobs:
         run: docker build . -t nominatim
         working-directory: 3.6
 
-      - name: Check import without mounts
+      - name: Check import and update
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -p 8080:8080 \
+            --name nominatim \
             nominatim &
           sleep 45
           ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
+          docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+          docker stop nominatim
 
       - name: Check import with mount
         working-directory: .github/workflows

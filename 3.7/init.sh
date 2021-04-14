@@ -1,24 +1,22 @@
 #!/bin/bash -ex
 
-DATA_DIR=/app/src/data
-OSMFILE=${DATA_DIR}/data.osm.pbf
-
+OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  curl https://www.nominatim.org/data/wikimedia-importance.sql.gz -o ${DATA_DIR}/wikimedia-importance.sql.gz
+  curl https://www.nominatim.org/data/wikimedia-importance.sql.gz -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
 else
   echo "Skipping optional Wikipedia importance import"
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl https://www.nominatim.org/data/gb_postcode_data.sql.gz -o ${DATA_DIR}/gb_postcode_data.sql.gz
+  curl https://www.nominatim.org/data/gb_postcode_data.sql.gz -o ${PROJECT_DIR}/gb_postcode_data.sql.gz
 else \
   echo "Skipping optional GB postcode import"
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  curl https://www.nominatim.org/data/us_postcode_data.sql.gz -o ${DATA_DIR}/us_postcode_data.sql.gz
+  curl https://www.nominatim.org/data/us_postcode_data.sql.gz -o ${PROJECT_DIR}/us_postcode_data.sql.gz
 else
   echo "Skipping optional US postcode import"
 fi;
@@ -40,16 +38,18 @@ sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-d
 sudo -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWORD '$NOMINATIM_PASSWORD'" && \
 sudo -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
 
-sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim" && \
-chown -R nominatim:nominatim ./src && \
-sudo -u nominatim ./src/build/utils/setup.php --osm-file $OSMFILE --all --threads $THREADS && \
-sudo -u nominatim ./src/build/utils/check_import_finished.php && \
-sudo -u nominatim ./src/build/utils/update.php --init-updates
+sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
+
+chown nominatim:nominatim ${PROJECT_DIR}
+cd ${PROJECT_DIR}
+sudo -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
+sudo -u nominatim nominatim admin --check-database
+sudo -u nominatim nominatim replication --init
 
 sudo service postgresql stop
 
 # Remove slightly unsafe postgres config overrides that made the import faster
 rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
-echo "Deleting downloaded dumps in ${DATA_DIR}"
-rm ${DATA_DIR}/*sql.gz ${OSMFILE}
+echo "Deleting downloaded dumps in ${PROJECT_DIR}"
+rm -f ${PROJECT_DIR}/*sql.gz ${OSMFILE}
