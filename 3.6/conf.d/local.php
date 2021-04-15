@@ -9,4 +9,5 @@
  @define('CONST_Replication_Update_Interval', '86400');  // How often upstream publishes diffs
  @define('CONST_Replication_Recheck_Interval', '900');   // How long to sleep if no update found yet
  @define('CONST_Pyosmium_Binary', '/usr/local/bin/pyosmium-get-changes');
+ @define('CONST_Import_Style', CONST_BasePath.'/settings/ import-full.style');
  //@define('CONST_Database_DSN', 'pgsql:host=192.168.1.128;port=6432;user=nominatim;password=password1234;dbname=nominatim'); <driver>:host=<host>;port=<port>;user=<username>;password=<password>;dbname=<database>
