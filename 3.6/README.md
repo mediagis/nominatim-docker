@@ -44,6 +44,11 @@ The following environment variables are available to tune PostgreSQL:
 
 See https://nominatim.org/release-docs/3.6.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
+
+The following run parameters are available for configuration:
+
+  - `shm-size`: Size of the tmpfs in Docker, for bigger imports (e.g. Europe) this needs to be set to at least 1GB or more. Half the size of your available RAM is recommended. (default: `64M`)
+
 ## Persistent container data
 
 There is one folder the can be persisted across container creation and removal.
@@ -53,7 +58,7 @@ There is one folder the can be persisted across container creation and removal.
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
 ```
-docker run -it --rm \
+docker run -it --rm --shm-size=1g \
   -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=false \
