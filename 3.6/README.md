@@ -6,8 +6,8 @@ Download the required data, initialize the database and start nominatim in one g
 
 ```
 docker run -it --rm \
-  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=true \
   -p 8080:8080 \
   --name nominatim \
@@ -54,8 +54,8 @@ So if you want to be able to kill your container and start it up again with all 
 
 ```
 docker run -it --rm \
-  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=false \
   -e NOMINATIM_PASSWORD=very_secure_password \
   -v nominatim-data:/var/lib/postgresql/12/main \
@@ -87,8 +87,8 @@ image and run the container with
 ```
 docker build -t nominatim . && \
 docker run -it --rm \
-    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+    -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+    -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
     -p 8080:8080 \
     --name nominatim \
     nominatim
