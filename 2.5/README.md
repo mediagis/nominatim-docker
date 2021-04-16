@@ -3,12 +3,12 @@
 1. Modify Dockerfile, set your url for PBF
 
   ```
-  ENV PBF_DATA http://download.geofabrik.de/europe/monaco-latest.osm.pbf
+  ENV PBF_DATA https://download.geofabrik.de/europe/monaco-latest.osm.pbf
   ```
 2. Configure incremental update. By default CONST_Replication_Url configured for Monaco.
 If you want a different update source, you will need to declare `CONST_Replication_Url` in local.php. Documentation [here] (https://github.com/openstreetmap/Nominatim/blob/master/docs/Import-and-Update.md#updates). For example, to use the daily country extracts diffs for Gemany from geofabrik add the following:
   ```
-  @define('CONST_Replication_Url', 'http://download.geofabrik.de/europe/germany-updates');
+  @define('CONST_Replication_Url', 'https://download.geofabrik.de/europe/germany-updates');
   ```
 
 3. Build 
@@ -21,7 +21,7 @@ If you want a different update source, you will need to declare `CONST_Replicati
   ```
   docker run --restart=always -d -p 8080:8080 --name nominatim-monacco nominatim
   ```
-  If this succeeds, open [http://localhost:8080/](http:/localhost:8080) in a web browser
+  If this succeeds, open [http://localhost:8080/](http://localhost:8080) in a web browser
 
 # Running
 
@@ -30,7 +30,7 @@ You can run Docker image from docker hub.
 ```
 docker run --restart=always -d -p 8080:8080 --name nominatim mediagis/nominatim:latest
 ```
-Service will run on [http://localhost:8080/](http:/localhost:8080)
+Service will run on [http://localhost:8080/](http://localhost:8080)
 
 # Update
 
