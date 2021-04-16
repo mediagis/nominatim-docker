@@ -12,10 +12,10 @@ else
     sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" /app/src/build/settings/local.php
 fi
 
-# PostgresSQL Tuning
+# PostgreSQL Tuning
 
 if [ ! -z "$POSTGRES_SHARED_BUFFERS" ]; then sed -i "s/shared_buffers = 2GB/shared_buffers = $POSTGRES_SHARED_BUFFERS/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
-if [ ! -z "$POSTGRES_MAINTAINENCE_WORK_MEM" ]; then sed -i "s/maintenance_work_mem = 10GB/maintenance_work_mem = $POSTGRES_MAINTAINENCE_WORK_MEM/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
+if [ ! -z "$POSTGRES_MAINTENANCE_WORK_MEM" ]; then sed -i "s/maintenance_work_mem = 10GB/maintenance_work_mem = $POSTGRES_MAINTENANCE_WORK_MEM/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
 if [ ! -z "$POSTGRES_AUTOVACUUM_WORK_MEM" ]; then sed -i "s/autovacuum_work_mem = 2GB/autovacuum_work_mem = $POSTGRES_AUTOVACUUM_WORK_MEM/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
 if [ ! -z "$POSTGRES_WORK_MEM" ]; then sed -i "s/work_mem = 50MB/work_mem = $POSTGRES_WORK_MEM/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
 if [ ! -z "$POSTGRES_EFFECTIVE_CACHE_SIZE" ]; then sed -i "s/effective_cache_size = 24GB/effective_cache_size = $POSTGRES_EFFECTIVE_CACHE_SIZE/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi

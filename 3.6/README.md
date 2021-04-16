@@ -33,7 +33,7 @@ The following environment variables are available for configuration:
 The following environment variables are available to tune PostgreSQL:
 
   - `POSTGRES_SHARED_BUFFERS` (default: `2GB`)
-  - `POSTGRES_MAINTAINENCE_WORK_MEM` (default: `10GB`)
+  - `POSTGRES_MAINTENANCE_WORK_MEM` (default: `10GB`)
   - `POSTGRES_AUTOVACUUM_WORK_MEM` (default: `2GB`)
   - `POSTGRES_WORK_MEM` (default: `50MB`)
   - `POSTGRES_EFFECTIVE_CACHE_SIZE` (default: `24GB`)
