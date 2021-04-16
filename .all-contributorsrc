@@ -172,6 +172,16 @@
         "infra",
         "code"
       ]
+    },
+    {
+      "login": "Bakaniko",
+      "name": "Nicolas Roelandt",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17683898?v=4",
+      "profile": "https://roelandtn.frama.io/",
+      "contributions": [
+        "doc",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
