@@ -60,7 +60,7 @@ So if you want to be able to kill your container and start it up again with all 
 ```
 docker run -it --rm --shm-size=1g \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=false \
   -e NOMINATIM_PASSWORD=very_secure_password \
   -v nominatim-data:/var/lib/postgresql/12/main \
