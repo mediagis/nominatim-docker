@@ -6,8 +6,8 @@ Download the required data, initialize the database and start nominatim in one g
 
 ```
 docker run -it --rm \
-  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=true \
   -p 8080:8080 \
   --name nominatim \
@@ -33,7 +33,7 @@ The following environment variables are available for configuration:
 The following environment variables are available to tune PostgreSQL:
 
   - `POSTGRES_SHARED_BUFFERS` (default: `2GB`)
-  - `POSTGRES_MAINTAINENCE_WORK_MEM` (default: `10GB`)
+  - `POSTGRES_MAINTENANCE_WORK_MEM` (default: `10GB`)
   - `POSTGRES_AUTOVACUUM_WORK_MEM` (default: `2GB`)
   - `POSTGRES_WORK_MEM` (default: `50MB`)
   - `POSTGRES_EFFECTIVE_CACHE_SIZE` (default: `24GB`)
@@ -43,6 +43,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
 
 See https://nominatim.org/release-docs/3.6.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+
 
 The import style can be modified through an environment variable :
 
@@ -58,6 +59,12 @@ Available options are :
 
 See https://nominatim.org/release-docs/3.6.0/admin/Import/#filtering-imported-data for more details on those styles.
 
+
+The following run parameters are available for configuration:
+
+  - `shm-size`: Size of the tmpfs in Docker, for bigger imports (e.g. Europe) this needs to be set to at least 1GB or more. Half the size of your available RAM is recommended. (default: `64M`)
+
+
 ## Persistent container data
 
 There is one folder the can be persisted across container creation and removal.
@@ -67,9 +74,9 @@ There is one folder the can be persisted across container creation and removal.
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
 ```
-docker run -it --rm \
-  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+docker run -it --rm --shm-size=1g \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=false \
   -e NOMINATIM_PASSWORD=very_secure_password \
   -v nominatim-data:/var/lib/postgresql/12/main \
@@ -101,8 +108,8 @@ image and run the container with
 ```
 docker build -t nominatim . && \
 docker run -it --rm \
-    -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-    -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+    -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+    -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
     -p 8080:8080 \
     --name nominatim \
     nominatim

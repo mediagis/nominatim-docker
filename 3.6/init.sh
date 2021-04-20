@@ -12,13 +12,13 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl http://www.nominatim.org/data/gb_postcode_data.sql.gz -o ${DATA_DIR}/gb_postcode_data.sql.gz
+  curl https://www.nominatim.org/data/gb_postcode_data.sql.gz -o ${DATA_DIR}/gb_postcode_data.sql.gz
 else \
   echo "Skipping optional GB postcode import"
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  curl http://www.nominatim.org/data/us_postcode_data.sql.gz -o ${DATA_DIR}/us_postcode_data.sql.gz
+  curl https://www.nominatim.org/data/us_postcode_data.sql.gz -o ${DATA_DIR}/us_postcode_data.sql.gz
 else
   echo "Skipping optional US postcode import"
 fi;
