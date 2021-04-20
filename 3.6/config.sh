@@ -51,3 +51,4 @@ if [ "$IMPORT_STYLE" != "" ]; then
     esac
 else
     echo "Use full import style"
+fi
