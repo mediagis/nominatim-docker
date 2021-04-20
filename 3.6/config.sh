@@ -24,31 +24,11 @@ if [ ! -z "$POSTGRES_MAX_WAL_SIZE" ]; then sed -i "s/max_wal_size = 1GB/max_wal_
 if [ ! -z "$POSTGRES_CHECKPOINT_TIMEOUT" ]; then sed -i "s/checkpoint_timeout = 10min/checkpoint_timeout = $POSTGRES_CHECKPOINT_TIMEOUT/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
 if [ ! -z "$POSTGRES_CHECKPOINT_COMPLETITION_TARGET" ]; then sed -i "s/checkpoint_completion_target = 0.9/checkpoint_completion_target = $POSTGRES_CHECKPOINT_COMPLETITION_TARGET/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
 
-# import style tuning
-if [ "$IMPORT_STYLE" != "" ]; then
 
-    case $IMPORT_STYLE in
-    
-      admin)
-        echo "Use admin import style"
-        sed -i "s/import-full.style/import-admin.style/g" /app/src/build/settings/local.php
-        ;;
-    
-      street)
-        echo "Use street import style"
-        sed -i "s/import-full.style/import-street.style/g" /app/src/build/settings/local.php
-        ;;
-    
-      address)
-        echo "Use address import style"
-        sed -i "s/import-full.style/import-address.style/g" /app/src/build/settings/local.php
-        ;;
-        
-      extratags)
-        echo "Use extratags import style"
-        sed -i "s/import-full.style/import-extratags.style/g" /app/src/build/settings/local.php
-        ;;
-    esac
-else
+# import style tuning
+if [ "$IMPORT_STYLE" = "" ]; then
     echo "Use full import style"
+else
+    echo "Use ${IMPORT_STYLE} import style"
+    printf "@define('CONST_Import_Style', CONST_BasePath.'/settings/import-${IMPORT_STYLE}.style');" >> /app/src/build/settings/local.php
 fi
