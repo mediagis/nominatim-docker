@@ -71,10 +71,10 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=admin \
-            -p 8085:8080 \
+            -p 8084:8080 \
             nominatim &
           sleep 45
-          ./assert-empty-json "http://localhost:8085/search.php?q=Paris"
+          ./assert-empty-json "http://localhost:8084/search.php?q=Paris"
           
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
