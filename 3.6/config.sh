@@ -26,9 +26,5 @@ if [ ! -z "$POSTGRES_CHECKPOINT_COMPLETITION_TARGET" ]; then sed -i "s/checkpoin
 
 
 # import style tuning
-if [ "$IMPORT_STYLE" = "" ]; then
-    echo "Use full import style"
-else
-    echo "Use ${IMPORT_STYLE} import style"
-    printf "@define('CONST_Import_Style', CONST_BasePath.'/settings/import-${IMPORT_STYLE}.style');" >> /app/src/build/settings/local.php
-fi
+
+if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" /app/src/build/settings/local.php; fi 
