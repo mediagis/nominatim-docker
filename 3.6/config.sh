@@ -27,4 +27,4 @@ if [ ! -z "$POSTGRES_CHECKPOINT_COMPLETITION_TARGET" ]; then sed -i "s/checkpoin
 
 # import style tuning
 
-if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" /app/src/build/settings/local.php; fi 
+if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" /app/src/build/settings/local.php; fi
