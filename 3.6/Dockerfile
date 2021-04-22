@@ -50,7 +50,8 @@ RUN true \
         # Misc.
         git \
         curl \
-        sudo
+        sudo \
+        logrotate
 
 # Configure postgres.
 RUN true \
