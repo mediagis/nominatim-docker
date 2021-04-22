@@ -45,9 +45,25 @@ The following environment variables are available to tune PostgreSQL:
 See https://nominatim.org/release-docs/3.6.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 
+The import style can be modified through an environment variable :
+
+  - `IMPORT_STYLE` (default: `full`)
+
+Available options are :
+
+  - `admin` : Only import administrative boundaries and places.
+  - `street` : Like the admin style but also adds streets.
+  - `address` : Import all data necessary to compute addresses down to house number level.
+  - `full` : Default style that also includes points of interest.
+  - `extratags` : Like the full style but also adds most of the OSM tags into the extratags column.
+
+See https://nominatim.org/release-docs/3.6.0/admin/Import/#filtering-imported-data for more details on those styles.
+
+
 The following run parameters are available for configuration:
 
   - `shm-size`: Size of the tmpfs in Docker, for bigger imports (e.g. Europe) this needs to be set to at least 1GB or more. Half the size of your available RAM is recommended. (default: `64M`)
+
 
 ## Persistent container data
 

@@ -51,7 +51,31 @@ jobs:
             nominatim &
           sleep 45
           ./assert-non-empty-json "http://localhost:8082/search.php?q=avenue%20pasteur"
+          
+      - name: Check import full style
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e IMPORT_STYLE=full \
+            -p 8083:8080 \
+            nominatim &
+          sleep 45
+          ./assert-non-empty-json "http://localhost:8083/search.php?q=Paris"
 
+      - name: Check import admin style
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e IMPORT_STYLE=admin \
+            -p 8085:8080 \
+            nominatim &
+          sleep 45
+          ./assert-empty-json "http://localhost:8085/search.php?q=Paris"
+          
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
