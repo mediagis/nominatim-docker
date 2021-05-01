@@ -6,12 +6,21 @@
   "commit": false,
   "contributors": [
     {
+      "login": "winsento",
+      "name": "Andrew",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2316328?v=4",
+      "profile": "https://www.linkedin.com/in/winsent/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
       "login": "dlucia",
       "name": "Donato Lucia",
       "avatar_url": "https://avatars3.githubusercontent.com/u/1665623?v=4",
       "profile": "https://github.com/dlucia",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -21,27 +30,27 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/1500692?v=4",
       "profile": "https://github.com/geomark",
       "contributions": [
-        "infra",
-        "code"
+        "doc"
       ]
     },
     {
       "login": "philipkozeny",
       "name": "Philip Kozeny",
       "avatar_url": "https://avatars1.githubusercontent.com/u/16721635?v=4",
-      "profile": "http://www.symvaro.com",
+      "profile": "https://github.com/philipkozeny",
       "contributions": [
         "infra",
-        "code"
+        "code",
+        "test",
+        "review"
       ]
     },
     {
       "login": "therek",
       "name": "Cezary Morga",
       "avatar_url": "https://avatars2.githubusercontent.com/u/89052?v=4",
-      "profile": "http://www.therek.net/",
+      "profile": "https://www.therek.net/",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -51,7 +60,6 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/7721625?v=4",
       "profile": "https://github.com/thomasnordquist",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -70,7 +78,6 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/14983691?v=4",
       "profile": "https://github.com/UntitleDude",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -80,7 +87,6 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/25001741?v=4",
       "profile": "https://www.linkedin.com/in/jmcker",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -90,8 +96,9 @@
       "avatar_url": "https://avatars1.githubusercontent.com/u/3727288?v=4",
       "profile": "https://twitter.com/mtmthemovie",
       "contributions": [
-        "infra",
-        "code"
+        "doc",
+        "question",
+        "review"
       ]
     },
     {
@@ -100,7 +107,6 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/1188335?v=4",
       "profile": "https://angel.co/eSlider",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -110,7 +116,6 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/6860423?v=4",
       "profile": "https://www.linkedin.com/in/simoneromano92/",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -120,8 +125,8 @@
       "avatar_url": "https://avatars0.githubusercontent.com/u/4966417?v=4",
       "profile": "https://github.com/DuncanMackintosh",
       "contributions": [
-        "infra",
-        "code"
+        "code",
+        "doc"
       ]
     },
     {
@@ -139,7 +144,6 @@
       "avatar_url": "https://avatars3.githubusercontent.com/u/212711?v=4",
       "profile": "https://www.ufoproger.ru",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -149,7 +153,6 @@
       "avatar_url": "https://avatars2.githubusercontent.com/u/43264099?v=4",
       "profile": "https://github.com/FritschAuctores",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -159,7 +162,6 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/490798?v=4",
       "profile": "https://github.com/rebos",
       "contributions": [
-        "infra",
         "code"
       ]
     },
@@ -167,10 +169,12 @@
       "login": "leonardehrenfried",
       "name": "Leonard Ehrenfried",
       "avatar_url": "https://avatars.githubusercontent.com/u/151346?v=4",
-      "profile": "http://leonard.io/blog/",
+      "profile": "https://leonard.io/blog/",
       "contributions": [
         "infra",
-        "code"
+        "code",
+        "test",
+        "review"
       ]
     },
     {
@@ -180,7 +184,109 @@
       "profile": "https://roelandtn.frama.io/",
       "contributions": [
         "doc",
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "Sacerdoss",
+      "name": "Sacerdoss",
+      "avatar_url": "https://avatars.githubusercontent.com/u/22632241?v=4",
+      "profile": "https://github.com/Sacerdoss",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "sake",
+      "name": "Tobias Wich",
+      "avatar_url": "https://avatars.githubusercontent.com/u/154311?v=4",
+      "profile": "https://github.com/sake",
+      "contributions": [
+        "doc",
         "code"
+      ]
+    },
+    {
+      "login": "aclowkey",
+      "name": "Alex Chaplianka",
+      "avatar_url": "https://avatars.githubusercontent.com/u/2061017?v=4",
+      "profile": "https://github.com/aclowkey",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "gmalenko",
+      "name": "Idris Hayward",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6521413?v=4",
+      "profile": "https://github.com/gmalenko",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "karlvr",
+      "name": "Karl von Randow",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1086005?v=4",
+      "profile": "https://github.com/karlvr",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "mlechner",
+      "name": "Marco Lechner",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1194826?v=4",
+      "profile": "https://github.com/mlechner",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "mattegawel",
+      "name": "Mateusz Gaweł",
+      "avatar_url": "https://avatars.githubusercontent.com/u/14986712?v=4",
+      "profile": "https://github.com/mattegawel",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "lastnico",
+      "name": "Nicolas Ternisien",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1044941?v=4",
+      "profile": "http://www.forum-software.org/",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "oschlueter",
+      "name": "oschlueter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/10252511?v=4",
+      "profile": "https://github.com/oschlueter",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "timnon",
+      "name": "Tim Nonner",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5597397?v=4",
+      "profile": "https://github.com/timnon",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "thlor",
+      "name": "thlor",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6570020?v=4",
+      "profile": "https://github.com/thlor",
+      "contributions": [
+        "code",
+        "doc"
       ]
     }
   ],
@@ -189,5 +295,6 @@
   "projectOwner": "mediagis",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitConvention": "none"
 }
