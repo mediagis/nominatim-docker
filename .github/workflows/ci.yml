@@ -10,9 +10,11 @@ jobs:
 
     strategy:
       matrix:
-        nominatim_version:
-          - 3.6
-          - 3.7
+        nominatim:
+          - version: 3.7
+            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+          - version: 3.6
+            update_command: docker exec -i nominatim sudo -u nominatim ./src/build/utils/update.php
 
     runs-on: ubuntu-latest
     steps:
@@ -20,7 +22,7 @@ jobs:
 
       - name: Build docker image
         run: docker build . -t nominatim
-        working-directory: ${{ matrix.nominatim_version }}
+        working-directory: ${{ matrix.nominatim.version }}
 
       - name: Check import and update
         working-directory: .github/workflows
@@ -33,7 +35,7 @@ jobs:
             nominatim &
           sleep 45
           ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
-          docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+          ${{ matrix.nominatim.update_command }}
           docker stop nominatim
 
       - name: Check import with mount
@@ -98,7 +100,7 @@ jobs:
           # we tag the image with the version number of nominatim but also
           # a second tag which adds the git commit ID so that you can refer
           # to a stable image
-          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim_version }}
-          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim_version }}-${{ github.sha }}
+          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}
+          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }}
           docker image push --all-tags mediagis/nominatim
 
