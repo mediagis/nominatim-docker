@@ -30,4 +30,8 @@ if [ ! -z "$POSTGRES_CHECKPOINT_COMPLETITION_TARGET" ]; then sed -i "s/checkpoin
 
 # import style tuning
 
-if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" ${CONFIG_FILE}; fi
+if [ ! -z "$IMPORT_STYLE" ]; then
+  sed -i "s|__IMPORT_STYLE__|${IMPORT_STYLE}|g" ${CONFIG_FILE}
+else
+  sed -i "s|__IMPORT_STYLE__|full|g" ${CONFIG_FILE}
+fi
