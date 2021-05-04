@@ -1,3 +1,6 @@
+CONFIG_FILE=${PROJECT_DIR}/.env
+
+
 if [ "$PBF_URL" = "" ]; then
     echo "You need to specify the environment variable PBF_URL"
     echo "docker run -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf ..."
@@ -9,7 +12,7 @@ if [ "$REPLICATION_URL" = "" ]; then
     echo "docker run -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ ..."
     exit 1
 else
-    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${PROJECT_DIR}/.env
+    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}
 fi
 
 # PostgreSQL Tuning
@@ -27,4 +30,4 @@ if [ ! -z "$POSTGRES_CHECKPOINT_COMPLETITION_TARGET" ]; then sed -i "s/checkpoin
 
 # import style tuning
 
-if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" /app/src/build/settings/local.php; fi
+if [ ! -z "$IMPORT_STYLE" ]; then sed -i "s|import-full.style|import-${IMPORT_STYLE}.style|g" ${CONFIG_FILE}; fi
