@@ -27,8 +27,11 @@ jobs:
       - name: Check import and update
         working-directory: .github/workflows
         run: |-
+          # get the first day of the previous month to make sure that there really are updates to apply
+          # (Geofabrik stores a snapshot from the first of the month for up to 3 months)
+          first_of_previous_month=`date --date="1 months ago" +%y%m01`
           docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -p 8080:8080 \
             --name nominatim \
