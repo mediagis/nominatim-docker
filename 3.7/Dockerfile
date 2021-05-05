@@ -68,7 +68,7 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION 3.7.0
+ENV NOMINATIM_VERSION 3.7.1
 
 RUN true \
     && curl https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
@@ -101,7 +101,11 @@ RUN true \
         /var/tmp/* \
         /root/.cache \
         /app/src/.git \
-        /var/lib/apt/lists/*
+        /var/lib/apt/lists/* \
+    # Remove nominatim source and build directories
+    && rm /app/*.tar.bz2 \
+    && rm -rf /app/build \
+    && rm -rf /app/Nominatim-$NOMINATIM_VERSION
 
 # Apache configuration
 COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
