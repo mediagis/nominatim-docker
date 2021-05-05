@@ -8,24 +8,38 @@ jobs:
   docker:
     name: Build and test docker image
 
+    strategy:
+      matrix:
+        nominatim:
+          - version: 3.7
+            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+          - version: 3.6
+            update_command: docker exec -i nominatim sudo -u nominatim ./src/build/utils/update.php
+
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: Build docker image
         run: docker build . -t nominatim
-        working-directory: 3.6
+        working-directory: ${{ matrix.nominatim.version }}
 
-      - name: Check import without mounts
+      - name: Check import and update
         working-directory: .github/workflows
         run: |-
+          # get the first day of the previous month to make sure that there really are updates to apply
+          # (Geofabrik stores a snapshot from the first of the month for up to 3 months)
+          first_of_previous_month=`date --date="1 months ago" +%y%m01`
           docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -p 8080:8080 \
+            --name nominatim \
             nominatim &
-          sleep 45
+          sleep 35
           ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
+          ${{ matrix.nominatim.update_command }}
+          docker stop nominatim
 
       - name: Check import with mount
         working-directory: .github/workflows
@@ -37,7 +51,7 @@ jobs:
             -v nominatim-postgres:/var/lib/postgresql/12/main \
             -p 8081:8080 \
             nominatim &
-          sleep 45
+          sleep 35
           ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
 
       - name: Check import with bind-mount
@@ -49,9 +63,9 @@ jobs:
             -v /tmp/nominatim-postgres:/var/lib/postgresql/12/main \
             -p 8082:8080 \
             nominatim &
-          sleep 45
+          sleep 35
           ./assert-non-empty-json "http://localhost:8082/search.php?q=avenue%20pasteur"
-          
+
       - name: Check import full style
         working-directory: .github/workflows
         run: |-
@@ -61,7 +75,7 @@ jobs:
             -e IMPORT_STYLE=full \
             -p 8083:8080 \
             nominatim &
-          sleep 45
+          sleep 35
           ./assert-non-empty-json "http://localhost:8083/search.php?q=Paris"
 
       - name: Check import admin style
@@ -73,9 +87,9 @@ jobs:
             -e IMPORT_STYLE=admin \
             -p 8085:8080 \
             nominatim &
-          sleep 45
+          sleep 35
           ./assert-empty-json "http://localhost:8085/search.php?q=Paris"
-          
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
@@ -89,7 +103,7 @@ jobs:
           # we tag the image with the version number of nominatim but also
           # a second tag which adds the git commit ID so that you can refer
           # to a stable image
-          docker tag nominatim mediagis/nominatim:3.6
-          docker tag nominatim mediagis/nominatim:3.6-${{ github.sha }}
+          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}
+          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }}
           docker image push --all-tags mediagis/nominatim
 
