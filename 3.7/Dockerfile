@@ -58,6 +58,7 @@ RUN true \
         curl \
         sudo
 
+
 # Configure postgres.
 RUN true \
     && echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/12/main/pg_hba.conf \
@@ -74,8 +75,6 @@ RUN true \
     && tar xf nominatim.tar.bz2 \
     && mkdir build \
     && cd build \
-    # for some reason the country grid needs to be downloaded before the installation
-    #&& curl --create-dirs http://www.nominatim.org/data/country_grid.sql.gz -o /app/src/data/country_osm_grid.sql.gz \
     && cmake ../Nominatim-$NOMINATIM_VERSION \
     && make \
     && make install
@@ -123,11 +122,6 @@ FROM scratch
 
 COPY --from=build / /
 
-WORKDIR /app
-
-EXPOSE 5432
-EXPOSE 8080
-
 # Please override this
 ENV NOMINATIM_PASSWORD qaIACxO6wMR3
 # how many threads should be use for importing
@@ -135,6 +129,13 @@ ENV THREADS=16
 
 ENV PROJECT_DIR /nominatim
 CMD mkdir ${PROJECT_DIR}
+
+RUN curl --create-dirs https://www.nominatim.org/data/country_grid.sql.gz -o ${PROJECT_DIR}/country_osm_grid.sql.gz
+
+WORKDIR /app
+
+EXPOSE 5432
+EXPOSE 8080
 
 COPY conf.d/env $PROJECT_DIR/.env
 
