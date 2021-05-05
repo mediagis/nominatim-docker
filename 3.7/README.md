@@ -56,7 +56,7 @@ Available options are :
   - `full` : Default style that also includes points of interest.
   - `extratags` : Like the full style but also adds most of the OSM tags into the extratags column.
 
-See https://nominatim.org/release-docs/3.7.0/admin/Import/#filtering-imported-data for more details on those styles.
+See https://nominatim.org/release-docs/3.7.1/admin/Import/#filtering-imported-data for more details on those styles.
 
 
 The following run parameters are available for configuration:
