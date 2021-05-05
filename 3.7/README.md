@@ -86,7 +86,7 @@ docker run -it --rm --shm-size=1g \
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.0/admin/Update/). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.1/admin/Update/). For a list of other methods see the output of:
 ```
 docker exec -it nominatim sudo -u nominatim nominatim replication --help
 ```
