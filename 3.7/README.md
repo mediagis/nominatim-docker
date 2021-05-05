@@ -41,7 +41,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
   - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
 
-See https://nominatim.org/release-docs/3.7.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+See https://nominatim.org/release-docs/3.7.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 
 The import style can be modified through an environment variable :
@@ -56,7 +56,7 @@ Available options are :
   - `full` : Default style that also includes points of interest.
   - `extratags` : Like the full style but also adds most of the OSM tags into the extratags column.
 
-See https://nominatim.org/release-docs/3.7.0/admin/Import/#filtering-imported-data for more details on those styles.
+See https://nominatim.org/release-docs/3.7.1/admin/Import/#filtering-imported-data for more details on those styles.
 
 
 The following run parameters are available for configuration:
@@ -86,7 +86,7 @@ docker run -it --rm --shm-size=1g \
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.0/admin/Update/). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.1/admin/Update/). For a list of other methods see the output of:
 ```
 docker exec -it nominatim sudo -u nominatim nominatim replication --help
 ```
