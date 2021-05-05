@@ -41,7 +41,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
   - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
 
-See https://nominatim.org/release-docs/3.7.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+See https://nominatim.org/release-docs/3.7.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 
 The import style can be modified through an environment variable :
