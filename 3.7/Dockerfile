@@ -130,8 +130,6 @@ ENV THREADS=16
 ENV PROJECT_DIR /nominatim
 CMD mkdir ${PROJECT_DIR}
 
-RUN curl --create-dirs https://www.nominatim.org/data/country_grid.sql.gz -o ${PROJECT_DIR}/country_osm_grid.sql.gz
-
 WORKDIR /app
 
 EXPOSE 5432

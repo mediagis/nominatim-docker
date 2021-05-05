@@ -1,7 +1,5 @@
 #!/bin/bash -ex
 
-chown -R nominatim:nominatim /app/
-
 OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
