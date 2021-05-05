@@ -40,7 +40,7 @@ sudo -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASS
 
 sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
 
-chown nominatim:nominatim ${PROJECT_DIR}
+chown -R nominatim:nominatim ${PROJECT_DIR}
 cd ${PROJECT_DIR}
 sudo -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 sudo -u nominatim nominatim admin --check-database
