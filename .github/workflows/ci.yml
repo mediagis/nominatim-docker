@@ -18,10 +18,17 @@ jobs:
 
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
 
       - name: Build docker image
-        run: docker build . -t nominatim
+        run: docker build -t nominatim .
         working-directory: ${{ matrix.nominatim.version }}
 
       - name: Check import and update
@@ -97,13 +104,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
-        run: |
-          # we tag the image with the version number of nominatim but also
-          # a second tag which adds the git commit ID so that you can refer
-          # to a stable image
-          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}
-          docker tag nominatim mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }}
-          docker image push --all-tags mediagis/nominatim
-
+      - name: Build and push production docker image to Dockerhub
+        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }} 
+        run: |-
+          docker buildx build --platform linux/amd64,linux/arm64 --push \
+             -t mediagis/nominatim:${{ matrix.nominatim.version }} \
+             -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
+        working-directory: ${{ matrix.nominatim.version }}
