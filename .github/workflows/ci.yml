@@ -84,15 +84,6 @@ jobs:
             nominatim &
           sleep 35
           ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
-          docker stop nominatim && docker rm nominatim
-          docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
-            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-postgres:/var/lib/postgresql/12/main \
-            -p 8083:8080 \
-            nominatim &
-          sleep 35
-          ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
 
       - name: Check import full style
         working-directory: .github/workflows
