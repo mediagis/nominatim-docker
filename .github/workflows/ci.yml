@@ -82,7 +82,7 @@ jobs:
             -v nominatim-postgres:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             nominatim &
-          sleep 35
+          sleep 5
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
 
       - name: Check import full style
