@@ -73,7 +73,7 @@ jobs:
           sleep 35
           ./assert-non-empty-json "http://localhost:8082/search.php?q=avenue%20pasteur"
 
-       - name: Check container restart
+      - name: Check container restart
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
