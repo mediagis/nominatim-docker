@@ -66,7 +66,7 @@ The following run parameters are available for configuration:
 
 ## Persistent container data
 
-If you want to keep your imported data across deletion and recreation of your container can make the following folder a volume:
+If you want to keep your imported data across deletion and recreation of your container, make the following folder a volume:
 
 - `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was succesful
 
