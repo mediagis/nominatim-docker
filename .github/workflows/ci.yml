@@ -54,8 +54,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-config:/app/data \
-            -v nominatim-postgres:/var/lib/postgresql/12/main \
+            -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8002:8080 \
             nominatim &
           sleep 35
@@ -81,7 +80,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-postgres:/var/lib/postgresql/12/main \
+            -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             nominatim &
           sleep 5
@@ -110,6 +109,14 @@ jobs:
             nominatim &
           sleep 35
           ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
+
+      - name: Check docker compose
+        working-directory: ${{ matrix.nominatim.version }}
+        run: |-
+          docker compose up -d
+          sleep 5
+          ./assert-empty-json "http://localhost:8080/search.php?q=Paris"
+          docker compose down
 
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
