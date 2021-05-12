@@ -46,6 +46,7 @@ cd ${PROJECT_DIR}
 sudo -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 sudo -u nominatim nominatim admin --check-database
 sudo -u nominatim nominatim replication --init
+sudo -u nominatim nominatim refresh --functions
 
 sudo service postgresql stop
 
