@@ -2,6 +2,8 @@
 
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mediagis/nominatim-docker/CI?style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square)
+
 # How to use
 Clone repository
 
