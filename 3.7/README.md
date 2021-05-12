@@ -15,15 +15,15 @@ docker run -it --rm \
 
 Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
 
-If you want to check that your data import was sucessful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
+If you want to check that your data import was successful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
 
 ## Configuration
 
 The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
-  - `REPLICATION_URL`: Where to get updates from. Also availble from Geofabrik.
-  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve scoring of results. On a beefy 10 core server this takes around 5 minutes. (default: `false`)
+  - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
+  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
   - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
   - `THREADS`: How many threads should be used to import (default: `16`)
@@ -50,11 +50,11 @@ The import style can be modified through an environment variable :
 
 Available options are :
 
-  - `admin` : Only import administrative boundaries and places.
-  - `street` : Like the admin style but also adds streets.
-  - `address` : Import all data necessary to compute addresses down to house number level.
-  - `full` : Default style that also includes points of interest.
-  - `extratags` : Like the full style but also adds most of the OSM tags into the extratags column.
+  - `admin`: Only import administrative boundaries and places.
+  - `street`: Like the admin style but also adds streets.
+  - `address`: Import all data necessary to compute addresses down to house number level.
+  - `full`: Default style that also includes points of interest.
+  - `extratags`: Like the full style but also adds most of the OSM tags into the extratags column.
 
 See https://nominatim.org/release-docs/3.7.1/admin/Import/#filtering-imported-data for more details on those styles.
 
@@ -68,7 +68,7 @@ The following run parameters are available for configuration:
 
 If you want to keep your imported data across deletion and recreation of your container, make the following folder a volume:
 
-- `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was succesful
+- `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was successful
 
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
@@ -116,7 +116,7 @@ docker run -it --rm \
 
 ## Docker Compose
 
-In addition we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts etc. as needed. 
+In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed. 
 
 You can start the image with a single command:
 
