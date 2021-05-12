@@ -72,6 +72,7 @@ jobs:
             nominatim &
           sleep 35
           ./assert-non-empty-json "http://localhost:8003/search.php?q=avenue%20pasteur"
+          docker stop nominatim
 
       - name: Check container restart
         working-directory: .github/workflows
@@ -117,7 +118,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push production docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }} 
+        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |-
           docker buildx build --platform linux/amd64,linux/arm64 --push \
              -t mediagis/nominatim:${{ matrix.nominatim.version }} \
