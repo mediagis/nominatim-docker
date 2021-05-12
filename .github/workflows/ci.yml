@@ -69,6 +69,7 @@ jobs:
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -v /tmp/nominatim-postgres:/var/lib/postgresql/12/main \
             -p 8003:8080 \
+            --name nominatim \
             nominatim &
           sleep 35
           ./assert-non-empty-json "http://localhost:8003/search.php?q=avenue%20pasteur"
