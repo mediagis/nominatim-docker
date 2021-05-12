@@ -13,7 +13,7 @@ docker run -it --rm \
   mediagis/nominatim:3.7
 ```
 
-The port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
+Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
 
 If you want to check that your data import was sucessful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
 
@@ -66,7 +66,7 @@ The following run parameters are available for configuration:
 
 ## Persistent container data
 
-There is one folder the can be persisted across container creation and removal.
+If you want to keep your imported data across deletion and recreation of your container, make the following folder a volume:
 
 - `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was succesful
 

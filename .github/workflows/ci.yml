@@ -40,11 +40,11 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -p 8080:8080 \
+            -p 8001:8080 \
             --name nominatim \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8080/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
           ${{ matrix.nominatim.update_command }}
           docker stop nominatim
 
@@ -56,10 +56,10 @@ jobs:
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -v nominatim-config:/app/data \
             -v nominatim-postgres:/var/lib/postgresql/12/main \
-            -p 8081:8080 \
+            -p 8002:8080 \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8081/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8002/search.php?q=avenue%20pasteur"
 
       - name: Check import with bind-mount
         working-directory: .github/workflows
@@ -68,10 +68,24 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -v /tmp/nominatim-postgres:/var/lib/postgresql/12/main \
-            -p 8082:8080 \
+            -p 8003:8080 \
+            --name nominatim \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8082/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8003/search.php?q=avenue%20pasteur"
+          docker stop nominatim
+
+      - name: Check container restart
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -v nominatim-postgres:/var/lib/postgresql/12/main \
+            -p 8004:8080 \
+            nominatim &
+          sleep 5
+          ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
 
       - name: Check import full style
         working-directory: .github/workflows
@@ -80,10 +94,10 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=full \
-            -p 8083:8080 \
+            -p 8005:8080 \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8083/search.php?q=Paris"
+          ./assert-non-empty-json "http://localhost:8005/search.php?q=Paris"
 
       - name: Check import admin style
         working-directory: .github/workflows
@@ -92,10 +106,10 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=admin \
-            -p 8085:8080 \
+            -p 8006:8080 \
             nominatim &
           sleep 35
-          ./assert-empty-json "http://localhost:8085/search.php?q=Paris"
+          ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
 
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
@@ -105,7 +119,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push production docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }} 
+        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |-
           docker buildx build --platform linux/amd64,linux/arm64 --push \
              -t mediagis/nominatim:${{ matrix.nominatim.version }} \
