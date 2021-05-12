@@ -4,7 +4,7 @@
 
 Download the required data, initialize the database and start nominatim in one go
 
-```shell
+```
 docker run -it --rm \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
@@ -72,7 +72,7 @@ If you want to keep your imported data across deletion and recreation of your co
 
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
-```shell
+```
 docker run -it --rm --shm-size=1g \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
@@ -104,7 +104,7 @@ If there are no updates available this process will sleep for 15 minutes and try
 If you want to work on the Docker image you can use the following command to build a local
 image and run the container with
 
-```shell
+```
 docker build -t nominatim . && \
 docker run -it --rm \
     -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
@@ -117,9 +117,3 @@ docker run -it --rm \
 ## Docker Compose
 
 In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed. 
-
-You can start the image with a single command:
-
-```shell
-docker-compose up
-```
