@@ -54,8 +54,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-config:/app/data \
-            -v nominatim-postgres:/var/lib/postgresql/12/main \
+            -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8002:8080 \
             nominatim &
           sleep 35
@@ -67,7 +66,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v /tmp/nominatim-postgres:/var/lib/postgresql/12/main \
+            -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
             -p 8003:8080 \
             --name nominatim \
             nominatim &
@@ -81,7 +80,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-postgres:/var/lib/postgresql/12/main \
+            -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             nominatim &
           sleep 5
