@@ -19,6 +19,8 @@ IMPORT_FINISHED=/var/lib/postgresql/12/main/import-finished
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
   touch ${IMPORT_FINISHED}
+else
+  chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
 
 cd ${PROJECT_DIR} && nominatim refresh --website
