@@ -46,6 +46,7 @@ jobs:
           sleep 35
           ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
           ${{ matrix.nominatim.update_command }}
+          ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
           docker stop nominatim
 
       - name: Check import with mount
@@ -74,7 +75,7 @@ jobs:
           ./assert-non-empty-json "http://localhost:8003/search.php?q=avenue%20pasteur"
           docker stop nominatim
 
-      - name: Check container restart
+      - name: Check container restart and update with bind-mount
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
@@ -82,8 +83,11 @@ jobs:
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
+            --name nominatim \
             nominatim &
           sleep 5
+          ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
+          ${{ matrix.nominatim.update_command }}
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
 
       - name: Check import full style
