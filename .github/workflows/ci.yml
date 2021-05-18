@@ -121,12 +121,11 @@ jobs:
         if: ${{ matrix.nominatim.version >= 3.7 }}
         working-directory: .github/workflows
         run: |-
-          docker volume rm nominatim-data
           first_of_previous_month=`date --date="1 months ago" +%y%m01`
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v nominatim-data-flatnode:/var/lib/postgresql/12/main \
             -v nominatim-flatnode:/nominatim/flatnode \
             -p 8007:8080 \
             --name nominatim \
@@ -144,7 +143,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v nominatim-data-flatnode:/var/lib/postgresql/12/main \
             -v nominatim-flatnode:/nominatim/flatnode \
             -p 8007:8080 \
             --name nominatim \
