@@ -117,6 +117,43 @@ jobs:
           sleep 35
           ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
 
+      - name: Check import and update with flatnode
+        if: ${{ matrix.nominatim.version >= 3.7 }}
+        workding-directory: .github/workflows
+        run: |-
+          docker volume rm nominatim-data
+          first_of_previous_month=`date --date="1 months ago" +%y%m01`
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v nominatim-flatnode:/nominatim/flatnode \
+            -p 8007:8080 \
+            --name nominatim \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
+          ${{ matrix.nominatim.update_command }}
+          docker stop nominatim
+
+      - name: Check restart and update with flatnode
+        if: ${{ matrix.nominatim.version >= 3.7 }}
+        workding-directory: .github/workflows
+        run: |-
+          first_of_previous_month=`date --date="1 months ago" +%y%m01`
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v nominatim-flatnode:/nominatim/flatnode \
+            -p 8007:8080 \
+            --name nominatim \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
+          ${{ matrix.nominatim.update_command }}
+          ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
