@@ -119,7 +119,7 @@ jobs:
 
       - name: Check import and update with flatnode
         if: ${{ matrix.nominatim.version >= 3.7 }}
-        workding-directory: .github/workflows
+        working-directory: .github/workflows
         run: |-
           docker volume rm nominatim-data
           first_of_previous_month=`date --date="1 months ago" +%y%m01`
@@ -138,7 +138,7 @@ jobs:
 
       - name: Check restart and update with flatnode
         if: ${{ matrix.nominatim.version >= 3.7 }}
-        workding-directory: .github/workflows
+        working-directory: .github/workflows
         run: |-
           first_of_previous_month=`date --date="1 months ago" +%y%m01`
           docker run -i --rm \
