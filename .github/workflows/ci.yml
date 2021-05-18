@@ -92,6 +92,7 @@ jobs:
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           ${{ matrix.nominatim.update_command }}
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
+          docker stop nominatim
 
       - name: Check import full style
         working-directory: .github/workflows
@@ -148,7 +149,7 @@ jobs:
             -p 8007:8080 \
             --name nominatim \
             nominatim &
-          sleep 35
+          sleep 5
           ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
           ${{ matrix.nominatim.update_command }}
           ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
