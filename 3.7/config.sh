@@ -15,6 +15,20 @@ else
     sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}
 fi
 
+# Use the specified replication update and recheck interval values if either or both are numbers, or use the default values
+
+reg_num='^[0-9]+$'
+update_interval=86400
+recheck_interval=900
+if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num ]]; then
+    update_interval=$REPLICATION_UPDATE_INTERVAL
+fi
+if [[ $REPLICATION_RECHECK_INTERVAL =~ $reg_num ]]; then
+    recheck_interval=$REPLICATION_RECHECK_INTERVAL
+fi
+sed -i "s|__REPLICATION_UPDATE_INTERVAL__|$update_interval|g" ${CONFIG_FILE}
+sed -i "s|__REPLICATION_RECHECK_INTERVAL__|$recheck_interval|g" ${CONFIG_FILE}
+
 # PostgreSQL Tuning
 
 if [ ! -z "$POSTGRES_SHARED_BUFFERS" ]; then sed -i "s/shared_buffers = 2GB/shared_buffers = $POSTGRES_SHARED_BUFFERS/g" /etc/postgresql/12/main/conf.d/postgres-tuning.conf; fi
