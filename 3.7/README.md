@@ -25,8 +25,8 @@ The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
   - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
-  - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in second, default: `86400`)
-  - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in second, default: `900`)
+  - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`)
+  - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`)
   - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
   - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
