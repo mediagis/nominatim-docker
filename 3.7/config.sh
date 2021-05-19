@@ -35,3 +35,7 @@ if [ ! -z "$IMPORT_STYLE" ]; then
 else
   sed -i "s|__IMPORT_STYLE__|full|g" ${CONFIG_FILE}
 fi
+
+# if flatnode directory was created by volume / mount, use flatnode files
+
+if [ -d "${PROJECT_DIR}/flatnode" ]; then sed -i 's\NOMINATIM_FLATNODE_FILE=\NOMINATIM_FLATNODE_FILE="/nominatim/flatnode/flatnode.file"\g' ${CONFIG_FILE}; fi

@@ -19,6 +19,8 @@ If you want to check that your data import was successful, you can use the API w
 
 ## Configuration
 
+### General Parameters
+
 The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
@@ -28,6 +30,12 @@ The following environment variables are available for configuration:
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
   - `THREADS`: How many threads should be used to import (default: `16`)
   - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
+
+The following run parameters are available for configuration:
+
+  - `shm-size`: Size of the tmpfs in Docker, for bigger imports (e.g. Europe) this needs to be set to at least 1GB or more. Half the size of your available RAM is recommended. (default: `64M`)
+
+### PostgreSQL Tuning
 
 The following environment variables are available to tune PostgreSQL:
 
@@ -43,6 +51,7 @@ The following environment variables are available to tune PostgreSQL:
 
 See https://nominatim.org/release-docs/3.7.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
+### Import Style
 
 The import style can be modified through an environment variable :
 
@@ -58,17 +67,16 @@ Available options are :
 
 See https://nominatim.org/release-docs/3.7.1/admin/Import/#filtering-imported-data for more details on those styles.
 
+### Flatnode files
 
-The following run parameters are available for configuration:
-
-  - `shm-size`: Size of the tmpfs in Docker, for bigger imports (e.g. Europe) this needs to be set to at least 1GB or more. Half the size of your available RAM is recommended. (default: `64M`)
-
+In addition you can also mount a volume / bind-mount on `nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.1/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
 
 ## Persistent container data
 
 If you want to keep your imported data across deletion and recreation of your container, make the following folder a volume:
 
 - `/var/lib/postgresql/12/main` is the storage location of the Postgres database & holds the state about whether the import was successful
+- `/nominatim/flatnode` is the storage location of the flatnode file.
 
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
