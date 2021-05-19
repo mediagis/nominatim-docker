@@ -288,6 +288,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "mogita",
+      "name": "Yun Wang",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1173069?v=4",
+      "profile": "https://github.com/mogita",
+      "contributions": [
+        "doc",
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7,
