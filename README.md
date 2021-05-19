@@ -83,6 +83,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="https://github.com/timnon"><img src="https://avatars.githubusercontent.com/u/5597397?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Tim Nonner</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=timnon" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/thlor"><img src="https://avatars.githubusercontent.com/u/6570020?v=4?s=100" width="100px;" alt=""/><br /><sub><b>thlor</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=thlor" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=thlor" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://github.com/mogita"><img src="https://avatars.githubusercontent.com/u/1173069?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yun Wang</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=mogita" title="Documentation">📖</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=mogita" title="Code">💻</a></td>
   </tr>
 </table>
 
