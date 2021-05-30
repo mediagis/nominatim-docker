@@ -51,7 +51,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
   - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
 
-See https://nominatim.org/release-docs/3.7.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+See https://nominatim.org/release-docs/3.7.2/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 ### Import Style
 
@@ -67,11 +67,11 @@ Available options are :
   - `full`: Default style that also includes points of interest.
   - `extratags`: Like the full style but also adds most of the OSM tags into the extratags column.
 
-See https://nominatim.org/release-docs/3.7.1/admin/Import/#filtering-imported-data for more details on those styles.
+See https://nominatim.org/release-docs/3.7.2/admin/Import/#filtering-imported-data for more details on those styles.
 
 ### Flatnode files
 
-In addition you can also mount a volume / bind-mount on `nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.1/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+In addition you can also mount a volume / bind-mount on `nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.2/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
 
 ## Persistent container data
 
@@ -96,7 +96,7 @@ docker run -it --rm --shm-size=1g \
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.1/admin/Update/). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.2/admin/Update/). For a list of other methods see the output of:
 ```
 docker exec -it nominatim sudo -u nominatim nominatim replication --help
 ```

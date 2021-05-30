@@ -15,7 +15,7 @@ See relevant installation instructions for each version in the <version>/README.
 
 # Supported tags and respective `Dockerfile` links #
 
-- [`3.7.1`, `3.7`  (*3.7/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.7)
+- [`3.7.2`, `3.7`  (*3.7/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.7)
 - [`3.6.0`, `3.6`  (*3.6/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.6)
 
 # Deprecated tags and respective `Dockerfile` links #
