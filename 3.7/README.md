@@ -71,7 +71,7 @@ See https://nominatim.org/release-docs/3.7.2/admin/Import/#filtering-imported-da
 
 ### Flatnode files
 
-In addition you can also mount a volume / bind-mount on `nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.2/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.2/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
 
 ## Persistent container data
 
