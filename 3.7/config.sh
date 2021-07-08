@@ -1,9 +1,10 @@
 CONFIG_FILE=${PROJECT_DIR}/.env
 
 
-if [ "$PBF_URL" = "" ]; then
-    echo "You need to specify the environment variable PBF_URL"
+if [ "$PBF_URL" = "" ] && [ "$PBF_PATH" = "" ]; then
+    echo "You need to specify either the environment variable PBF_URL or PBF_PATH)"
     echo "docker run -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf ..."
+    echo "docker run -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf ..."
     exit 1
 fi
 

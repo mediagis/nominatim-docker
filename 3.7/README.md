@@ -24,6 +24,7 @@ If you want to check that your data import was successful, you can use the API w
 The following environment variables are available for configuration:
 
   - `PBF_URL`: Which OSM extract to download. Check https://download.geofabrik.de
+  - `PBF_PATH`: the path of an existing OSM extract inside the container (.osm.pbf)
   - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
   - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`)
   - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`)
@@ -92,6 +93,26 @@ docker run -it --rm --shm-size=1g \
   -p 8080:8080 \
   --name nominatim \
   mediagis/nominatim:3.7
+```
+
+## OpenStreetMap Data Extracts
+
+OSM data extracts (.pbf) can be imported with either PBF_URL or PBF_PATH variable.
+PBF_URL variable specifies the URL, the data is downloaded during initialization and removed from disk afterwards.
+PBF_PATH variable specifies the path inside the container to the mounted OSM extracts data. No .pbf file is removed after initialization and can used again.
+
+The replication update can be peformed only via HTTP.
+
+A sample of the docker configuration with PBF_PATH variable (point at the docker image that supports PBF_PATH) is:
+
+``` sh
+docker run -it --rm \
+  -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
+  -p 8080:8080 \
+  -v C:\osm-maps\data:/nominatim/data \
+  --name nominatim \
+  mediagis/nominatim:3.7-pbf_path
 ```
 
 ## Updating the database
