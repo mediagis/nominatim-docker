@@ -103,7 +103,7 @@ PBF_PATH variable specifies the path inside the container to the mounted OSM ext
 
 The replication update can be peformed only via HTTP.
 
-A sample of the docker configuration with PBF_PATH variable (point at the docker image that supports PBF_PATH) is:
+A sample of the docker configuration with PBF_PATH variable is:
 
 ``` sh
 docker run -it --rm \
@@ -112,7 +112,7 @@ docker run -it --rm \
   -p 8080:8080 \
   -v C:\osm-maps\data:/nominatim/data \
   --name nominatim \
-  mediagis/nominatim:3.7-pbf_path
+  mediagis/nominatim:3.7
 ```
 
 ## Updating the database
