@@ -31,7 +31,7 @@ jobs:
         run: docker build -t nominatim .
         working-directory: ${{ matrix.nominatim.version }}
 
-      - name: Check import and update
+      - name: Check import with PBF_URL and update
         working-directory: .github/workflows
         run: |-
           # get the first day of the previous month to make sure that there really are updates to apply
@@ -117,6 +117,24 @@ jobs:
             nominatim &
           sleep 35
           ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
+
+      - name: Check import with PBF_PATH
+        if: ${{ '3.7' == matrix.nominatim.version }}
+        working-directory: .github/workflows
+        run: |-
+          wget --cut-dirs=1 -nH -xP /tmp/data http://download.geofabrik.de/europe/monaco-latest.osm.pbf
+          docker run -i --rm \
+            -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
+            -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -v nominatim7-data:/var/lib/postgresql/12/main \
+            -v /tmp/data:/nominatim/data \
+            -p 8007:8080 \
+            --name nominatim \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
+          docker stop nominatim
+          docker volume rm nominatim7-data
 
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
