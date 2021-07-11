@@ -333,7 +333,7 @@
       ]
     }
   ],
-  "contributorsPerLine": 7,
+  "contributorsPerLine": 6,
   "projectName": "nominatim-docker",
   "projectOwner": "mediagis",
   "repoType": "github",
