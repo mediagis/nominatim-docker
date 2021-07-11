@@ -22,8 +22,16 @@ else
 fi;
 
 
-echo Downloading OSM extract from "$PBF_URL"
-curl -L "$PBF_URL" --create-dirs -o $OSMFILE
+if [ "$PBF_URL" != "" ]; then
+	echo Downloading OSM extract from "$PBF_URL"
+	curl -L "$PBF_URL" --create-dirs -o $OSMFILE
+fi
+
+if [ "$PBF_PATH" != "" ]; then
+	echo Reading OSM extract from "$PBF_PATH"
+	OSMFILE=$PBF_PATH
+fi
+
 
 # if we use a bind mount then the PG directory is empty and we have to create it
 if [ ! -f /var/lib/postgresql/12/main/PG_VERSION ]; then
@@ -53,4 +61,8 @@ sudo service postgresql stop
 rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
-rm -f ${PROJECT_DIR}/*sql.gz ${OSMFILE}
+rm -f ${PROJECT_DIR}/*sql.gz
+
+if [ "$PBF_URL" != "" ]; then
+	rm -f ${OSMFILE}
+fi
