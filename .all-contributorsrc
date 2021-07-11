@@ -42,7 +42,8 @@
         "infra",
         "code",
         "test",
-        "review"
+        "review",
+        "doc"
       ]
     },
     {
@@ -174,7 +175,8 @@
         "infra",
         "code",
         "test",
-        "review"
+        "review",
+        "doc"
       ]
     },
     {
@@ -317,6 +319,17 @@
       "contributions": [
         "doc",
         "code"
+      ]
+    },
+    {
+      "login": "Bartizan",
+      "name": "Bartizan",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6322553?v=4",
+      "profile": "https://github.com/Bartizan",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
       ]
     }
   ],
