@@ -76,7 +76,7 @@ RUN true \
     && mkdir build \
     && cd build \
     && cmake ../Nominatim-$NOMINATIM_VERSION \
-    && make \
+    && make -j`nproc` \
     && make install
 
 RUN true \
