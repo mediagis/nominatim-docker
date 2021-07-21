@@ -331,6 +331,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "galewis2",
+      "name": "galewis2",
+      "avatar_url": "https://avatars.githubusercontent.com/u/62433564?v=4",
+      "profile": "https://github.com/galewis2",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
