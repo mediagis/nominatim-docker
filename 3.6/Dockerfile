@@ -109,7 +109,6 @@ RUN true \
         /app/src/.git \
         /var/lib/apt/lists/*
 
-<<<<<<< HEAD
 # Apache configuration
 COPY conf.d/local.php /app/src/build/settings/local.php
 COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
@@ -119,8 +118,6 @@ COPY conf.d/postgres-import.conf /etc/postgresql/12/main/conf.d/
 COPY conf.d/postgres-tuning.conf /etc/postgresql/12/main/conf.d/
 
 COPY config.sh /app/config.sh
-=======
->>>>>>> 70c426a (Reset modified files)
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
