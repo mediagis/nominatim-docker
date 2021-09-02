@@ -23,8 +23,8 @@ If you want to check that your data import was successful, you can use the API w
 
 The following environment variables are available for configuration:
 
-  - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with PBF_PATH. Check [https://download.geofabrik.de](https://download.geofabrik.de)
-  - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with PBF_URL.    
+  - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`. Check [https://download.geofabrik.de](https://download.geofabrik.de)
+  - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
   - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
   - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`)
   - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`)
@@ -97,16 +97,16 @@ docker run -it --rm --shm-size=1g \
 
 ## OpenStreetMap Data Extracts
 
-Nominatim imports OpenStreetMap (OSM) data extracts. The source of the data can be specified with one of environment variables:
+Nominatim imports OpenStreetMap (OSM) data extracts. The source of the data can be specified with one of the following environment variables:
 
-- PBF_URL variable specifies the URL. The data is downloaded during initialization, imported and removed from disk afterwards. The data extracts can be freely downloaded, e.g., from [Geofabrik's server](https://download.geofabrik.de).
-- PBF_PATH variable specifies the path to the mounted OSM extracts data inside the container. No .pbf file is removed after initialization.
+- `PBF_URL` variable specifies the URL. The data is downloaded during initialization, imported and removed from disk afterwards. The data extracts can be freely downloaded, e.g., from [Geofabrik's server](https://download.geofabrik.de).
+- `PBF_PATH` variable specifies the path to the mounted OSM extracts data inside the container. No .pbf file is removed after initialization.
 
-It is not possible to define both PBF_URL and PBF_PATH sources.
+It is not possible to define both `PBF_URL` and `PBF_PATH` sources.
 
 The replication update can be performed only via HTTP.
 
-A sample of PBF_PATH variable usage is:
+A sample of `PBF_PATH` variable usage is:
 
 ``` sh
 docker run -it --rm \
