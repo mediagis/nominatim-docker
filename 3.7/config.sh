@@ -8,21 +8,17 @@ if [[ "$PBF_URL" = "" && "$PBF_PATH" = "" ]]  ||  [[ "$PBF_URL" != "" && "$PBF_P
     exit 1
 fi
 
-if [ "$REPLICATION_URL" = "" ]; then
-    echo "You need to specify the environment variable REPLICATION_URL"
-    echo "docker run -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ ..."
-    exit 1
-else
-    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}
+if [ "$REPLICATION_URL" != "" ]; then
+    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}    
 fi
 
 # Use the specified replication update and recheck interval values if either or both are numbers, or use the default values
 
 reg_num='^[0-9]+$'
-if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num ]]; then
+if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num && "$REPLICATION_URL" != "" ]]; then
     sed -i "s/NOMINATIM_REPLICATION_UPDATE_INTERVAL=86400/NOMINATIM_REPLICATION_UPDATE_INTERVAL=$REPLICATION_UPDATE_INTERVAL/g" ${CONFIG_FILE}
 fi
-if [[ $REPLICATION_RECHECK_INTERVAL =~ $reg_num ]]; then
+if [[ $REPLICATION_RECHECK_INTERVAL =~ $reg_num && "$REPLICATION_URL" != "" ]]; then
     sed -i "s/NOMINATIM_REPLICATION_RECHECK_INTERVAL=900/NOMINATIM_REPLICATION_RECHECK_INTERVAL=$REPLICATION_RECHECK_INTERVAL/g" ${CONFIG_FILE}
 fi
 
