@@ -109,7 +109,6 @@ RUN true \
 
 # Apache configuration
 COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
-RUN a2enconf nominatim
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/12/main/conf.d/
@@ -132,7 +131,6 @@ ENV NOMINATIM_PASSWORD qaIACxO6wMR3
 ENV THREADS=16
 
 ENV PROJECT_DIR /nominatim
-RUN mkdir ${PROJECT_DIR}
 
 WORKDIR /app
 
