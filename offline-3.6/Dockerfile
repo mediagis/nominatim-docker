@@ -79,10 +79,6 @@ RUN true \
     && chmod o=rwx .
 
 
-ADD https://www.nominatim.org/data/country_grid.sql.gz /app/src/data/country_osm_grid.sql.gz
-ADD http://download.geofabrik.de/south-america/brazil-latest.osm.pbf /app/src/data/data.osm.pbf
-ADD https://www.nominatim.org/data/wikimedia-importance.sql.gz app/src/data/wikimedia-importance.sql.gz
-
 RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge \
@@ -122,6 +118,9 @@ COPY setup.sh /app/setup.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
 
+ADD https://www.nominatim.org/data/country_grid.sql.gz /app/src/data/country_osm_grid.sql.gz
+ADD https://www.nominatim.org/data/wikimedia-importance.sql.gz app/src/data/wikimedia-importance.sql.gz
+
 # Collapse image to single layer.
 FROM scratch
 
@@ -132,9 +131,11 @@ WORKDIR /app
 EXPOSE 5432
 EXPOSE 8080
 
-# Please override this
+# Custom settings
+
+ADD http://download.geofabrik.de/south-america/brazil-latest.osm.pbf /app/src/data/data.osm.pbf
+
 ENV NOMINATIM_PASSWORD 123
-# how many threads should be use for importing
 ENV THREADS=8
 
 RUN /app/setup.sh
