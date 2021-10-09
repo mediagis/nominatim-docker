@@ -133,9 +133,9 @@ EXPOSE 8080
 
 # Custom settings
 
-ADD http://download.geofabrik.de/south-america/brazil-latest.osm.pbf /app/src/data/data.osm.pbf
+ADD http://download.geofabrik.de/<region> /app/src/data/data.osm.pbf
 
-ENV NOMINATIM_PASSWORD 123
+ENV NOMINATIM_PASSWORD <password>
 ENV THREADS=8
 
 RUN /app/setup.sh
