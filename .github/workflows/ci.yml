@@ -34,11 +34,10 @@ jobs:
       - name: Check import with PBF_URL and update
         working-directory: .github/workflows
         run: |-
-          # get the first day of the previous month to make sure that there really are updates to apply
-          # (Geofabrik stores a snapshot from the first of the month for up to 3 months)
-          first_of_previous_month=`date --date="1 months ago" +%y%m01`
+          # get the data from four days ago to make sure there really are updates to apply
+          four_days_ago=`date --date="4 days ago" +%y%m%d`
           docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -p 8001:8080 \
             --name nominatim \
@@ -78,11 +77,10 @@ jobs:
       - name: Check container restart and update with bind-mount
         working-directory: .github/workflows
         run: |-
-          # get the first day of the previous month to make sure that there really are updates to apply
-          # (Geofabrik stores a snapshot from the first of the month for up to 3 months)
-          first_of_previous_month=`date --date="1 months ago" +%y%m01`
+          # get the data from four days ago to make sure there really are updates to apply
+          four_days_ago=`date --date="4 days ago" +%y%m%d`
           docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${first_of_previous_month}.osm.pbf \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
