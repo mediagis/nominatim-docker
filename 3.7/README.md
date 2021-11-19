@@ -26,8 +26,8 @@ The following environment variables are available for configuration:
   - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`. Check [https://download.geofabrik.de](https://download.geofabrik.de)
   - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
   - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
-  - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`)
-  - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`)
+  - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
+  - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
   - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
   - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
   - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
@@ -134,6 +134,20 @@ docker exec -it nominatim sudo -u nominatim nominatim replication --project-dir 
 ```
 
 If there are no updates available this process will sleep for 15 minutes and try again.
+
+## Custom PBF Files
+
+If you want your Nominatim container to host multiple areas from Geofabrik, you can use a tool, such as [Osmium](https://osmcode.org/osmium-tool/manual.html), to merge multiple PBF files into one.
+
+``` sh
+docker run -it --rm \
+  -e PBF_PATH=/nominatim/data/merged.osm.pbf \
+  -p 8080:8080 \
+  -v /osm-maps/data:/nominatim/data \
+  --name nominatim \
+  mediagis/nominatim:3.7
+```
+where the _/osm-maps/data/_ directory contains _merged.osm.pbf_ file that is mounted and available in container: _/nominatim/data/merged.osm.pbf_
 
 ## Development
 

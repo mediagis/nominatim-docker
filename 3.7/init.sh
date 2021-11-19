@@ -53,7 +53,10 @@ chown -R nominatim:nominatim ${PROJECT_DIR}
 cd ${PROJECT_DIR}
 sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 sudo -u nominatim nominatim admin --check-database
-sudo -E -u nominatim nominatim replication --init
+
+if [ "$REPLICATION_URL" != "" ]; then
+	sudo -E -u nominatim nominatim replication --init
+fi
 
 sudo service postgresql stop
 

@@ -148,3 +148,13 @@ jobs:
              -t mediagis/nominatim:${{ matrix.nominatim.version }} \
              -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
         working-directory: ${{ matrix.nominatim.version }}
+
+      - name: Check when REPLICATION_URL is blank
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -p 8008:8080 \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
