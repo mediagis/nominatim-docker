@@ -307,7 +307,8 @@
       "avatar_url": "https://avatars.githubusercontent.com/u/4499284?v=4",
       "profile": "https://github.com/Stefanic",
       "contributions": [
-        "code"
+        "code",
+        "doc"
       ]
     },
     {
@@ -338,6 +339,17 @@
       "profile": "https://github.com/galewis2",
       "contributions": [
         "code"
+      ]
+    },
+    {
+      "login": "TurtIeSocks",
+      "name": "Derick M.",
+      "avatar_url": "https://avatars.githubusercontent.com/u/58572875?v=4",
+      "profile": "https://github.com/TurtIeSocks",
+      "contributions": [
+        "code",
+        "doc",
+        "test"
       ]
     }
   ],
