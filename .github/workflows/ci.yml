@@ -134,6 +134,17 @@ jobs:
           docker stop nominatim
           docker volume rm nominatim7-data
 
+      - name: Check when REPLICATION_URL is blank
+        if: ${{ '3.7' == matrix.nominatim.version }}
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -p 8008:8080 \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
