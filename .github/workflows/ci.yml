@@ -11,9 +11,9 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: 4.0
+          - version: "4.0"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
-          - version: 3.7
+          - version: "3.7"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
 
     runs-on: ubuntu-latest
