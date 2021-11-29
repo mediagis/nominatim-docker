@@ -79,7 +79,7 @@ RUN true \
     && make -j`nproc` \
     && chmod o=rwx .
 
-RUN curl https://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
+RUN curl -L --fail https://nominatim.org/data/country_grid.sql.gz -o /app/src/data/country_osm_grid.sql.gz
 
 RUN true \
     # Remove development and unused packages.
