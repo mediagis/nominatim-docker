@@ -24,7 +24,7 @@ fi;
 
 if [ "$PBF_URL" != "" ]; then
 	echo Downloading OSM extract from "$PBF_URL"
-	curl -L "$PBF_URL" -L --create-dirs -o $OSMFILE
+	curl -L "$PBF_URL" --create-dirs -o $OSMFILE
 fi
 
 if [ "$PBF_PATH" != "" ]; then
