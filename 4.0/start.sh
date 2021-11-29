@@ -23,9 +23,10 @@ else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
 
+service postgresql start
+
 cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website
 
-service postgresql start
 service apache2 start
 
 # fork a process and wait for it
