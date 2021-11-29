@@ -4,19 +4,19 @@ OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  curl https://www.nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
+  curl https://nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
 else
   echo "Skipping optional Wikipedia importance import"
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl https://www.nominatim.org/data/gb_postcode_data.sql.gz -L -o ${PROJECT_DIR}/gb_postcode_data.sql.gz
+  curl https://nominatim.org/data/gb_postcode_data.sql.gz -L -o ${PROJECT_DIR}/gb_postcode_data.sql.gz
 else \
   echo "Skipping optional GB postcode import"
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  curl https://www.nominatim.org/data/us_postcode_data.sql.gz -L -o ${PROJECT_DIR}/us_postcode_data.sql.gz
+  curl https://nominatim.org/data/us_postcode_data.sql.gz -L -o ${PROJECT_DIR}/us_postcode_data.sql.gz
 else
   echo "Skipping optional US postcode import"
 fi;
