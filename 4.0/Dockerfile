@@ -68,7 +68,7 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION 3.7.2
+ENV NOMINATIM_VERSION 4.0.1
 
 RUN true \
     && curl https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \

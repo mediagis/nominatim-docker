@@ -1,4 +1,4 @@
-# Nominatim Docker (Nominatim version 3.7)
+# Nominatim Docker (Nominatim version 4.0)
 
 ## Automatic import
 
@@ -10,7 +10,7 @@ docker run -it --rm \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -p 8080:8080 \
   --name nominatim \
-  mediagis/nominatim:3.7
+  mediagis/nominatim:4.0
 ```
 
 Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
@@ -52,7 +52,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
   - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
 
-See https://nominatim.org/release-docs/3.7.2/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+See https://nominatim.org/release-docs/4.0.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 ### Import Style
 
@@ -68,11 +68,11 @@ Available options are :
   - `full`: Default style that also includes points of interest.
   - `extratags`: Like the full style but also adds most of the OSM tags into the extratags column.
 
-See https://nominatim.org/release-docs/3.7.2/admin/Import/#filtering-imported-data for more details on those styles.
+See https://nominatim.org/release-docs/4.0.1/admin/Import/#filtering-imported-data for more details on those styles.
 
 ### Flatnode files
 
-In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/3.7.2/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/4.0.1/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
 
 ## Persistent container data
 
@@ -92,7 +92,7 @@ docker run -it --rm --shm-size=1g \
   -v nominatim-data:/var/lib/postgresql/12/main \
   -p 8080:8080 \
   --name nominatim \
-  mediagis/nominatim:3.7
+  mediagis/nominatim:4.0
 ```
 
 ## OpenStreetMap Data Extracts
@@ -115,14 +115,14 @@ docker run -it --rm \
   -p 8080:8080 \
   -v /osm-maps/data:/nominatim/data \
   --name nominatim \
-  mediagis/nominatim:3.7
+  mediagis/nominatim:4.0
 ```
 
 where the _/osm-maps/data/_ directory contains _monaco-latest.osm.pbf_ file that is mounted and available in container: _/nominatim/data/monaco-latest.osm.pbf_
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/3.7.2/admin/Update/). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/4.0.1/admin/Update/). For a list of other methods see the output of:
 ```
 docker exec -it nominatim sudo -u nominatim nominatim replication --help
 ```
@@ -145,7 +145,7 @@ docker run -it --rm \
   -p 8080:8080 \
   -v /osm-maps/data:/nominatim/data \
   --name nominatim \
-  mediagis/nominatim:3.7
+  mediagis/nominatim:4.0
 ```
 where the _/osm-maps/data/_ directory contains _merged.osm.pbf_ file that is mounted and available in container: _/nominatim/data/merged.osm.pbf_
 
