@@ -82,7 +82,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             --name nominatim \
             nominatim &
