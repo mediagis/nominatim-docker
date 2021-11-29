@@ -23,7 +23,7 @@ else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
 
-cd ${PROJECT_DIR} && nominatim refresh --website
+cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website
 
 service postgresql start
 service apache2 start
