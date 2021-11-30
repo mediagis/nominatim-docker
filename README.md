@@ -92,6 +92,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/galewis2"><img src="https://avatars.githubusercontent.com/u/62433564?v=4?s=100" width="100px;" alt=""/><br /><sub><b>galewis2</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=galewis2" title="Code">💻</a></td>
     <td align="center"><a href="https://github.com/TurtIeSocks"><img src="https://avatars.githubusercontent.com/u/58572875?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Derick M.</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=TurtIeSocks" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=TurtIeSocks" title="Documentation">📖</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=TurtIeSocks" title="Tests">⚠️</a></td>
   </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/norcis"><img src="https://avatars.githubusercontent.com/u/1047487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>norcis</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=norcis" title="Code">💻</a></td>
+  </tr>
 </table>
 
 <!-- markdownlint-restore -->

@@ -351,6 +351,15 @@
         "doc",
         "test"
       ]
+    },
+    {
+      "login": "norcis",
+      "name": "norcis",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1047487?v=4",
+      "profile": "https://github.com/norcis",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
