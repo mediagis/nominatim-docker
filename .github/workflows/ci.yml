@@ -102,7 +102,7 @@ jobs:
             -p 8005:8080 \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8005/search.php?q=Paris"
+          ./assert-non-empty-json "http://localhost:8005/search.php?q=hotel%20de%20paris"
 
       - name: Check import admin style
         working-directory: .github/workflows
@@ -114,7 +114,7 @@ jobs:
             -p 8006:8080 \
             nominatim &
           sleep 35
-          ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
+          ./assert-empty-json "http://localhost:8006/search.php?q=hotel%20de%20paris"
 
       - name: Check import with PBF_PATH
         working-directory: .github/workflows
