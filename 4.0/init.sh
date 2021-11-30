@@ -23,13 +23,13 @@ fi;
 
 
 if [ "$PBF_URL" != "" ]; then
-	echo Downloading OSM extract from "$PBF_URL"
-	curl -L "$PBF_URL" --create-dirs -o $OSMFILE
+  echo Downloading OSM extract from "$PBF_URL"
+  curl -L "$PBF_URL" --create-dirs -o $OSMFILE
 fi
 
 if [ "$PBF_PATH" != "" ]; then
-	echo Reading OSM extract from "$PBF_PATH"
-	OSMFILE=$PBF_PATH
+  echo Reading OSM extract from "$PBF_PATH"
+  OSMFILE=$PBF_PATH
 fi
 
 
@@ -55,7 +55,7 @@ sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 sudo -u nominatim nominatim admin --check-database
 
 if [ "$REPLICATION_URL" != "" ]; then
-	sudo -E -u nominatim nominatim replication --init
+  sudo -E -u nominatim nominatim replication --init
 fi
 
 sudo service postgresql stop
@@ -66,6 +66,8 @@ rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
 
+cp -r ${PROJECT_DIR}/tokenizer /var/lib/postgresql/12/main
+
 if [ "$PBF_URL" != "" ]; then
-	rm -f ${OSMFILE}
+  rm -f ${OSMFILE}
 fi

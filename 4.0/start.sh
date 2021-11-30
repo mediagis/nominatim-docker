@@ -15,11 +15,18 @@ else
 fi
 
 IMPORT_FINISHED=/var/lib/postgresql/12/main/import-finished
+TOKENIZER_DIR=${PROJECT_DIR}/tokenizer
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
   touch ${IMPORT_FINISHED}
 else
+  chown -R nominatim:nominatim ${PROJECT_DIR}
+fi
+
+if [ ! -d ${TOKENIZER_DIR} ]; then
+  echo "No tokenizer configuration found. Copying from persistent volume into project directory."
+  cp -r /var/lib/postgresql/12/main/tokenizer ${TOKENIZER_DIR}
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
 
