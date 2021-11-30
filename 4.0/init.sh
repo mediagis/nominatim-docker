@@ -66,6 +66,12 @@ rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
 
+# nominatim needs the tokenizer configuration in the project directory to start up
+# but when you start the container with an already imported DB then you don't have this config.
+# that's why we save it in /var/lib/postgresql and copy it back if we need it.
+# this is of course a terrible hack but there is hope that 4.1 provides a way to restore this
+# configuration cleanly.
+# More reading: https://github.com/mediagis/nominatim-docker/pull/274/
 cp -r ${PROJECT_DIR}/tokenizer /var/lib/postgresql/12/main
 
 if [ "$PBF_URL" != "" ]; then
