@@ -22,7 +22,7 @@ s.mount('http://', HTTPAdapter(max_retries=retries))
 resp = s.get(sys.argv[1])
 
 if(resp.status_code != 200):
-    print(f'Endpoint returned status code {resp.status_code}')
+    print(f'Endpoint returned status code {resp.status_code}: {resp.content}')
     sys.exit(1)
 
 else:

@@ -11,10 +11,10 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: 3.7
+          - version: "4.0"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
-          - version: 3.6
-            update_command: docker exec -i nominatim sudo -u nominatim ./src/build/utils/update.php
+          - version: "3.7"
+            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
 
     runs-on: ubuntu-latest
     steps:
@@ -82,7 +82,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             --name nominatim \
             nominatim &
@@ -102,7 +102,7 @@ jobs:
             -p 8005:8080 \
             nominatim &
           sleep 35
-          ./assert-non-empty-json "http://localhost:8005/search.php?q=Paris"
+          ./assert-non-empty-json "http://localhost:8005/search.php?q=hotel%20de%20paris"
 
       - name: Check import admin style
         working-directory: .github/workflows
@@ -114,10 +114,9 @@ jobs:
             -p 8006:8080 \
             nominatim &
           sleep 35
-          ./assert-empty-json "http://localhost:8006/search.php?q=Paris"
+          ./assert-empty-json "http://localhost:8006/search.php?q=hotel%20de%20paris"
 
       - name: Check import with PBF_PATH
-        if: ${{ '3.7' == matrix.nominatim.version }}
         working-directory: .github/workflows
         run: |-
           wget --cut-dirs=1 -nH -xP /tmp/data http://download.geofabrik.de/europe/monaco-latest.osm.pbf
@@ -135,7 +134,6 @@ jobs:
           docker volume rm nominatim7-data
 
       - name: Check when REPLICATION_URL is blank
-        if: ${{ '3.7' == matrix.nominatim.version }}
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
