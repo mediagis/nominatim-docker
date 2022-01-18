@@ -151,9 +151,9 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push production docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
+        #if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |-
-          docker buildx build --platform linux/amd64,linux/arm64 --push \
+          docker buildx build --platform linux/amd64,linux/arm64 \
              -t mediagis/nominatim:${{ matrix.nominatim.version }} \
              -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
         working-directory: ${{ matrix.nominatim.version }}
