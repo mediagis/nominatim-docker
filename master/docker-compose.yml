@@ -1,0 +1,27 @@
+version: "3"
+
+services:
+  nominatim:
+    container_name: nominatim
+    build: .
+    restart: always
+    ports:
+      - "8080:8080"
+      - "5432:5432"
+    environment:
+      # see https://github.com/mediagis/nominatim-docker/tree/master/master#configuration for more options
+      PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+      IMPORT_STYLE: extratags
+      NOMINATIM_PASSWORD: very_secure_password
+    volumes:
+      # Clone the fork you're gonna work on to same folder and setup proper volume bindings for hot reloading
+#      - ./Nominatim/lib-php:/usr/local/lib/nominatim/lib-php
+#      - ./Nominatim/nominatim:/usr/local/lib/nominatim/lib-python/nominatim
+#      - ./Nominatim/lib-sql:/usr/local/lib/nominatim/lib-sql
+#      - ./Nominatim/test:/usr/local/lib/nominatim/test
+      - nominatim-data:/var/lib/postgresql/12/main
+    shm_size: 1gb
+
+volumes:
+  nominatim-data:
