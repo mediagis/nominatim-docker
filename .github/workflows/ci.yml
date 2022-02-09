@@ -144,20 +144,20 @@ jobs:
           ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
 
       - name: Login to DockerHub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
+        if: ${{ github.ref == 'refs/heads/master'}}
         uses: docker/login-action@v1
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build and push production docker image to Dockerhub
-        if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
+        if: ${{ github.ref == 'refs/heads/master'}}
         run: |-
           # we disable the arm build until these issues are resolved
           # https://github.com/curl/curl/issues/7932
           # https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/1951279
           #docker buildx build --platform linux/amd64,linux/arm64 --push \
           docker buildx build --platform linux/amd64 --push \
-             -t mediagis/nominatim:${{ matrix.nominatim.version }} \
-             -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
+             -t bikehopper/nominatim:${{ matrix.nominatim.version }} \
+             -t bikehopper/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
         working-directory: ${{ matrix.nominatim.version }}
