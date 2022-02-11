@@ -91,6 +91,8 @@ else
   fi
 fi
 
+sudo -u nominatim psql -d nominatim -c "ANALYZE VERBOSE"
+
 sudo service postgresql stop
 
 # Remove slightly unsafe postgres config overrides that made the import faster
