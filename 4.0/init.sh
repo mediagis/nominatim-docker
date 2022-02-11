@@ -81,6 +81,14 @@ sudo -u nominatim nominatim admin --check-database
 
 if [ "$REPLICATION_URL" != "" ]; then
   sudo -E -u nominatim nominatim replication --init
+  if [ "$FREEZE" = "true" ]; then
+    echo "Skipping freeze because REPLICATION_URL is not empty"
+  fi
+else
+  if [ "$FREEZE" = "true" ]; then
+    echo "Freezing database"
+    sudo -u nominatim nominatim freeze
+  fi
 fi
 
 sudo service postgresql stop
