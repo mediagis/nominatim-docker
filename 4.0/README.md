@@ -28,9 +28,10 @@ The following environment variables are available for configuration:
   - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
   - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
   - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
-  - `IMPORT_WIKIPEDIA`: Whether to import the Wikipedia importance dumps, which improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
-  - `IMPORT_US_POSTCODES`: Whether to import the US postcode dump. (default: `false`)
-  - `IMPORT_GB_POSTCODES`: Whether to import the GB postcode dump. (default: `false`)
+  - `IMPORT_WIKIPEDIA`: Whether to download and import the Wikipedia importance dumps (`true`) or path to importance dump in the container. Importance dumps improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
+  - `IMPORT_US_POSTCODES`: Whether to download and import the US postcode dump (`true`) or path to US postcode dump in the container. (default: `false`)
+  - `IMPORT_GB_POSTCODES`: Whether to download and import the GB postcode dump (`true`) or path to GB postcode dump in the container. (default: `false`)
+  - `IMPORT_TIGER_ADDRESSES`: Whether to download and import the Tiger address data (`true`) or path to a preprocessed Tiger address set in the container. (default: `false`)
   - `THREADS`: How many threads should be used to import (default: `16`)
   - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
@@ -148,6 +149,24 @@ docker run -it --rm \
   mediagis/nominatim:4.0
 ```
 where the _/osm-maps/data/_ directory contains _merged.osm.pbf_ file that is mounted and available in container: _/nominatim/data/merged.osm.pbf_
+
+## Importance Dumps, Postcode Data, and Tiger Addresses
+
+Including the Wikipedia importance dumps, postcode files, and Tiger address data can improve results. These can be automatically downloaded by setting the appropriate options (see above) to `true`. Alternatively, they can be imported from local files by specifying a file path (relative to the container), similar to how `PBF_PATH` is used. For example:
+
+``` sh
+docker run -it --rm \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e IMPORT_WIKIPEDIA=/nominatim/extras/wikimedia-importance.sql.gz \
+  -p 8080:8080 \
+  -v /osm-maps/extras:/nominatim/extras \
+  --name nominatim \
+  mediagis/nominatim:4.0
+```
+
+Where the path to the importance dump is given relative to the container. (The file does not need to be named `wikimedia-importance.sql.gz`.) The same works for `IMPORT_US_POSTCODES` and `IMPORT_GB_POSTCODES`.
+
+For more information about the Tiger address file, see [Installing TIGER housenumber data for the US](https://nominatim.org/release-docs/4.0.1/customize/Tiger/).
 
 ## Development
 
