@@ -91,6 +91,9 @@ else
   fi
 fi
 
+# gather statistics for query planner to potentially improve query performance
+# see, https://github.com/osm-search/Nominatim/issues/1023
+# and  https://github.com/osm-search/Nominatim/issues/1139
 sudo -u nominatim psql -d nominatim -c "ANALYZE VERBOSE"
 
 sudo service postgresql stop
