@@ -100,6 +100,7 @@ rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
+rm -f ${PROJECT_DIR}/tiger2021-nominatim-preprocessed.csv.tar.gz
 
 # nominatim needs the tokenizer configuration in the project directory to start up
 # but when you start the container with an already imported DB then you don't have this config.
