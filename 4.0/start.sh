@@ -38,7 +38,7 @@ fi
 
 service postgresql start
 
-cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website
+cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 
 service apache2 start
 

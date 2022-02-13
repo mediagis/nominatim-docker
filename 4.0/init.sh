@@ -73,8 +73,6 @@ sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 if [ -f tiger2021-nominatim-preprocessed.csv.tar.gz ]; then
   echo "Importing Tiger address data"
   sudo -u nominatim nominatim add-data --tiger-data tiger2021-nominatim-preprocessed.csv.tar.gz
-  echo NOMINATIM_USE_US_TIGER_DATA=yes >> ${PROJECT_DIR}/.env
-  sudo -u nominatim nominatim refresh --functions
 fi
 
 sudo -u nominatim nominatim admin --check-database
