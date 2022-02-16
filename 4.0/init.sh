@@ -31,10 +31,10 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  curl https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -L -o ${PROJECT_DIR}/tiger2021-nominatim-preprocessed.csv.tar.gz
+  curl https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -L -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
-  ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger2021-nominatim-preprocessed.csv.tar.gz
+  ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 else
   echo "Skipping optional Tiger addresses import"
 fi
@@ -70,9 +70,9 @@ chown -R nominatim:nominatim ${PROJECT_DIR}
 cd ${PROJECT_DIR}
 sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 
-if [ -f tiger2021-nominatim-preprocessed.csv.tar.gz ]; then
+if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
   echo "Importing Tiger address data"
-  sudo -u nominatim nominatim add-data --tiger-data tiger2021-nominatim-preprocessed.csv.tar.gz
+  sudo -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
 fi
 
 sudo -u nominatim nominatim admin --check-database
@@ -101,7 +101,7 @@ rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
-rm -f ${PROJECT_DIR}/tiger2021-nominatim-preprocessed.csv.tar.gz
+rm -f ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 
 # nominatim needs the tokenizer configuration in the project directory to start up
 # but when you start the container with an already imported DB then you don't have this config.
