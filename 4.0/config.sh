@@ -54,3 +54,18 @@ fi
 # if flatnode directory was created by volume / mount, use flatnode files
 
 if [ -d "${PROJECT_DIR}/flatnode" ]; then sed -i 's\^NOMINATIM_FLATNODE_FILE=$\NOMINATIM_FLATNODE_FILE="/nominatim/flatnode/flatnode.file"\g' ${CONFIG_FILE}; fi
+
+# log query
+
+if [ ! -z "$NOMINATIM_LOG_FILE" ]; then
+  # add empty 'NOMINATIM_LOG_FILE=' variable before change it for previously created or imported .env file
+  if ! grep -Fq 'NOMINATIM_LOG_FILE=' ${CONFIG_FILE}; then
+    echo 'NOMINATIM_LOG_FILE=' >> ${CONFIG_FILE}
+  fi
+  sed -i "s#^NOMINATIM_LOG_FILE=.*\$#NOMINATIM_LOG_FILE=${NOMINATIM_LOG_FILE}#g" ${CONFIG_FILE}
+  # log file must be writable by the user running apache2 : www-data
+  touch ${NOMINATIM_LOG_FILE} && chown -R www-data ${NOMINATIM_LOG_FILE}
+else
+  # remove NOMINATIM_LOG_FILE value from .env file when unsetting environment variable
+  sed -i "s#^NOMINATIM_LOG_FILE=.*\$#NOMINATIM_LOG_FILE=#g" ${CONFIG_FILE}
+fi

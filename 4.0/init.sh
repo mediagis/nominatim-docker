@@ -11,7 +11,7 @@ fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
   curl https://nominatim.org/data/gb_postcode_data.sql.gz -L -o ${PROJECT_DIR}/gb_postcode_data.sql.gz
-else \
+else
   echo "Skipping optional GB postcode import"
 fi;
 
@@ -21,6 +21,11 @@ else
   echo "Skipping optional US postcode import"
 fi;
 
+if [ "$IMPORT_US_TIGER" = "true" ]; then
+  curl https://nominatim.org/data/${US_TIGER_FILE:-tiger-nominatim-preprocessed-latest.csv.tar.gz} -L -o ${PROJECT_DIR}/${US_TIGER_FILE:-tiger-nominatim-preprocessed-latest.csv.tar.gz}
+else
+  echo "Skipping optional US Tiger import"
+fi;
 
 if [ "$PBF_URL" != "" ]; then
   echo Downloading OSM extract from "$PBF_URL"
@@ -52,7 +57,14 @@ chown -R nominatim:nominatim ${PROJECT_DIR}
 
 cd ${PROJECT_DIR}
 sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
-sudo -u nominatim nominatim admin --check-database
+sudo -E -u nominatim nominatim admin --check-database
+
+if [ "$IMPORT_US_TIGER" = "true" ]; then
+  cd ${PROJECT_DIR}
+  sudo -E -u nominatim nominatim add-data --tiger-data ${US_TIGER_FILE:-tiger-nominatim-preprocessed-latest.csv.tar.gz}
+  sudo -E -u nominatim nominatim refresh --functions
+  echo NOMINATIM_USE_US_TIGER_DATA=yes >> .env
+fi
 
 if [ "$REPLICATION_URL" != "" ]; then
   sudo -E -u nominatim nominatim replication --init
@@ -64,7 +76,7 @@ sudo service postgresql stop
 rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
-rm -f ${PROJECT_DIR}/*sql.gz
+rm -f ${PROJECT_DIR}/*sql.gz ${PROJECT_DIR}/*csv.tar.gz
 
 # nominatim needs the tokenizer configuration in the project directory to start up
 # but when you start the container with an already imported DB then you don't have this config.
