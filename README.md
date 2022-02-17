@@ -95,6 +95,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   </tr>
   <tr>
     <td align="center"><a href="https://github.com/norcis"><img src="https://avatars.githubusercontent.com/u/1047487?v=4?s=100" width="100px;" alt=""/><br /><sub><b>norcis</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=norcis" title="Code">💻</a></td>
+    <td align="center"><a href="http://rapsody.com/"><img src="https://avatars.githubusercontent.com/u/7005?v=4?s=100" width="100px;" alt=""/><br /><sub><b>SClo</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=sclo" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=sclo" title="Documentation">📖</a></td>
   </tr>
 </table>
 
