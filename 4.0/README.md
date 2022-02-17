@@ -50,7 +50,7 @@ The following environment variables are available to tune PostgreSQL:
   - `POSTGRES_SYNCHRONOUS_COMMIT` (default: `off`)
   - `POSTGRES_MAX_WAL_SIZE` (default: `1GB`)
   - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
-  - `POSTGRES_CHECKPOINT_COMPLETITION_TARGET` (default: `0.9`)
+  - `POSTGRES_CHECKPOINT_COMPLETION_TARGET` (default: `0.9`)
 
 See https://nominatim.org/release-docs/4.0.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
