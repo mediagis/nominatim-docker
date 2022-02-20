@@ -143,6 +143,17 @@ jobs:
           sleep 35
           ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
 
+      - name: Check when using FREEZE
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e FREEZE="true" \
+            -p 8008:8080 \
+            nominatim &
+          sleep 35
+          ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
