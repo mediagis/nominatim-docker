@@ -9,7 +9,7 @@ if [[ "$PBF_URL" = "" && "$PBF_PATH" = "" ]]  ||  [[ "$PBF_URL" != "" && "$PBF_P
 fi
 
 if [ "$REPLICATION_URL" != "" ]; then
-    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}    
+    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}
 fi
 
 # Use the specified replication update and recheck interval values if either or both are numbers, or use the default values
@@ -59,3 +59,9 @@ fi
 # if flatnode directory was created by volume / mount, use flatnode files
 
 if [ -d "${PROJECT_DIR}/flatnode" ]; then sed -i 's\^NOMINATIM_FLATNODE_FILE=$\NOMINATIM_FLATNODE_FILE="/nominatim/flatnode/flatnode.file"\g' ${CONFIG_FILE}; fi
+
+# enable use of optional TIGER address data
+
+if [ "$IMPORT_TIGER_ADDRESSES" = "true" ] || [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
+  echo NOMINATIM_USE_US_TIGER_DATA=yes >> ${CONFIG_FILE}
+fi
