@@ -360,6 +360,26 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "sclo",
+      "name": "SClo",
+      "avatar_url": "https://avatars.githubusercontent.com/u/7005?v=4",
+      "profile": "http://rapsody.com/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "poliquin",
+      "name": "Chris",
+      "avatar_url": "https://avatars.githubusercontent.com/u/360123?v=4",
+      "profile": "https://github.com/poliquin",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 6,
