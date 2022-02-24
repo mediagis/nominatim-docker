@@ -1,0 +1,14 @@
+[Unit]
+Description=Continuous updates of Nominatim
+
+[Service]
+WorkingDirectory=${PROJECT_DIR}
+ExecStart=nominatim replication
+StandardOutput=append:/var/log/nominatim-updates.log
+StandardError=append:/var/log/nominatim-updates.error.log
+User=nominatim
+Group=nominatim
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

@@ -3,6 +3,7 @@
 stopServices() {
   service apache2 stop
   service postgresql stop
+  sudo systemctl stop nominatim-updates
 }
 trap stopServices TERM
 
@@ -41,6 +42,10 @@ service postgresql start
 cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 
 service apache2 start
+
+sudo systemctl daemon-reload
+sudo systemctl enable nominatim-updates
+sudo systemctl start nominatim-updates
 
 # fork a process and wait for it
 tail -f /var/log/postgresql/postgresql-12-main.log &

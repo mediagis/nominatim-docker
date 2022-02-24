@@ -119,6 +119,7 @@ COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
+COPY nominatim-update.service /etc/systemd/system/nominatim-update.service
 
 # Collapse image to single layer.
 FROM scratch
