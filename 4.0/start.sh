@@ -43,9 +43,9 @@ cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 
 service apache2 start
 
-sudo systemctl daemon-reload
-sudo systemctl enable nominatim-updates
-sudo systemctl start nominatim-updates
+if [ "$REPLICATION_URL" != "" ]; then
+  service start nominatim-updates
+fi
 
 # fork a process and wait for it
 tail -f /var/log/postgresql/postgresql-12-main.log &

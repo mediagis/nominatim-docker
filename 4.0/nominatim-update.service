@@ -9,6 +9,7 @@ StandardError=append:/var/log/nominatim-updates.error.log
 User=nominatim
 Group=nominatim
 Type=simple
+Restart=always
 
 [Install]
 WantedBy=multi-user.target
