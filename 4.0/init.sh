@@ -13,19 +13,19 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl https://nominatim.org/data/gb_postcode_data.sql.gz -L -o ${PROJECT_DIR}/gb_postcode_data.sql.gz
+  curl https://nominatim.org/data/gb_postcodes.csv.gz -L -o ${PROJECT_DIR}/gb_postcodes.csv.gz
 elif [ -f "$IMPORT_GB_POSTCODES" ]; then
   # use local file if asked
-  ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcode_data.sql.gz
+  ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcodes.csv.gz
 else \
   echo "Skipping optional GB postcode import"
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  curl https://nominatim.org/data/us_postcode_data.sql.gz -L -o ${PROJECT_DIR}/us_postcode_data.sql.gz
+  curl https://nominatim.org/data/us_postcodes.csv.gz -L -o ${PROJECT_DIR}/us_postcodes.csv.gz
 elif [ -f "$IMPORT_US_POSTCODES" ]; then
   # use local file if asked
-  ln -s "$IMPORT_US_POSTCODES" ${PROJECT_DIR}/us_postcode_data.sql.gz
+  ln -s "$IMPORT_US_POSTCODES" ${PROJECT_DIR}/us_postcodes.csv.gz
 else
   echo "Skipping optional US postcode import"
 fi;

@@ -154,6 +154,19 @@ jobs:
           sleep 35
           ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
 
+      - name: Check GB postcode import
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=https://download.geofabrik.de/europe/great-britain/england/rutland-latest.osm.pbf \
+            -e IMPORT_GB_POSTCODES="true" \
+            -p 8009:8080 \
+            nominatim &
+          sleep 345
+          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=LE15+8TX"
+          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+3SY"
+          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+4ES"
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v1
