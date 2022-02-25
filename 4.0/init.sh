@@ -101,6 +101,7 @@ rm /etc/postgresql/12/main/conf.d/postgres-import.conf
 
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
+rm -f ${PROJECT_DIR}/*csv.gz
 rm -f ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 
 # nominatim needs the tokenizer configuration in the project directory to start up
