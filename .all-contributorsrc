@@ -380,6 +380,16 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "iAlex97",
+      "name": "iAlex97",
+      "avatar_url": "https://avatars.githubusercontent.com/u/12383594?v=4",
+      "profile": "https://github.com/iAlex97",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 6,
