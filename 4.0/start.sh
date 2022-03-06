@@ -48,7 +48,7 @@ if [ "$REPLICATION_URL" != "" ]; then
 #   sudo systemctl enable nominatim-update
 #   service nominatim-update start
   # run update process in background
-  nominatim replication > /dev/null 2>&1 &
+  sudo -u nominatim nominatim replication > /dev/null 2>&1 &
 fi
 
 # fork a process and wait for it
