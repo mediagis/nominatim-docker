@@ -3,7 +3,7 @@
 stopServices() {
   service apache2 stop
   service postgresql stop
-  sudo systemctl stop nominatim-updates
+  service nominatim-updates stop
 }
 trap stopServices TERM
 
