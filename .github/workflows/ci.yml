@@ -41,6 +41,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e SKIP_UPDATING=true \
             -p 8001:8080 \
             --name nominatim \
             nominatim &
@@ -56,6 +57,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e SKIP_UPDATING=true \
             -v nominatim-data:/var/lib/postgresql/12/main \
             -p 8002:8080 \
             nominatim &
@@ -68,6 +70,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e SKIP_UPDATING=true \
             -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
             -p 8003:8080 \
             --name nominatim \
@@ -84,6 +87,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e SKIP_UPDATING=true \
             -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
             -p 8004:8080 \
             --name nominatim \
@@ -101,6 +105,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=full \
+            -e SKIP_UPDATING=true \
             -p 8005:8080 \
             nominatim &
           sleep 35
@@ -113,6 +118,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=admin \
+            -e SKIP_UPDATING=true \
             -p 8006:8080 \
             nominatim &
           sleep 35
@@ -125,6 +131,7 @@ jobs:
           docker run -i --rm \
             -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e SKIP_UPDATING=true \
             -v nominatim7-data:/var/lib/postgresql/12/main \
             -v /tmp/data:/nominatim/data \
             -p 8007:8080 \
@@ -140,6 +147,7 @@ jobs:
         run: |-
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e SKIP_UPDATING=true \
             -p 8008:8080 \
             nominatim &
           sleep 35
