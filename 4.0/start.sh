@@ -44,8 +44,8 @@ cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 service apache2 start
 
 if [ "$REPLICATION_URL" != "" ]; then
-  systemctl daemon-reload
-  systemctl enable nominatim-updates
+  sudo systemctl daemon-reload
+  sudo systemctl enable nominatim-update
   service nominatim-update start
 fi
 
