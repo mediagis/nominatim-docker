@@ -54,6 +54,7 @@ RUN true \
         python3-icu git \
         python3-argparse-manpage \
         # Misc.
+        systemd \
         git \
         curl \
         sudo
