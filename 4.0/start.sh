@@ -44,7 +44,7 @@ cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 service apache2 start
 
 if [ "$REPLICATION_URL" != "" ]; then
-  service start nominatim-update
+  service nominatim-update start
 fi
 
 # fork a process and wait for it
