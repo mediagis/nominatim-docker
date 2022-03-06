@@ -3,7 +3,7 @@
 stopServices() {
   service apache2 stop
   service postgresql stop
-  service nominatim-update stop
+  # service nominatim-update stop
 }
 trap stopServices TERM
 
@@ -44,9 +44,11 @@ cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 service apache2 start
 
 if [ "$REPLICATION_URL" != "" ]; then
-  sudo systemctl daemon-reload
-  sudo systemctl enable nominatim-update
-  service nominatim-update start
+#   sudo systemctl daemon-reload
+#   sudo systemctl enable nominatim-update
+#   service nominatim-update start
+  # run update process in background
+  nominatim replication > /dev/null 2>&1 &
 fi
 
 # fork a process and wait for it
