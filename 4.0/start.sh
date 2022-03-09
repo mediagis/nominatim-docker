@@ -44,6 +44,7 @@ cd ${PROJECT_DIR} && sudo -u nominatim nominatim refresh --website --functions
 service apache2 start
 
 if [ "$REPLICATION_URL" != "" ] && [ "$SKIP_UPDATING" != "true" ]; then
+  sudo -u nominatim nominatim replication --init
   # run update process in background
   sudo -u nominatim nominatim replication > /dev/null 2>&1 &
 fi
