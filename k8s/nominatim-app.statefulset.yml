@@ -26,7 +26,7 @@ spec:
                 values: ["amd64"]
       containers:
       - name: nominatim-app
-        image: ghcr.io/bikehopper/nominatim-docker@sha256:1daf1f380b7b82803848104249807db26083cab2ff60eba2c10f948eb074bdd4
+        image: ghcr.io/bikehopper/nominatim-docker@sha256:46ff49c68423989806b42b862cdcf47495451502a13a524d017fa892430dadb2
         volumeMounts:
         - mountPath: /var/lib/postgresql/12
           name: nominatim-hostpath-pvc
