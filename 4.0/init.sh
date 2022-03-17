@@ -57,13 +57,13 @@ if [ ! -f /var/lib/postgresql/12/main/PG_VERSION ]; then
 fi
 
 sudo service postgresql start && \
-sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -u postgres createuser -s nominatim && \
-sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -u postgres createuser -SDR www-data && \
+sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -E -u postgres createuser -s nominatim && \
+sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -E -u postgres createuser -SDR www-data && \
 
-sudo -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWORD '$NOMINATIM_PASSWORD'" && \
-sudo -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
+sudo -E -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWORD '$NOMINATIM_PASSWORD'" && \
+sudo -E -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
 
-sudo -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
+sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
 
 chown -R nominatim:nominatim ${PROJECT_DIR}
 
@@ -72,10 +72,10 @@ sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 
 if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
   echo "Importing Tiger address data"
-  sudo -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
+  sudo -E -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
 fi
 
-sudo -u nominatim nominatim admin --check-database
+sudo -E -u nominatim nominatim admin --check-database
 
 if [ "$REPLICATION_URL" != "" ]; then
   sudo -E -u nominatim nominatim replication --init
@@ -85,14 +85,14 @@ if [ "$REPLICATION_URL" != "" ]; then
 else
   if [ "$FREEZE" = "true" ]; then
     echo "Freezing database"
-    sudo -u nominatim nominatim freeze
+    sudo -E -u nominatim nominatim freeze
   fi
 fi
 
 # gather statistics for query planner to potentially improve query performance
 # see, https://github.com/osm-search/Nominatim/issues/1023
 # and  https://github.com/osm-search/Nominatim/issues/1139
-sudo -u nominatim psql -d nominatim -c "ANALYZE VERBOSE"
+sudo -E -u nominatim psql -d nominatim -c "ANALYZE VERBOSE"
 
 sudo service postgresql stop
 
