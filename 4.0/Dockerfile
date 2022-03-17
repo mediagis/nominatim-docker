@@ -51,6 +51,7 @@ RUN true \
         python3-dotenv \
         python3-psutil \
         python3-jinja2 \
+        python3-datrie \
         python3-icu git \
         python3-argparse-manpage \
         # Misc.
