@@ -390,6 +390,15 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "mausch",
+      "name": "Mauricio Scheffer",
+      "avatar_url": "https://avatars.githubusercontent.com/u/95194?v=4",
+      "profile": "http://bugsquash.blogspot.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
