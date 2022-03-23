@@ -177,11 +177,7 @@ jobs:
       - name: Build and push production docker image to Dockerhub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |-
-          # we disable the arm build until these issues are resolved
-          # https://github.com/curl/curl/issues/7932
-          # https://bugs.launchpad.net/ubuntu/+source/openssl/+bug/1951279
-          #docker buildx build --platform linux/amd64,linux/arm64 --push \
-          docker buildx build --platform linux/amd64 --push \
+          docker buildx build --platform linux/amd64,linux/arm64 --push \
              -t mediagis/nominatim:${{ matrix.nominatim.version }} \
              -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
         working-directory: ${{ matrix.nominatim.version }}
