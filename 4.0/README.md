@@ -1,5 +1,23 @@
 # Nominatim Docker (Nominatim version 4.0)
 
+## Table of contents
+
+  - [Automatic import](#automatic-import)
+  - [Configuration](#configuration)
+    - [General Parameters](#general-parameters)
+    - [PostgreSQL Tuning](#postgresql-tuning)
+    - [Import Style](#import-style)
+    - [Flatnode files](#flatnode-files)
+  - [Persistent container data](#persistent-container-data)
+  - [OpenStreetMap Data Extracts](#openstreetmap-data-extracts)
+  - [Updating the database](#updating-the-database)
+  - [Custom PBF Files](#custom-pbf-files)
+  - [Importance Dumps, Postcode Data, and Tiger Addresses](#importance-dumps-postcode-data-and-tiger-addresses)
+  - [Development](#development)
+  - [Docker Compose](#docker-compose)
+
+***
+
 ## Automatic import
 
 Download the required data, initialize the database and start nominatim in one go
