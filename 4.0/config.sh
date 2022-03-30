@@ -16,7 +16,7 @@ fi
 
 reg_num='^[0-9]+$'
 if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num ]]; then
-    if ["$REPLICATION_URL" = ""]; then
+    if [ "$REPLICATION_URL" = "" ]; then
         echo "You need to specify the REPLICATION_URL variable in order to set a REPLICATION_UPDATE_INTERVAL"
         exit 1
     fi
