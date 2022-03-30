@@ -16,14 +16,14 @@ fi
 
 reg_num='^[0-9]+$'
 if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num ]]; then
-    if ["$REPLICATION_URL" = ""]; then
+    if [ "$REPLICATION_URL" = "" ]; then
         echo "You need to specify the REPLICATION_URL variable in order to set a REPLICATION_UPDATE_INTERVAL"
         exit 1
     fi
     sed -i "s/NOMINATIM_REPLICATION_UPDATE_INTERVAL=86400/NOMINATIM_REPLICATION_UPDATE_INTERVAL=$REPLICATION_UPDATE_INTERVAL/g" ${CONFIG_FILE}
 fi
 if [[ $REPLICATION_RECHECK_INTERVAL =~ $reg_num ]]; then
-    if ["$REPLICATION_URL" = ""]; then
+    if [ "$REPLICATION_URL" = "" ]; then
         echo "You need to specify the REPLICATION_URL variable in order to set a REPLICATION_RECHECK_INTERVAL"
         exit 1
     fi
