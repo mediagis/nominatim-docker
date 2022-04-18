@@ -42,7 +42,7 @@ COPY nominatim.conf /etc/apache2/sites-enabled/000-default.conf
 # Load initial data
 ARG PBF_DATA=https://download.geofabrik.de/europe/monaco-latest.osm.pbf
 RUN curl -L -f $PBF_DATA --create-dirs -o /app/src/data.osm.pbf
-RUN curl https://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
+RUN curl https://nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 RUN service postgresql start && \
     sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -u postgres createuser -s nominatim && \
     sudo -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -u postgres createuser -SDR www-data && \

@@ -101,7 +101,7 @@ RUN if [ "$with_postcodes_us" = "" ]; then \
     curl https://www.nominatim.org/data/us_postcode_data.sql.gz > /app/src/data/us_postcode_data.sql.gz; \
     fi;
 
-RUN curl https://www.nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
+RUN curl https://nominatim.org/data/country_grid.sql.gz > /app/src/data/country_osm_grid.sql.gz
 
 RUN true \
     # Remove development and unused packages.
