@@ -205,3 +205,8 @@ docker run -it --rm \
 ## Docker Compose
 
 In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed. 
+
+## Assorted use cases documented in issues
+
+- [Using an external Postgres database](https://github.com/mediagis/nominatim-docker/issues/245#issuecomment-1072205751)
+- [AWS hardware for importing the entire planet](https://github.com/mediagis/nominatim-docker/discussions/265)
