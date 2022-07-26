@@ -15,6 +15,7 @@
   - [Importance Dumps, Postcode Data, and Tiger Addresses](#importance-dumps-postcode-data-and-tiger-addresses)
   - [Development](#development)
   - [Docker Compose](#docker-compose)
+  - [Assorted use cases documented in issues](#assorted-use-cases-documented-in-issues)
 
 ***
 
