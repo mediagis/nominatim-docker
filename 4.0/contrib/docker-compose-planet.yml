@@ -13,7 +13,7 @@ services:
         image: mediagis/nominatim:4.0
         restart: always
         ports:
-            - "8080:8080" # Do not change the second port, only the first before the semicolon
+            - "8080:8080" # Do not change the second port, only the first before the colon
         environment:
             PBF_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf
             REPLICATION_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/
