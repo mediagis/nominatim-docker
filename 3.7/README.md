@@ -17,6 +17,8 @@ Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which yo
 
 If you want to check that your data import was successful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
 
+Note: the --rm parameter means the container will be removed after stopping it (causing all imported data to be lost)!
+
 ## Configuration
 
 ### General Parameters
@@ -166,4 +168,8 @@ docker run -it --rm \
 
 ## Docker Compose
 
-In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed. 
+In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed.
+
+Besides the basic docker-compose.yml, there are also some advanced YAML configurations available in the `contrib` folder.
+These files follow the naming convention of `docker-compose-*.yml` and contain comments about the specific use case.
+
