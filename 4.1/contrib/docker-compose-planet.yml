@@ -25,7 +25,7 @@ services:
         volumes:
             - type: bind
               source: /data/db
-              target: /var/lib/postgresql/12/main
+              target: /var/lib/postgresql/14/main
             - type: bind
               source: /data/flatnode
               target: /nominatim/flatnode
