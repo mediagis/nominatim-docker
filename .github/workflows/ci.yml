@@ -13,8 +13,10 @@ jobs:
         nominatim:
           - version: "4.0"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+            postgres_version: 12
           - version: "4.1"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+            postgres_version: 14 
 
     runs-on: ubuntu-latest
     steps:
@@ -54,7 +56,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim-data:/var/lib/postgresql/12/main \
+            -v nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8002:8080 \
             nominatim &
           sleep 35
@@ -66,7 +68,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
+            -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8003:8080 \
             --name nominatim \
             nominatim &
@@ -82,7 +84,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v /tmp/nominatim-data:/var/lib/postgresql/12/main \
+            -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
             nominatim &
@@ -123,7 +125,7 @@ jobs:
           docker run -i --rm \
             -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
-            -v nominatim7-data:/var/lib/postgresql/12/main \
+            -v nominatim7-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -v /tmp/data:/nominatim/data \
             -p 8007:8080 \
             --name nominatim \
