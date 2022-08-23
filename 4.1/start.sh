@@ -15,7 +15,6 @@ else
 fi
 
 IMPORT_FINISHED=/var/lib/postgresql/14/main/import-finished
-TOKENIZER_DIR=${PROJECT_DIR}/tokenizer
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
