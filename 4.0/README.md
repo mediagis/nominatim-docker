@@ -24,7 +24,7 @@
 Download the required data, initialize the database and start nominatim in one go
 
 ```
-docker run -it --rm \
+docker run -it \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -p 8080:8080 \
@@ -35,8 +35,6 @@ docker run -it --rm \
 Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
 
 If you want to check that your data import was successful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
-
-Note: the --rm parameter means the container will be removed after stopping it (causing all imported data to be lost)!
 
 ## Configuration
 
@@ -107,7 +105,7 @@ If you want to keep your imported data across deletion and recreation of your co
 So if you want to be able to kill your container and start it up again with all the data still present use the following command:
 
 ```
-docker run -it --rm --shm-size=1g \
+docker run -it --shm-size=1g \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -e IMPORT_WIKIPEDIA=false \
@@ -132,7 +130,7 @@ The replication update can be performed only via HTTP.
 A sample of `PBF_PATH` variable usage is:
 
 ``` sh
-docker run -it --rm \
+docker run -it \
   -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
   -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
   -p 8080:8080 \
@@ -163,7 +161,7 @@ If there are no updates available this process will sleep for 15 minutes and try
 If you want your Nominatim container to host multiple areas from Geofabrik, you can use a tool, such as [Osmium](https://osmcode.org/osmium-tool/manual.html), to merge multiple PBF files into one.
 
 ``` sh
-docker run -it --rm \
+docker run -it \
   -e PBF_PATH=/nominatim/data/merged.osm.pbf \
   -p 8080:8080 \
   -v /osm-maps/data:/nominatim/data \
@@ -177,7 +175,7 @@ where the _/osm-maps/data/_ directory contains _merged.osm.pbf_ file that is mou
 Including the Wikipedia importance dumps, postcode files, and Tiger address data can improve results. These can be automatically downloaded by setting the appropriate options (see above) to `true`. Alternatively, they can be imported from local files by specifying a file path (relative to the container), similar to how `PBF_PATH` is used. For example:
 
 ``` sh
-docker run -it --rm \
+docker run -it \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -e IMPORT_WIKIPEDIA=/nominatim/extras/wikimedia-importance.sql.gz \
   -p 8080:8080 \
@@ -197,7 +195,7 @@ image and run the container with
 
 ```
 docker build -t nominatim . && \
-docker run -it --rm \
+docker run -it \
     -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
     -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
     -p 8080:8080 \
