@@ -7,9 +7,9 @@
 # How to use
 Clone repository
 
-  ```
-  # git clone git@github.com:mediagis/nominatim-docker.git
-  # cd nominatim-docker/<version>
+  ```sh
+  git clone git@github.com:mediagis/nominatim-docker.git
+  cd nominatim-docker/<version>
   ```
 See relevant installation instructions for each version in the <version>/README.md
 
