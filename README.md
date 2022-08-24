@@ -31,12 +31,7 @@ See relevant installation instructions for each version in the <version>/README.
 - [`2.5.1`, `2.5`  (*2.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
 
 
-
-**Caution:** When you upgrade to another version (e.g. 3.4 to 3.5) there may be major version changes like Postgres and data incompatiblity. See the relevant instructions for each version. Also check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
-
-The latest version uses Ubuntu 20.04 and PostgreSQL 12.
-
-
+**Caution:** When you upgrade to another version (e.g. 4.0 to 4.1) there may be major version changes like Postgres and data incompatiblity. See the relevant instructions for each version, a complete reimport is recommended. Also check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
 
 # Contributors
 
