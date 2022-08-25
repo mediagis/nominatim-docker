@@ -4,7 +4,7 @@ stopServices() {
   service apache2 stop
   service postgresql stop
 }
-trap stopServices TERM
+trap stopServices SIGTERM TERM INT
 
 /app/config.sh
 

@@ -164,7 +164,7 @@ jobs:
             -e IMPORT_GB_POSTCODES="true" \
             -p 8009:8080 \
             nominatim &
-          sleep 345
+          sleep 400
           ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=LE15+8TX"
           ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+3SY"
           ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+4ES"
