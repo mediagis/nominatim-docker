@@ -400,6 +400,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "anthropos9",
+      "name": "Sean Dean",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3867685?v=4",
+      "profile": "https://github.com/anthropos9",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 6,

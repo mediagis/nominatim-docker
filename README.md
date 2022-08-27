@@ -2,7 +2,7 @@
 
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mediagis/nominatim-docker/CI?style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square)
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mediagis/nominatim-docker/CI?style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
 
 # How to use
 Clone repository
@@ -95,6 +95,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/poliquin"><img src="https://avatars.githubusercontent.com/u/360123?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Chris</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=poliquin" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=poliquin" title="Documentation">📖</a></td>
     <td align="center"><a href="https://github.com/iAlex97"><img src="https://avatars.githubusercontent.com/u/12383594?v=4?s=100" width="100px;" alt=""/><br /><sub><b>iAlex97</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=iAlex97" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=iAlex97" title="Tests">⚠️</a></td>
     <td align="center"><a href="http://bugsquash.blogspot.com/"><img src="https://avatars.githubusercontent.com/u/95194?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Mauricio Scheffer</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=mausch" title="Code">💻</a></td>
+    <td align="center"><a href="https://github.com/anthropos9"><img src="https://avatars.githubusercontent.com/u/3867685?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Sean Dean</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=anthropos9" title="Documentation">📖</a></td>
   </tr>
 </table>
 
