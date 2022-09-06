@@ -140,4 +140,4 @@ EXPOSE 8080
 
 COPY conf.d/env $PROJECT_DIR/.env
 
-CMD /app/start.sh
+CMD ["/app/start.sh"]
