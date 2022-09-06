@@ -1,8 +1,13 @@
 #!/bin/bash -ex
 
+tailpid=0
+replicationpid=0
+
 stopServices() {
   service apache2 stop
   service postgresql stop
+  kill $replicationpid
+  kill $tailpid
 }
 trap stopServices SIGTERM TERM INT
 
@@ -29,6 +34,16 @@ cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --function
 
 service apache2 start
 
+# start continous replication process
+if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
+  echo "starting replication"
+  # run init in case replication settings changed
+  sudo -u nominatim nominatim replication --project-dir /nominatim --init
+  sudo -u nominatim nominatim replication --project-dir /nominatim &> /var/log/replication.log &
+  replicationpid=${!}
+fi
+
 # fork a process and wait for it
-tail -f /var/log/postgresql/postgresql-14-main.log &
+tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
+tailpid=${!}
 wait
