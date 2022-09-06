@@ -47,6 +47,7 @@ The following environment variables are available for configuration:
 - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
+- `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.1.0/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
 - `FREEZE`: Freeze database and disable dynamic updates to save space. (default: `false`)
 - `IMPORT_WIKIPEDIA`: Whether to download and import the Wikipedia importance dumps (`true`) or path to importance dump in the container. Importance dumps improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
 - `IMPORT_US_POSTCODES`: Whether to download and import the US postcode dump (`true`) or path to US postcode dump in the container. (default: `false`)

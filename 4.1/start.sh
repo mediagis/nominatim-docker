@@ -37,11 +37,23 @@ service apache2 start
 
 # start continous replication process
 if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
-  echo "starting replication"
   # run init in case replication settings changed
   sudo -u nominatim nominatim replication --project-dir /nominatim --init
-  sudo -u nominatim nominatim replication --project-dir /nominatim &> /var/log/replication.log &
-  replicationpid=${!}
+  if [ "$UPDATE_MODE" == "continuous" ]; then
+    echo "starting continuous replication"
+    sudo -u nominatim nominatim replication --project-dir /nominatim &> /var/log/replication.log &
+    replicationpid=${!}
+  elif [ "$UPDATE_MODE" == "once" ]; then
+    echo "starting replication once"
+    sudo -u nominatim nominatim replication --project-dir /nominatim --once &> /var/log/replication.log &
+    replicationpid=${!}
+  elif [ "$UPDATE_MODE" == "catch-up" ]; then
+    echo "starting replication once in catch-up mode"
+    sudo -u nominatim nominatim replication --project-dir /nominatim --catch-up &> /var/log/replication.log &
+    replicationpid=${!}
+  else
+    echo "skipping replication"
+  fi
 fi
 
 # fork a process and wait for it
