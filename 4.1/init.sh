@@ -56,6 +56,9 @@ if [ ! -f /var/lib/postgresql/14/main/PG_VERSION ]; then
   sudo -u postgres /usr/lib/postgresql/14/bin/initdb -D /var/lib/postgresql/14/main
 fi
 
+# temporarily enable unsafe import optimization config
+cp /etc/postgresql/14/main/conf.d/postgres-import.conf.disabled /etc/postgresql/14/main/conf.d/postgres-import.conf
+
 sudo service postgresql start && \
 sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='nominatim'" | grep -q 1 || sudo -E -u postgres createuser -s nominatim && \
 sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -E -u postgres createuser -SDR www-data && \

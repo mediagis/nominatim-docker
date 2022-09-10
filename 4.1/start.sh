@@ -25,7 +25,6 @@ if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
   touch ${IMPORT_FINISHED}
 else
-  rm -f /etc/postgresql/14/main/conf.d/postgres-import.conf
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
 
