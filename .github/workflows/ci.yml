@@ -50,7 +50,7 @@ jobs:
           ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
           docker stop nominatim
 
-      - name: Check import with mount
+      - name: Check import with volume mount
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
@@ -96,18 +96,17 @@ jobs:
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           docker stop nominatim
 
-      - name: Check UPDATE_MODE=once with bind-mount
+      - name: Check UPDATE_MODE=once with volume
+        if: ! matrix.nominatim.version == "4.0"
         working-directory: .github/workflows
         run: |-
-          # remove existing data for fresh import
-          rm -rf /tmp/nominatim-data
           # get the data from four days ago to make sure there really are updates to apply
           four_days_ago=`date --date="4 days ago" +%y%m%d`
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e UPDATE_MODE=once \
-            -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
+            -v nominatim-update-volume:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
             nominatim &
@@ -118,19 +117,20 @@ jobs:
           docker stop nominatim
 
       - name: Check UPDATE_MODE=continuous with bind-mount
+        if: ! matrix.nominatim.version == "4.0"
         working-directory: .github/workflows
         run: |-
-          # get the data from four days ago to make sure there really are updates to apply
-          four_days_ago=`date --date="4 days ago" +%y%m%d`
+          # get the data from few days ago to make sure there really are updates to apply
+          days_ago=`date --date="10 days ago" +%y%m%d`
           docker run -i --rm \
-            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-${days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e UPDATE_MODE=continuous \
-            -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
+            -v /tmp/nominatim-update-bindmount:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 60
+          sleep 120
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           echo "check replication log for Update completed. Count:"
           docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
