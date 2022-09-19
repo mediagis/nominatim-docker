@@ -97,7 +97,7 @@ jobs:
           docker stop nominatim
 
       - name: Check UPDATE_MODE=once with volume
-        if: ! matrix.nominatim.version == "4.0"
+        if: matrix.nominatim.version != '4.0'
         working-directory: .github/workflows
         run: |-
           # get the data from four days ago to make sure there really are updates to apply
@@ -117,7 +117,7 @@ jobs:
           docker stop nominatim
 
       - name: Check UPDATE_MODE=continuous with bind-mount
-        if: ! matrix.nominatim.version == "4.0"
+        if: matrix.nominatim.version != '4.0'
         working-directory: .github/workflows
         run: |-
           # get the data from few days ago to make sure there really are updates to apply
