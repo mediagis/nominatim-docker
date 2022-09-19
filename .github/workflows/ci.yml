@@ -121,7 +121,7 @@ jobs:
         working-directory: .github/workflows
         run: |-
           # get the data from few days ago to make sure there really are updates to apply
-          days_ago=`date --date="10 days ago" +%y%m%d`
+          days_ago=`date --date="4 days ago" +%y%m%d`
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
