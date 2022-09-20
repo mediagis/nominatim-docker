@@ -112,7 +112,7 @@ RUN true \
 COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
-COPY conf.d/postgres-import.conf /etc/postgresql/14/main/conf.d/
+COPY conf.d/postgres-import.conf /etc/postgresql/14/main/conf.d/postgres-import.conf.disabled
 COPY conf.d/postgres-tuning.conf /etc/postgresql/14/main/conf.d/
 
 COPY config.sh /app/config.sh
@@ -140,4 +140,4 @@ EXPOSE 8080
 
 COPY conf.d/env $PROJECT_DIR/.env
 
-CMD /app/start.sh
+CMD ["/app/start.sh"]

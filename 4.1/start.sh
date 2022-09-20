@@ -1,8 +1,13 @@
 #!/bin/bash -ex
 
+tailpid=0
+replicationpid=0
+
 stopServices() {
   service apache2 stop
   service postgresql stop
+  kill $replicationpid
+  kill $tailpid
 }
 trap stopServices SIGTERM TERM INT
 
@@ -29,6 +34,32 @@ cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --function
 
 service apache2 start
 
+# start continous replication process
+if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
+  # run init in case replication settings changed
+  sudo -u nominatim nominatim replication --project-dir ${PROJECT_DIR} --init
+  if [ "$UPDATE_MODE" == "continuous" ]; then
+    echo "starting continuous replication"
+    sudo -u nominatim nominatim replication --project-dir ${PROJECT_DIR} &> /var/log/replication.log &
+    replicationpid=${!}
+  elif [ "$UPDATE_MODE" == "once" ]; then
+    echo "starting replication once"
+    sudo -u nominatim nominatim replication --project-dir ${PROJECT_DIR} --once &> /var/log/replication.log &
+    replicationpid=${!}
+  elif [ "$UPDATE_MODE" == "catch-up" ]; then
+    echo "starting replication once in catch-up mode"
+    sudo -u nominatim nominatim replication --project-dir ${PROJECT_DIR} --catch-up &> /var/log/replication.log &
+    replicationpid=${!}
+  else
+    echo "skipping replication"
+  fi
+fi
+
 # fork a process and wait for it
-tail -f /var/log/postgresql/postgresql-14-main.log &
+tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
+tailpid=${!}
+
+echo "Warm database caches for search and reverse queries"
+sudo -E -u nominatim nominatim admin --warm > /dev/null
+echo "Warming finished"
 wait

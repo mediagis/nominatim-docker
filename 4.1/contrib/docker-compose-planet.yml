@@ -18,9 +18,9 @@ services:
             PBF_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf
             REPLICATION_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/
             NOMINATIM_PASSWORD: very_secure_password
-            IMPORT_WIKIPEDIA: true
-            IMPORT_US_POSTCODES: true
-            IMPORT_GB_POSTCODES: true
+            IMPORT_WIKIPEDIA: "true"
+            IMPORT_US_POSTCODES: "true"
+            IMPORT_GB_POSTCODES: "true"
             THREADS: 16
         volumes:
             - type: bind
@@ -30,4 +30,3 @@ services:
               source: /data/flatnode
               target: /nominatim/flatnode
         shm_size: 1gb
-
