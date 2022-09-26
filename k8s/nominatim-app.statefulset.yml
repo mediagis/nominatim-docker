@@ -38,10 +38,14 @@ spec:
             memory: "2Gi"
             cpu: "1500m"
         env:
+        - name: NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
         - name: PBF_URL
-          value: http://proxy-cache-svc.staging/geofabrik/north-america/us/california/norcal-latest.osm.pbf
+          value: "https://download.geofabrik.de/north-america/us/california/norcal-latest.osm.pbf"
         - name: REPLICATION_URL
-          value: http://proxy-cache-svc.staging/geofabrik/north-america/us/california-updates
+          value: "https://download.geofabrik.de/north-america/us/california-updates"
         - name: IMPORT_WIKIPEDIA
           value: 'true'
         - name: PROXY_SERVICE_NAME
@@ -50,10 +54,6 @@ spec:
           value: 'true'
         - name: IMPORT_TIGER_ADDRESSES
           value: 'true'
-        - name: NAMESPACE
-          valueFrom:
-            fieldRef:
-              fieldPath: metadata.namespace
         - name: NOMINATIM_PASSWORD
           valueFrom:
             secretKeyRef:
@@ -92,7 +92,7 @@ spec:
     port: 80
     targetPort: 8080
     protocol: TCP
-  - name: portgres
+  - name: postgres
     port: 5432
     targetPort: 5432
     protocol: TCP
