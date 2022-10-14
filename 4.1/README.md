@@ -216,4 +216,5 @@ These files follow the naming convention of `docker-compose-*.yml` and contain c
 ## Assorted use cases documented in issues
 
 - [Using an external Postgres database](https://github.com/mediagis/nominatim-docker/issues/245#issuecomment-1072205751)
-- [AWS hardware for importing the entire planet](https://github.com/mediagis/nominatim-docker/discussions/265)
+  - [Using Amazon's RDS](https://github.com/mediagis/nominatim-docker/issues/378#issuecomment-1278653770)
+- [Hardware sizing for importing the entire planet](https://github.com/mediagis/nominatim-docker/discussions/265)
