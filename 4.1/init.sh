@@ -49,6 +49,10 @@ if [ "$PBF_PATH" != "" ]; then
   OSMFILE=$PBF_PATH
 fi
 
+if [ !-z $PGDATABASE ]; then
+  echo Make default PGDATABASE=nominatim
+  PGDATABASE=nominatim
+fi
 
 # if we use a bind mount then the PG directory is empty and we have to create it
 if [ ! -f /var/lib/postgresql/14/main/PG_VERSION ]; then
@@ -66,7 +70,7 @@ sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='ww
 sudo -E -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWORD '$NOMINATIM_PASSWORD'" && \
 sudo -E -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
 
-sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
+sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS $PGDATABASE"
 
 chown -R nominatim:nominatim ${PROJECT_DIR}
 
