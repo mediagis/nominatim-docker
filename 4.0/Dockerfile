@@ -126,6 +126,8 @@ FROM scratch
 
 COPY --from=build / /
 
+COPY ./.httpasswd /etc/apache2/.httpasswd
+
 # Please override this
 ENV NOMINATIM_PASSWORD qaIACxO6wMR3
 # how many threads should be use for importing
@@ -137,6 +139,7 @@ WORKDIR /app
 
 EXPOSE 5432
 EXPOSE 8080
+EXPOSE 9082
 
 COPY conf.d/env $PROJECT_DIR/.env
 

@@ -6,7 +6,7 @@ services:
         image: mediagis/nominatim:4.0
         restart: always
         ports:
-            - "8080:8080"
+            - "8080:9082"
         environment:
             # see https://github.com/mediagis/nominatim-docker/tree/master/4.0#configuration for more options
             PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
