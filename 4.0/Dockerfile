@@ -56,6 +56,7 @@ RUN true \
         # Misc.
         git \
         curl \
+        pigz \
         sudo
 
 
