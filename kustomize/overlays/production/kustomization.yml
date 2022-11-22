@@ -1,0 +1,5 @@
+resources:
+  - ../../base
+namespace: staging
+patchesStrategicMerge:
+  - nominatim-app.statefulset.yml
