@@ -30,6 +30,7 @@ RUN true \
         libboost-dev \
         libboost-system-dev \
         libboost-filesystem-dev \
+        liblua5.4-dev \
         # PostgreSQL.
         postgresql-contrib \
         postgresql-server-dev-14 \
@@ -69,7 +70,7 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION 4.1.0
+ENV NOMINATIM_VERSION 4.1.1
 
 RUN true \
     && curl https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
@@ -94,6 +95,7 @@ RUN true \
         linux-libc-dev \
         libclang-*-dev \
         build-essential \
+        liblua*-dev \
         postgresql-server-dev-14 \
     && apt-get clean \
     # Clear temporary files and directories.
