@@ -30,6 +30,7 @@ RUN true \
         libboost-dev \
         libboost-system-dev \
         libboost-filesystem-dev \
+        liblua5.4-dev \
         # PostgreSQL.
         postgresql-contrib \
         postgresql-server-dev-14 \
@@ -94,6 +95,7 @@ RUN true \
         linux-libc-dev \
         libclang-*-dev \
         build-essential \
+        liblua*-dev \
         postgresql-server-dev-14 \
     && apt-get clean \
     # Clear temporary files and directories.
