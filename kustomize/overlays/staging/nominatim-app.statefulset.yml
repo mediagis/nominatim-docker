@@ -7,4 +7,4 @@ spec:
     spec:
       containers:
       - name: nominatim-app
-        image: ghcr.io/bikehopper/nominatim-docker:v1.0.0-beta2
+        image: ghcr.io/bikehopper/nominatim-docker:latest
