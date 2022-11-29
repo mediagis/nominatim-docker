@@ -11,9 +11,6 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.0"
-            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
-            postgres_version: 12
           - version: "4.1"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
