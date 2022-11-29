@@ -2,8 +2,6 @@
 
 ## Table of contents
 
-- [Nominatim Docker (Nominatim version 4.2)](#nominatim-docker-nominatim-version-42)
-  - [Table of contents](#table-of-contents)
   - [Automatic import](#automatic-import)
   - [Configuration](#configuration)
     - [General Parameters](#general-parameters)
