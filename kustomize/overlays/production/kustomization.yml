@@ -1,5 +1,0 @@
-resources:
-  - ../../base
-namespace: production
-patchesStrategicMerge:
-  - nominatim-app.statefulset.yml
