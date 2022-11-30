@@ -5,34 +5,29 @@
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/mediagis/nominatim-docker/CI?style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
 
 # How to use
-Clone repository
 
-  ```sh
-  git clone git@github.com:mediagis/nominatim-docker.git
-  cd nominatim-docker/<version>
-  ```
-See relevant installation instructions for each version in the <version>/README.md
+See relevant installation and usage instructions for each version in the ```<version>/README.md``` file.
 
-# Supported tags and respective `Dockerfile` links #
+# Supported Nominatim versions #
 
-- [`4.2.0`, `4.2`  (*4.2/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/4.2)
-- [`4.1.1`, `4.1`  (*4.1/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/4.1)
+- [`4.2.0`, `4.2`](https://github.com/mediagis/nominatim-docker/tree/master/4.2)
+- [`4.1.1`, `4.1`](https://github.com/mediagis/nominatim-docker/tree/master/4.1)
 
-# Deprecated tags and respective `Dockerfile` links #
+# Deprecated Nominatim versions #
 
-- [`4.0.1`, `4.0`  (*4.0/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/4.0)
-- [`3.7.2`, `3.7`  (*3.7/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.7)
-- [`3.6.0`, `3.6`  (*3.6/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.6)
-- [`3.5.2`, `3.5`  (*3.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.5)
-- [`3.4.2`, `3.4`  (*3.4/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
-- [`3.3.1`, `3.3`  (*3.3/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
-- [`3.2.1`, `3.2`  (*3.2/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.2)
-- [`3.1.0`, `3.1`  (*3.1/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.1)
-- [`3.0.1`, `3.0`  (*3.0/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/3.0)
-- [`2.5.1`, `2.5`  (*2.5/Dockerfile*)](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
+- [`4.0.1`, `4.0`](https://github.com/mediagis/nominatim-docker/tree/master/4.0)
+- [`3.7.2`, `3.7`](https://github.com/mediagis/nominatim-docker/tree/master/3.7)
+- [`3.6.0`, `3.6`](https://github.com/mediagis/nominatim-docker/tree/master/3.6)
+- [`3.5.2`, `3.5`](https://github.com/mediagis/nominatim-docker/tree/master/3.5)
+- [`3.4.2`, `3.4`](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
+- [`3.3.1`, `3.3`](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
+- [`3.2.1`, `3.2`](https://github.com/mediagis/nominatim-docker/tree/master/3.2)
+- [`3.1.0`, `3.1`](https://github.com/mediagis/nominatim-docker/tree/master/3.1)
+- [`3.0.1`, `3.0`](https://github.com/mediagis/nominatim-docker/tree/master/3.0)
+- [`2.5.1`, `2.5`](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
 
 
-**Caution:** When you upgrade to another version (e.g. 4.0 to 4.1) there may be major version changes like Postgres and data incompatiblity. See the relevant instructions for each version, a complete reimport is recommended. Also check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
+**Caution:** Upgrading between Nominatim versions (e.g., 4.0 to 4.1) without reimporting your data may not be directly supported by the image. Always check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
 
 # Contributors
 
