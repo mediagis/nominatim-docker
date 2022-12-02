@@ -62,4 +62,7 @@ tailpid=${!}
 echo "Warm database caches for search and reverse queries"
 sudo -E -u nominatim nominatim admin --warm > /dev/null
 echo "Warming finished"
+
+echo "--> Nominatim is ready to accept requests"
+
 wait
