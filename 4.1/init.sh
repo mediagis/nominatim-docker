@@ -71,7 +71,12 @@ sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
 chown -R nominatim:nominatim ${PROJECT_DIR}
 
 cd ${PROJECT_DIR}
-sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
+
+if [ "$REVERSE_ONLY" = "true" ]; then
+    sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS --reverse-only
+else
+    sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
+fi
 
 if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
   echo "Importing Tiger address data"
