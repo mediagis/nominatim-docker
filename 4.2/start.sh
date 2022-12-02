@@ -59,8 +59,13 @@ fi
 tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
 tailpid=${!}
 
-echo "Warm database caches for search and reverse queries"
-sudo -E -u nominatim nominatim admin --warm > /dev/null
+if [ "$REVERSE_ONLY" = "true" ]; then
+  echo "Warm database caches for reverse queries"
+  sudo -E -u nominatim nominatim admin --warm --reverse > /dev/null
+else
+  echo "Warm database caches for search and reverse queries"
+  sudo -E -u nominatim nominatim admin --warm > /dev/null
+fi
 echo "Warming finished"
 
 echo "--> Nominatim is ready to accept requests"

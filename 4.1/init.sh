@@ -73,9 +73,9 @@ chown -R nominatim:nominatim ${PROJECT_DIR}
 cd ${PROJECT_DIR}
 
 if [ "$REVERSE_ONLY" = "true" ]; then
-    sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS --reverse-only
+  sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS --reverse-only
 else
-    sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
+  sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
 fi
 
 if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
@@ -102,7 +102,11 @@ else
   fi
 fi
 
-sudo -E -u nominatim nominatim admin --warm
+if [ "$REVERSE_ONLY" = "true" ]; then
+  sudo -E -u nominatim nominatim admin --warm --reverse
+else
+  sudo -E -u nominatim nominatim admin --warm
+fi
 
 # gather statistics for query planner to potentially improve query performance
 # see, https://github.com/osm-search/Nominatim/issues/1023
