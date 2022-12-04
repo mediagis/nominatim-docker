@@ -212,6 +212,18 @@ jobs:
           ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+3SY"
           ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+4ES"
 
+      - name: Check when using REVERSE_ONLY
+        working-directory: .github/workflows
+        run: |-
+          docker run -i --rm \
+            -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e REVERSE_ONLY="true" \
+            -p 8010:8080 \
+            nominatim &
+          sleep 90
+          ./assert-reverse-only "http://localhost:8010/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8010/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
+
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         uses: docker/login-action@v2.1.0
