@@ -420,6 +420,17 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "saddfox",
+      "name": "saddfox",
+      "avatar_url": "https://avatars.githubusercontent.com/u/48035291?v=4",
+      "profile": "https://github.com/saddfox",
+      "contributions": [
+        "doc",
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 6,
