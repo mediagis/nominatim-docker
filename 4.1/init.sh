@@ -4,7 +4,7 @@ OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  curl https://nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
+  curl -A $USER_AGENT https://nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
 elif [ -f "$IMPORT_WIKIPEDIA" ]; then
   # use local file if asked
   ln -s "$IMPORT_WIKIPEDIA" ${PROJECT_DIR}/wikimedia-importance.sql.gz
@@ -13,7 +13,7 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl https://nominatim.org/data/gb_postcodes.csv.gz -L -o ${PROJECT_DIR}/gb_postcodes.csv.gz
+  curl -A $USER_AGENT https://nominatim.org/data/gb_postcodes.csv.gz -L -o ${PROJECT_DIR}/gb_postcodes.csv.gz
 elif [ -f "$IMPORT_GB_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcodes.csv.gz
@@ -22,7 +22,7 @@ else \
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  curl https://nominatim.org/data/us_postcodes.csv.gz -L -o ${PROJECT_DIR}/us_postcodes.csv.gz
+  curl -A $USER_AGENT https://nominatim.org/data/us_postcodes.csv.gz -L -o ${PROJECT_DIR}/us_postcodes.csv.gz
 elif [ -f "$IMPORT_US_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_US_POSTCODES" ${PROJECT_DIR}/us_postcodes.csv.gz
@@ -31,7 +31,7 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  curl https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -L -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  curl -A $USER_AGENT https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -L -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
   ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
