@@ -71,7 +71,7 @@ RUN pip3 install osmium
 
 # Nominatim install.
 ENV NOMINATIM_VERSION 4.2.0
-ENV USER_AGENT "mediagis/nominatim-docker"
+ARG USER_AGENT "mediagis/nominatim-docker"
 
 RUN true \
     && curl -A $USER_AGENT https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
@@ -135,6 +135,7 @@ ENV NOMINATIM_PASSWORD qaIACxO6wMR3
 ENV THREADS=16
 
 ENV PROJECT_DIR /nominatim
+ENV USER_AGENT $USER_AGENT
 
 WORKDIR /app
 
