@@ -4,7 +4,7 @@ OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  curl -A $USER_AGENT https://nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
+  curl -A {$USER_AGENT} https://nominatim.org/data/wikimedia-importance.sql.gz -L -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
 elif [ -f "$IMPORT_WIKIPEDIA" ]; then
   # use local file if asked
   ln -s "$IMPORT_WIKIPEDIA" ${PROJECT_DIR}/wikimedia-importance.sql.gz
@@ -13,7 +13,7 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  curl -A $USER_AGENT https://nominatim.org/data/gb_postcodes.csv.gz -L -o ${PROJECT_DIR}/gb_postcodes.csv.gz
+  curl -A {$USER_AGENT} https://nominatim.org/data/gb_postcodes.csv.gz -L -o ${PROJECT_DIR}/gb_postcodes.csv.gz
 elif [ -f "$IMPORT_GB_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcodes.csv.gz
