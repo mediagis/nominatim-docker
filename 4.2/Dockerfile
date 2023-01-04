@@ -1,7 +1,7 @@
 FROM ubuntu:jammy AS build
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV LANG C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
+ENV LANG=C.UTF-8
 
 WORKDIR /app
 
@@ -70,8 +70,8 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION 4.2.0
-ARG USER_AGENT "mediagis/nominatim-docker"
+ENV NOMINATIM_VERSION=4.2.0
+ARG USER_AGENT="mediagis/nominatim-docker"
 
 RUN true \
     && curl -A $USER_AGENT https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
@@ -130,12 +130,12 @@ FROM scratch
 COPY --from=build / /
 
 # Please override this
-ENV NOMINATIM_PASSWORD qaIACxO6wMR3
+ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
 # how many threads should be use for importing
 ENV THREADS=16
 
-ENV PROJECT_DIR /nominatim
-ENV USER_AGENT $USER_AGENT
+ENV PROJECT_DIR=/nominatim
+ENV USER_AGENT=$USER_AGENT
 
 WORKDIR /app
 
