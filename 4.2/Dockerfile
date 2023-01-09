@@ -136,6 +136,7 @@ ENV THREADS=16
 
 ENV PROJECT_DIR=/nominatim
 
+# i cannot figure out a way to remove this duplication, if anyone knows, please get in touch
 ENV USER_AGENT="mediagis/nominatim-docker:4.2.0"
 
 WORKDIR /app
