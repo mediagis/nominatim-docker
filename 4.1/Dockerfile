@@ -70,7 +70,7 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION=4.1.1
+ENV NOMINATIM_VERSION=4.1.2
 ARG USER_AGENT="mediagis/nominatim-docker:$NOMINATIM_VERSION"
 
 RUN true \
