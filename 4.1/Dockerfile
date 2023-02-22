@@ -135,7 +135,7 @@ ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
 ENV THREADS=16
 
 # i cannot figure out a way to remove this duplication, if anyone knows, please get in touch
-ENV USER_AGENT="mediagis/nominatim-docker:4.1.0"
+ENV USER_AGENT="mediagis/nominatim-docker:4.1.2"
 
 ENV PROJECT_DIR=/nominatim
 
