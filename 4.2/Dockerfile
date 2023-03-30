@@ -37,7 +37,6 @@ RUN true \
         postgresql-14-postgis-3 \
         postgresql-14-postgis-3-scripts \
         # PHP and Nginx. \
-        php \
         php-fpm \
         php-intl \
         php-pgsql \
@@ -113,8 +112,6 @@ RUN true \
 # Nginx configuration
 COPY conf.d/nginx.conf /etc/nginx/sites-enabled/default
 
-# PHP-FPM configuration
-COPY conf.d/php-fpm.conf /etc/php/7.4/fpm/pool.d/www.conf
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/14/main/conf.d/postgres-import.conf.disabled
