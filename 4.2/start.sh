@@ -23,13 +23,14 @@ IMPORT_FINISHED=/var/lib/postgresql/14/main/import-finished
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
+  echo "import finished"
   touch ${IMPORT_FINISHED}
 else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
-echo 'begin start postgresql'
+echo "begin start postgresql"
 service postgresql start
-echo 'finsh start postgresql'
+echo "finsh start postgresql"
 
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 
