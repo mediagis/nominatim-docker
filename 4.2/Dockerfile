@@ -121,7 +121,7 @@ COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startnginx.sh /app/startnginx.sh
-COPY startphpfpm.sh /app/startphpfpm.sh
+COPY startpostgres.sh /app/startpostgres.sh
 
 # Collapse image to single layer.
 FROM scratch
