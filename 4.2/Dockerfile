@@ -36,12 +36,11 @@ RUN true \
         postgresql-server-dev-14 \
         postgresql-14-postgis-3 \
         postgresql-14-postgis-3-scripts \
-        # PHP.
+        # PHP and Nginx. \
         php \
+        php-fpm \
         php-intl \
         php-pgsql \
-        php-cgi \
-        # Nginx.
         nginx \
         # Python 3.
         python3-dev \
@@ -114,6 +113,9 @@ RUN true \
 # Nginx configuration
 COPY conf.d/nginx.conf /etc/nginx/sites-enabled/default
 
+# PHP-FPM configuration
+COPY conf.d/php-fpm.conf /etc/php/7.4/fpm/pool.d/www.conf
+
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/14/main/conf.d/postgres-import.conf.disabled
 COPY conf.d/postgres-tuning.conf /etc/postgresql/14/main/conf.d/
@@ -122,7 +124,7 @@ COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startnginx.sh /app/startnginx.sh
-COPY startpostgres.sh /app/startpostgres.sh
+COPY startphpfpm.sh /app/startphpfpm.sh
 
 # Collapse image to single layer.
 FROM scratch

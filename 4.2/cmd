@@ -1,3 +1,4 @@
+
 docker run -it   --shm-size 58GB   -e PBF_PATH=/home/hire/pbf_file/us-latest.osm.pbf   -e IMPORT_STYLE=address   -e NOMINATIM_PASSWORD=MhxzKhl   -e THREADS=64   -e POSTGRES_CHECKPOINT_TIMEOUT=20min   -v /home/hire/pbf_file:/home/hire/pbf_file   -v /data/nominatim-data:/var/lib/postgresql/14/main   -p 8099:8080   --name nominatim_v42   mediagis/nominatim:4.2
 
-docker run -d   --shm-size 58GB   -e PBF_PATH=/home/hire/pbf_file/us-latest.osm.pbf   -e IMPORT_STYLE=extratags   -e POSTGRES_MAX_WAL_SIZE=6GB   -e NOMINATIM_PASSWORD=MhxzKhl   -e THREADS=64   -v /home/hire/pbf_file:/home/hire/pbf_file   -v /data/nominatim-data:/var/lib/postgresql/14/main   -p 8099:8080   --name nominatim_v42   ece73e26d009
+docker run -d   --shm-size 58GB   -e PBF_PATH=/home/hire/pbf_file/us-latest.osm.pbf   -e IMPORT_STYLE=extratags   -e POSTGRES_MAX_WAL_SIZE=6GB   -e NOMINATIM_PASSWORD=MhxzKhl   -e THREADS=64   -v /home/hire/pbf_file:/home/hire/pbf_file   -v /data/nominatim-data:/var/lib/postgresql/14/main   -p 8099:8080   --name nominatim_v42   23e9afa4e684
