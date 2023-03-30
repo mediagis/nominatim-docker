@@ -27,8 +27,9 @@ if [ ! -f ${IMPORT_FINISHED} ]; then
 else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
-
+echo 'begin start postgresql'
 service postgresql start
+echo 'finsh start postgresql'
 
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 

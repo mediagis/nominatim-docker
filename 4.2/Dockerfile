@@ -37,6 +37,7 @@ RUN true \
         postgresql-14-postgis-3 \
         postgresql-14-postgis-3-scripts \
         # PHP and Nginx. \
+        php \
         php-fpm \
         php-intl \
         php-pgsql \
