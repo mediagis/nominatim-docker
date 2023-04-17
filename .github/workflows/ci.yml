@@ -15,11 +15,11 @@ jobs:
           - version: "4.1"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
-            user_agent: "mediagis/nominatim-docker-action:4.1"
+            user_agent: mediagis/nominatim-docker-action:4.1
           - version: "4.2"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
-            user_agent: "mediagis/nominatim-docker-action:4.2"
+            user_agent: mediagis/nominatim-docker-action:4.2
 
     runs-on: ubuntu-latest
     steps:
