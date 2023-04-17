@@ -2,7 +2,7 @@
 
 OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
-CURL="curl -L -A \"${USER_AGENT}\" --fail-with-body"
+CURL="curl -L -A '${USER_AGENT}' --fail-with-body"
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
