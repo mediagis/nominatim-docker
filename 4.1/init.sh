@@ -1,11 +1,12 @@
 #!/bin/bash -ex
 
 OSMFILE=${PROJECT_DIR}/data.osm.pbf
-CURL="curl -L -A \"${USER_AGENT}\" --fail-with-body"
+
+CURL=("curl" "-L" "-A" "${USER_AGENT}" "--fail-with-body")
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  ${CURL} https://nominatim.org/data/wikimedia-importance.sql.gz -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
+  "${CURL[@]}" https://nominatim.org/data/wikimedia-importance.sql.gz -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
 elif [ -f "$IMPORT_WIKIPEDIA" ]; then
   # use local file if asked
   ln -s "$IMPORT_WIKIPEDIA" ${PROJECT_DIR}/wikimedia-importance.sql.gz
@@ -14,7 +15,7 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  ${CURL} https://nominatim.org/data/gb_postcodes.csv.gz -o ${PROJECT_DIR}/gb_postcodes.csv.gz
+  "${CURL[@]}" https://nominatim.org/data/gb_postcodes.csv.gz -o ${PROJECT_DIR}/gb_postcodes.csv.gz
 elif [ -f "$IMPORT_GB_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcodes.csv.gz
@@ -23,7 +24,7 @@ else \
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  ${CURL} https://nominatim.org/data/us_postcodes.csv.gz -o ${PROJECT_DIR}/us_postcodes.csv.gz
+  "${CURL[@]}" https://nominatim.org/data/us_postcodes.csv.gz -o ${PROJECT_DIR}/us_postcodes.csv.gz
 elif [ -f "$IMPORT_US_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_US_POSTCODES" ${PROJECT_DIR}/us_postcodes.csv.gz
@@ -32,7 +33,7 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  ${CURL} https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  "${CURL[@]}" https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
   ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
@@ -42,7 +43,7 @@ fi
 
 if [ "$PBF_URL" != "" ]; then
   echo Downloading OSM extract from "$PBF_URL"
-  ${CURL} "$PBF_URL" -C - --create-dirs -o $OSMFILE
+  "${CURL[@]}" "$PBF_URL" -C - --create-dirs -o $OSMFILE
 fi
 
 if [ "$PBF_PATH" != "" ]; then

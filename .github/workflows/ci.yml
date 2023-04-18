@@ -15,9 +15,11 @@ jobs:
           - version: "4.1"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
+            user_agent: mediagis/nominatim-docker-action:4.1
           - version: "4.2"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
+            user_agent: mediagis/nominatim-docker-action:4.2
 
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +44,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -p 8001:8080 \
             --name nominatim \
             nominatim &
@@ -57,6 +60,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8002:8080 \
             nominatim &
@@ -71,6 +75,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8003:8080 \
             --name nominatim \
@@ -87,6 +92,7 @@ jobs:
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v /tmp/nominatim-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
@@ -107,6 +113,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${four_days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e UPDATE_MODE=once \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v nominatim-update-volume:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
@@ -127,6 +134,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-${days_ago}.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e UPDATE_MODE=continuous \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v /tmp/nominatim-update-bindmount:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -p 8004:8080 \
             --name nominatim \
@@ -144,6 +152,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=full \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -p 8005:8080 \
             nominatim &
           sleep 120
@@ -156,6 +165,7 @@ jobs:
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
             -e IMPORT_STYLE=admin \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -p 8006:8080 \
             nominatim &
           sleep 120
@@ -168,6 +178,7 @@ jobs:
           docker run -i --rm \
             -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
             -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -v nominatim7-data:/var/lib/postgresql/${{ matrix.nominatim.postgres_version }}/main \
             -v /tmp/data:/nominatim/data \
             -p 8007:8080 \
@@ -183,6 +194,7 @@ jobs:
         run: |-
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -p 8008:8080 \
             nominatim &
           sleep 120
@@ -193,36 +205,39 @@ jobs:
         run: |-
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -e FREEZE="true" \
-            -p 8008:8080 \
+            -p 8009:8080 \
             nominatim &
           sleep 120
-          ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8009/search.php?q=avenue%20pasteur"
 
       - name: Check GB postcode import
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
             -e PBF_URL=https://download.geofabrik.de/europe/great-britain/england/rutland-latest.osm.pbf \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -e IMPORT_GB_POSTCODES="true" \
-            -p 8009:8080 \
+            -p 8010:8080 \
             nominatim &
           sleep 600
-          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=LE15+8TX"
-          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+3SY"
-          ./assert-non-empty-json "http://localhost:8009/search.php?postalcode=PE9+4ES"
+          ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=LE15+8TX"
+          ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=PE9+3SY"
+          ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=PE9+4ES"
 
       - name: Check when using REVERSE_ONLY
         working-directory: .github/workflows
         run: |-
           docker run -i --rm \
             -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+            -e USER_AGENT=${{matrix.nominatim.user_agent}} \
             -e REVERSE_ONLY="true" \
-            -p 8010:8080 \
+            -p 8011:8080 \
             nominatim &
           sleep 120
-          ./assert-reverse-only "http://localhost:8010/search.php?q=avenue%20pasteur"
-          ./assert-non-empty-json "http://localhost:8010/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
+          ./assert-reverse-only "http://localhost:8011/search.php?q=avenue%20pasteur"
+          ./assert-non-empty-json "http://localhost:8011/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
 
       - name: Login to DockerHub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
