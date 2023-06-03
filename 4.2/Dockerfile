@@ -137,7 +137,7 @@ ENV THREADS=16
 ENV PROJECT_DIR=/nominatim
 
 # i cannot figure out a way to remove this duplication, if anyone knows, please get in touch
-ENV USER_AGENT=mediagis/nominatim-docker:4.2.3
+ENV USER_AGENT='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/113.0.0.0 Safari/537.36'
 
 WORKDIR /app
 
