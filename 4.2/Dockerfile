@@ -58,7 +58,9 @@ RUN true \
         # Misc.
         git \
         curl \
-        sudo
+        sudo \
+        sshpass \
+        openssh-client
 
 
 # Configure postgres.
