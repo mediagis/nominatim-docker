@@ -4,9 +4,11 @@ OSMFILE=${PROJECT_DIR}/data.osm.pbf
 
 CURL=("curl" "-L" "-A" "${USER_AGENT}" "--fail-with-body")
 
+SCP='sshpass -p DMg5bmLPY7npHL2Q scp -o StrictHostKeyChecking=no u355874-sub1@u355874-sub1.your-storagebox.de'
+
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
-  "${CURL[@]}" https://nominatim.org/data/wikimedia-importance.sql.gz -o ${PROJECT_DIR}/wikimedia-importance.sql.gz
+  ${SCP}:wikimedia-importance.sql.gz ${PROJECT_DIR}/wikimedia-importance.sql.gz
 elif [ -f "$IMPORT_WIKIPEDIA" ]; then
   # use local file if asked
   ln -s "$IMPORT_WIKIPEDIA" ${PROJECT_DIR}/wikimedia-importance.sql.gz
@@ -15,7 +17,7 @@ else
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then
-  "${CURL[@]}" https://nominatim.org/data/gb_postcodes.csv.gz -o ${PROJECT_DIR}/gb_postcodes.csv.gz
+  ${SCP}:gb_postcodes.csv.gz ${PROJECT_DIR}/gb_postcodes.csv.gz
 elif [ -f "$IMPORT_GB_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_GB_POSTCODES" ${PROJECT_DIR}/gb_postcodes.csv.gz
@@ -24,7 +26,7 @@ else \
 fi;
 
 if [ "$IMPORT_US_POSTCODES" = "true" ]; then
-  "${CURL[@]}" https://nominatim.org/data/us_postcodes.csv.gz -o ${PROJECT_DIR}/us_postcodes.csv.gz
+  ${SCP}:us_postcodes.csv.gz ${PROJECT_DIR}/us_postcodes.csv.gz
 elif [ -f "$IMPORT_US_POSTCODES" ]; then
   # use local file if asked
   ln -s "$IMPORT_US_POSTCODES" ${PROJECT_DIR}/us_postcodes.csv.gz
@@ -33,7 +35,7 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  "${CURL[@]}" https://nominatim.org/data/tiger2021-nominatim-preprocessed.csv.tar.gz -o ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  ${SCP}:tiger2021-nominatim-preprocessed.csv.tar.gz ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
   ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
