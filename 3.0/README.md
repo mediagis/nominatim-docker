@@ -34,7 +34,7 @@ Service will run on [http://localhost:8080/](http://localhost:8080)
 
 # Update
 
-Full documentation for Nominatim update available [here](https://github.com/openstreetmap/Nominatim/blob/master/docs/Import-and-Update.md#updates). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://github.com/osm-search/Nominatim/blob/master/docs/admin/Update.md). For a list of other methods see the output of:
   ```
   docker exec -it nominatim sudo -u nominatim ./src/build/utils/update.php --help
   ```
