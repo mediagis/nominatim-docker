@@ -103,6 +103,7 @@ RUN true \
         build-essential \
         liblua*-dev \
         postgresql-server-dev-14 \
+        nlohmann-json3-dev \
     && apt-get clean \
     # Clear temporary files and directories.
     && rm -rf \
