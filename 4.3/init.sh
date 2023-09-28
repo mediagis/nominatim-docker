@@ -106,8 +106,6 @@ else
   fi
 fi
 
-sudo -H -E -u nominatim env
-
 if [ "$REVERSE_ONLY" = "true" ]; then
   sudo -H -E -u nominatim nominatim admin --warm --reverse
 else
