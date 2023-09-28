@@ -59,11 +59,9 @@ fi
 tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
 tailpid=${!}
 
-sudo -H -E -u nominatim env
-
 if [ "$REVERSE_ONLY" = "true" ]; then
   echo "Warm database caches for reverse queries"
-  sudo -H -E -u nominatim nominatim admin --warm --reverse > /dev/null
+  sudo -H -E -u nominatim nominatim admin --warm --search-only > /dev/null
 else
   echo "Warm database caches for search and reverse queries"
   sudo -H -E -u nominatim nominatim admin --warm > /dev/null

@@ -107,7 +107,7 @@ else
 fi
 
 if [ "$REVERSE_ONLY" = "true" ]; then
-  sudo -H -E -u nominatim nominatim admin --warm --reverse
+  sudo -H -E -u nominatim nominatim admin --warm --search-only
 else
   sudo -H -E -u nominatim nominatim admin --warm
 fi
