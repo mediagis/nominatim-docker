@@ -61,6 +61,9 @@ tailpid=${!}
 
 if [ "$REVERSE_ONLY" = "true" ]; then
   echo "Warm database caches for reverse queries"
+  # --search-only is a workaround until https://github.com/osm-search/Nominatim/issues/3213 
+  # is merged and a new Nominatim version (probably 4.3.1) is released.
+  # Afterwards, we should revert back to using --reverse instead
   sudo -H -E -u nominatim nominatim admin --warm --search-only > /dev/null
 else
   echo "Warm database caches for search and reverse queries"
