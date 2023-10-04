@@ -59,6 +59,8 @@ fi
 tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
 tailpid=${!}
 
+export NOMINATIM_QUERY_TIMEOUT=600
+export NOMINATIM_REQUEST_TIMEOUT=3600
 if [ "$REVERSE_ONLY" = "true" ]; then
   echo "Warm database caches for reverse queries"
   # --search-only is a workaround until https://github.com/osm-search/Nominatim/issues/3213 
@@ -69,6 +71,8 @@ else
   echo "Warm database caches for search and reverse queries"
   sudo -H -E -u nominatim nominatim admin --warm > /dev/null
 fi
+export NOMINATIM_QUERY_TIMEOUT=10
+export NOMINATIM_REQUEST_TIMEOUT=60
 echo "Warming finished"
 
 echo "--> Nominatim is ready to accept requests"
