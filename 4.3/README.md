@@ -48,7 +48,10 @@ The following environment variables are available for configuration:
   There you can find the folder /planet which contains the Planet-latest.osm.pbf
   and mostly a /replication folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
-- `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
+- `REPLICATION_URL`: Where to get updates from. For exampe at Geofabrik under for example europe: https://download.geofabrik.de/europe-updates/
+                     The Europe member Countrys Update Path in in https://download.geofabrik.de/europe/
+                    if only osm.pbf files visible delete at the end of the Site URL the.html ...europe/ instad of ...europe.html          
+                     Other Map-Update paths like this example https://download.geofabrik.de/countryname-updates/ 
 - `nominatim-flatnode:`: Set the path for the Flatnode File (Suggested:/nominatim/flatnode). 
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
