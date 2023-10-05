@@ -42,9 +42,12 @@ If you want to check that your data import was successful, you can use the API w
 
 The following environment variables are available for configuration:
 
-- `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`. Check [https://download.geofabrik.de](https://download.geofabrik.de)
+- `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
+  Check [https://download.geofabrik.de](https://download.geofabrik.de) for smaller  enviroments, because the downloadspeed is restricted.
+  For importing the Planet there is a list of mirrors at the [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors). 
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
 - `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
+- `nominatim-flatnode:`: Set the path for the Flatnode File (Suggested:/nominatim/flatnode). 
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
 - `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.3.0/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
