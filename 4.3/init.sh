@@ -109,10 +109,7 @@ fi
 export NOMINATIM_QUERY_TIMEOUT=600
 export NOMINATIM_REQUEST_TIMEOUT=3600
 if [ "$REVERSE_ONLY" = "true" ]; then
-  # --search-only is a workaround until https://github.com/osm-search/Nominatim/issues/3213 
-  # is merged and a new Nominatim version (probably 4.3.1) is released.
-  # Afterwards, we should revert back to using --reverse instead
-  sudo -H -E -u nominatim nominatim admin --warm --search-only
+  sudo -H -E -u nominatim nominatim admin --warm --reverse
 else
   sudo -H -E -u nominatim nominatim admin --warm
 fi
