@@ -205,3 +205,43 @@ docker run -it --rm \
 ## Docker Compose
 
 In addition, we also provide a basic `contrib/docker-compose.yml` template which you use as a starting point and adapt to your needs. Use this template to set the environment variables, mounts, etc. as needed. 
+
+
+# special notes
+
+##
+```
+<!-- https://download.geofabrik.de/north-america-latest.osm.pbf -->
+<!-- https://download.geofabrik.de/north-america/us-latest.osm.pbf -->
+<!-- https://download.geofabrik.de/north-america/us-updates/ -->
+<!--   -v /data/kaihua/nominatim-docker/4.0/extras:/nominatim/extras \
+<!-- wget https://nominatim.org/data/wikimedia-importance.sql.gz -->
+<!--   -v /data/kaihua/nominatim-docker/4.0/nominatim-data:/var/lib/postgresql/12/main \
+  -v /data/kaihua/nominatim-docker/4.0/flatnode:/nominatim/flatnode \ -->
+ -->
+
+docker run -it --rm \
+  -e PBF_PATH=/nominatim/data/us-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/north-america/us-updates/ \
+  -e IMPORT_WIKIPEDIA=/nominatim/extras/wikimedia-importance.sql.gz \
+  -e IMPORT_US_POSTCODES=true \
+  -v /data/kaihua/nominatim-docker/4.0/data:/nominatim/data \
+  -v /data/kaihua/nominatim-docker/4.0/extras:/nominatim/extras \
+  -v /data/kaihua/nominatim-docker/4.0/nominatim-data:/var/lib/postgresql/12/main \
+  -v /data/kaihua/nominatim-docker/4.0/flatnode:/nominatim/flatnode \
+  -p 172.31.28.177:8123:8080 \
+  --shm-size=2g \
+  --name nominatim \
+  mediagis/nominatim:4.0
+```
+
+for test
+docker run -it --rm \
+  -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf \
+  -v /data/kaihua/nominatim-docker/4.0/data:/nominatim/data \
+  -p 172.31.28.177:8123:8080 \
+  --shm-size=2g \
+  --name nominatim \
+  mediagis/nominatim:4.0
+
+http://172.31.28.177:8123/search.php?q=avenue%20pasteur
