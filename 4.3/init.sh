@@ -11,9 +11,6 @@ if [ -z "$THREADS" ]; then
   THREADS=$(nproc)
 fi
 
-# Export so it's available for any process run after this script
-export THREADS
-
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
   ${SCP}:wikimedia-importance.sql.gz ${PROJECT_DIR}/wikimedia-importance.sql.gz
