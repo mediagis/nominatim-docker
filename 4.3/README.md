@@ -45,14 +45,14 @@ The following environment variables are available for configuration:
 
 - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
   Check [https://download.geofabrik.de](https://download.geofabrik.de) 
-  Since de DL speed is restrictet at Geofabrik, for importing the full Planet there is a recommended list of Mirrors at the [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
-  At the mirror sites you can find the folder /planet which contains the Planet-latest.osm.pbf
+  Since de DL speed is restrictet at Geofabrik, for importing the full planet there is a recommended list of mirrors at the [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
+  At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
   and mostly a /replication folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
 - `REPLICATION_URL`: Where to get updates from. For exampe at Geofabrik under for example europe: https://download.geofabrik.de/europe-updates/
-                     The Europe member Countrys Update Path in in https://download.geofabrik.de/europe/
-                    if only osm.pbf files visible delete at the end of the Site URL the.html ...europe/ instad of ...europe.html          
-                     Other Map-Update paths like this example https://download.geofabrik.de/countryname-updates/ 
+                     The Europe member countrys update path in in https://download.geofabrik.de/europe/
+                    if only osm.pbf files visible delete at the end of the site URL the.html ...europe/ instad of ...europe.html          
+                     Other map update paths like this example https://download.geofabrik.de/countryname-updates/ 
  
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
@@ -105,7 +105,6 @@ See https://nominatim.org/release-docs/4.3.0/admin/Import/#filtering-imported-da
 ### Flatnode files
 
 In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/4.3.0/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
-- `nominatim-flatnode:`: Set the path for the Flatnode File (Suggested:/nominatim/flatnode).
   
 ```sh
 docker run -it \
@@ -146,7 +145,7 @@ A setup example with almost all flag possibilities including a short explanation
 docker run -it \
 
 	-v nominatim-flatnode:/nominatim/flatnode \
-	#Sets the Flatnode File, which is to reduce the load on the Database when you plan to use multiple Countrys together bigger than 6GB
+	#Sets the flatnode file, which is to reduce the load on the database when you plan to use multiple countrys together bigger than 6GB
 	#and highly recommended if you want to import the World!
 	
 	-e POSTGRES_SHARED_BUFFERS=2GB \
@@ -158,14 +157,14 @@ docker run -it \
 	-e POSTGRES_MAX_WAL_SIZE=1GB \
 	-e POSTGRES_CHECKPOINT_TIMEOUT=10min \
 	-e POSTGRES_CHECKPOINT_COMPLETITION_TARGET=0.9 \
-	#PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended Values)
+	#PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended values)
 
 	-e PBF_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf \
 	#Sets the target for the initial file for the import. If the files aleready on the local System you use:
 	#-e PBF_PATH=/path/to/your/planet-latest.osm.pbf 	PBF_URL cannot be used together with PBF_PATH!
 
 	-e REPLICATION_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/ \
-	#Sets the Path, where Nominatim gets the Map-Updates - the REPLICATION_URL is never a file.
+	#Sets the Path, where Nominatim gets the map updates - the REPLICATION_URL is never a file.
 
 	-e REPLICATION_UPDATE_INTERVAL=43200
 	#How often upstream publishes diffs (in seconds, default: 86400). Requires REPLICATION_URL to be set.
@@ -192,7 +191,7 @@ docker run -it \
 	#Whether to download and import the GB postcode dump (true) or path to GB postcode dump in the container. (default: false)
 
 	-e IMPORT_STYLE=admin/street/address/full/extratags
-	#Sets either an importfilter for a reduced Data import or the Full set  and the full set with additional data(default: full):
+	#Sets either an importfilter for a reduced data import or the full set and the full set with additional data(default: full):
 	#admin: Only import administrative boundaries and places.
 	#street: Like the admin style but also adds streets.
 	#address: Import all data necessary to compute addresses down to house number level.
@@ -212,10 +211,10 @@ docker run -it \
 	#The password to connect to the database with (default: qaIACxO6wMR3)
 
 	-p 8080:8080 \
-	#Sets the ports of the Container guest:host
+	#Sets the ports of the container guest:host
 
 	--name nominatim \
-	#Sets the name of the Container
+	#Sets the name of the container
 
 	mediagis/nominatim:4.3 
 	#Here you choose the Docker image and version
