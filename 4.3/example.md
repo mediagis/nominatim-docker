@@ -5,7 +5,7 @@
 docker run -it \
 
 	#Sets the flatnode file, which is to reduce the load on the database when you plan to use multiple countrys together bigger than 6GB
-	#and highly recommended if you want to import the World!
+	#and highly recommended if you want to import the world!
 	-v nominatim-flatnode:/nominatim/flatnode \
 	
 	#PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended values)	
