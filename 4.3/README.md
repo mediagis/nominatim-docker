@@ -8,7 +8,7 @@
     - [PostgreSQL Tuning](#postgresql-tuning)
     - [Import Style](#import-style)
     - [Flatnode files](#flatnode-files)
-    - [Configuration Example](examples.md)
+    - [Configuration Example](example.md)
   - [Persistent container data](#persistent-container-data)
   - [OpenStreetMap Data Extracts](#openstreetmap-data-extracts)
   - [Updating the database](#updating-the-database)
