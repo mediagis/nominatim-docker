@@ -54,7 +54,7 @@ The following environment variables are available for configuration:
 - `IMPORT_US_POSTCODES`: Whether to download and import the US postcode dump (`true`) or path to US postcode dump in the container. (default: `false`)
 - `IMPORT_GB_POSTCODES`: Whether to download and import the GB postcode dump (`true`) or path to GB postcode dump in the container. (default: `false`)
 - `IMPORT_TIGER_ADDRESSES`: Whether to download and import the Tiger address data (`true`) or path to a preprocessed Tiger address set in the container. (default: `false`)
-- `THREADS`: How many threads should be used to import (default: `16`)
+- `THREADS`: How many threads should be used to import (default: number of processing units available to the current process via `nproc`)
 - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
 The following run parameters are available for configuration:
