@@ -47,7 +47,7 @@ The following environment variables are available for configuration:
   Check [https://download.geofabrik.de](https://download.geofabrik.de) 
   Since the download speed is restricted at Geofabrik, there is a recommended list of mirrors for importing the full planet at [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
   At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
-  and mostly a /replication folder for the `REPLICATION_URL`.
+  and often a `/replication` folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
 - `REPLICATION_URL`: Where to get updates from. For example Geofabrik's update for the Europe extract are available at : https://download.geofabrik.de/europe-updates/
 Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CONTINENT/$COUNTRY-updates/`
