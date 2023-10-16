@@ -16,7 +16,6 @@
   - [Importance Dumps, Postcode Data, and Tiger Addresses](#importance-dumps-postcode-data-and-tiger-addresses)
   - [Development](#development)
   - [Docker Compose](#docker-compose)
-  - [Nominatim UI](#nominatim-ui)
   - [Assorted use cases documented in issues](#assorted-use-cases-documented-in-issues)
 
 ---
@@ -47,14 +46,14 @@ The following environment variables are available for configuration:
 - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
   Check [https://download.geofabrik.de](https://download.geofabrik.de) 
   Since de DL speed is restrictet at Geofabrik, for importing the full Planet there is a recommended list of Mirrors at the [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
-  There you can find the folder /planet which contains the Planet-latest.osm.pbf
+  At the mirror sites you can find the folder /planet which contains the Planet-latest.osm.pbf
   and mostly a /replication folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
 - `REPLICATION_URL`: Where to get updates from. For exampe at Geofabrik under for example europe: https://download.geofabrik.de/europe-updates/
                      The Europe member Countrys Update Path in in https://download.geofabrik.de/europe/
                     if only osm.pbf files visible delete at the end of the Site URL the.html ...europe/ instad of ...europe.html          
                      Other Map-Update paths like this example https://download.geofabrik.de/countryname-updates/ 
-- `nominatim-flatnode:`: Set the path for the Flatnode File (Suggested:/nominatim/flatnode). 
+ 
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
 - `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.3.0/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
@@ -106,6 +105,17 @@ See https://nominatim.org/release-docs/4.3.0/admin/Import/#filtering-imported-da
 ### Flatnode files
 
 In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/4.3.0/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+- `nominatim-flatnode:`: Set the path for the Flatnode File (Suggested:/nominatim/flatnode).
+  
+```sh
+docker run -it \
+  -v nominatim-flatnode:/nominatim/flatnode \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:4.3
+```
 
 ## Persistent container data
 
@@ -129,14 +139,15 @@ docker run -it --shm-size=1g \
 ```
 ### Configuration Example
 
-A setup example with almost all Flag possibilities including a short explanation:
+A setup example with almost all flag possibilities including a short explanation:
 
 ```sh
+
 docker run -it \
 
 	-v nominatim-flatnode:/nominatim/flatnode \
-#Sets the flatnode file, which is to reduce the load on the database when you plan to use multiple countrys together bigger than 6GB
-#	and highly recommended if you want to import the world!
+	#Sets the Flatnode File, which is to reduce the load on the Database when you plan to use multiple Countrys together bigger than 6GB
+	#and highly recommended if you want to import the World!
 	
 	-e POSTGRES_SHARED_BUFFERS=2GB \
 	-e POSTGRES_MAINTAINENCE_WORK_MEM=10GB \
@@ -147,67 +158,67 @@ docker run -it \
 	-e POSTGRES_MAX_WAL_SIZE=1GB \
 	-e POSTGRES_CHECKPOINT_TIMEOUT=10min \
 	-e POSTGRES_CHECKPOINT_COMPLETITION_TARGET=0.9 \
-#PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended values)
+	#PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended Values)
 
 	-e PBF_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf \
-#Sets the target for the initial file for the import. If the files aleready on the local System you use:
-#	-e PBF_PATH=/path/to/your/planet-latest.osm.pbf 	PBF_URL cannot be used together with PBF_PATH!
+	#Sets the target for the initial file for the import. If the files aleready on the local System you use:
+	#-e PBF_PATH=/path/to/your/planet-latest.osm.pbf 	PBF_URL cannot be used together with PBF_PATH!
 
 	-e REPLICATION_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/ \
-#Sets the Path, where nominatim gets the map updates - the REPLICATION_URL is never a file.
+	#Sets the Path, where Nominatim gets the Map-Updates - the REPLICATION_URL is never a file.
 
 	-e REPLICATION_UPDATE_INTERVAL=43200
-#How often upstream publishes diffs (in seconds, default: 86400). Requires REPLICATION_URL to be set.
+	#How often upstream publishes diffs (in seconds, default: 86400). Requires REPLICATION_URL to be set.
 
 	-e REPLICATION_RECHECK_INTERVAL=450 
-#How long to sleep if no update found yet (in seconds, default: 900). Requires REPLICATION_URL to be set.
+	#How long to sleep if no update found yet (in seconds, default: 900). Requires REPLICATION_URL to be set.
 
 	-e UPDATE_MODE=continuous/once/catch-up/none
-#Configures the way the map files will be updated (default: none)
+	#Configures the way the map files will be updated (default: none)
 
 	-e FREEZE=true/false
-#Disables the updates to save space for example (default: false)
+	#Disables the updates to save space for example (default: false)
 
 	-e REVERSE_ONLY=True/false
-#If you only want to use the Nominatim database for reverse lookups. (default: false)
+	#If you only want to use the Nominatim database for reverse lookups. (default: false)
 
 	-e IMPORT_WIKIPEDIA=true\false
-#When enabled additional wikipedia data will be loaded (default off)
+	#When enabled additional Wikipedia Data will be loaded (default off)
 
 	-e IMPORT_US_POSTCODES=true\false 
-#Whether to download and import the US postcode dump (true) or path to US postcode dump in the container. (default: false)
+	#Whether to download and import the US postcode dump (true) or path to US postcode dump in the container. (default: false)
 
 	-e IMPORT_GB_POSTCODES=true\false 
-#Whether to download and import the GB postcode dump (true) or path to GB postcode dump in the container. (default: false)
+	#Whether to download and import the GB postcode dump (true) or path to GB postcode dump in the container. (default: false)
 
 	-e IMPORT_STYLE=admin/street/address/full/extratags
-#Sets either an importfilter for a reduced data import or the Full set  and the full set with additional data(default: full):
-#	admin: Only import administrative boundaries and places.
-#	street: Like the admin style but also adds streets.
-#	address: Import all data necessary to compute addresses down to house number level.
-#	full: Default style that also includes points of interest.
-#	extratags: Like the full style but also adds most of the OSM tags into the extratags column.
+	#Sets either an importfilter for a reduced Data import or the Full set  and the full set with additional data(default: full):
+	#admin: Only import administrative boundaries and places.
+	#street: Like the admin style but also adds streets.
+	#address: Import all data necessary to compute addresses down to house number level.
+	#full: Default style that also includes points of interest.
+	#extratags: Like the full style but also adds most of the OSM tags into the extratags column.
 	
 	-e IMPORT_TIGER_ADDRESSES=true\false 
-#Whether to download and import the Tiger address data (true) or path to a preprocessed Tiger address set in the container. (default: false)
+	#Whether to download and import the Tiger address data (true) or path to a preprocessed Tiger address set in the container. (default: false)
 
 	-e THREADS=10 \
-#Sets the used threads at the import (default 16)
+	#Sets the used threads at the import (default 16)
 
 	--shm-size=60g \
-#Sets the docker tmpfs. highly recommended for bigger imports like Europe. At least 1GB - ideally half of aviable RAM. 
+	#Sets the Docker tmpfs. Highly recommended for bigger imports like Europe. At least 1GB - ideally half of aviable RAM. 
 
 	-e NOMINATIM_PASSWORD=supersafepassword
-#The password to connect to the database with (default: qaIACxO6wMR3)
+	#The password to connect to the database with (default: qaIACxO6wMR3)
 
 	-p 8080:8080 \
-#Sets the ports of the container guest:host
+	#Sets the ports of the Container guest:host
 
 	--name nominatim \
-#Sets the name of the container
+	#Sets the name of the Container
 
 	mediagis/nominatim:4.3 
-#Here you choose the docker image and version
+	#Here you choose the Docker image and version
 	
 ```
 
@@ -306,10 +317,6 @@ In addition, we also provide a basic `contrib/docker-compose.yml` template which
 
 Besides the basic docker-compose.yml, there are also some advanced YAML configurations available in the `contrib` folder.
 These files follow the naming convention of `docker-compose-*.yml` and contain comments about the specific use case.
-
-## Nominatim UI
-
-You have to set the permissions for the Webserver group(default www-data) at /nominatim/website to 755.
 
 ## Assorted use cases documented in issues
 
