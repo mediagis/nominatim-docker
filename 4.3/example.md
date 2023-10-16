@@ -1,7 +1,6 @@
 # Configuration Example
 
 ```sh
-
 docker run -it \
 
   #Sets the flatnode file, which is to reduce the load on the database when you plan to use multiple countrys together bigger than 6GB
