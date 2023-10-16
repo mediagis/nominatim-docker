@@ -7,7 +7,8 @@ A setup example with almost all flag possibilities including a short explanation
 docker run -it \
 
 	-v nominatim-flatnode:/nominatim/flatnode \
-	#Sets the flatnode file, which is to reduce the load on the database when you plan to use multiple countrys together bigger than 6GB
+	#Sets the flatnode file, which is to reduce the load on the database
+        #when you plan to use multiple countrys together bigger than 6GB
 	#and highly recommended if you want to import the World!
 	
 	-e POSTGRES_SHARED_BUFFERS=2GB \
@@ -44,7 +45,7 @@ docker run -it \
 	#If you only want to use the Nominatim database for reverse lookups. (default: false)
 
 	-e IMPORT_WIKIPEDIA=true\false
-	#When enabled additional Wikipedia Data will be loaded (default off)
+	#When enabled additional Wikipedia data will be loaded (default off)
 
 	-e IMPORT_US_POSTCODES=true\false 
 	#Whether to download and import the US postcode dump (true) or path to US postcode dump in the container. (default: false)
