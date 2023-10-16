@@ -45,7 +45,7 @@ The following environment variables are available for configuration:
 
 - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
   Check [https://download.geofabrik.de](https://download.geofabrik.de) 
-  Since de DL speed is restrictet at Geofabrik, for importing the full planet there is a recommended list of mirrors at the [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
+  Since the download speed is restricted at Geofabrik, there is a recommended list of mirrors for importing the full planet at [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
   At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
   and mostly a /replication folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
