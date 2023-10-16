@@ -133,8 +133,6 @@ COPY --from=build / /
 
 # Please override this
 ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
-# how many threads should be use for importing
-ENV THREADS=16
 
 ENV PROJECT_DIR=/nominatim
 

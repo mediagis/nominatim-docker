@@ -6,6 +6,11 @@ CURL=("curl" "-L" "-A" "${USER_AGENT}" "--fail-with-body")
 
 SCP='sshpass -p DMg5bmLPY7npHL2Q scp -o StrictHostKeyChecking=no u355874-sub1@u355874-sub1.your-storagebox.de'
 
+# Check if THREADS is not set or is empty
+if [ -z "$THREADS" ]; then
+  THREADS=$(nproc)
+fi
+
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
   ${SCP}:wikimedia-importance.sql.gz ${PROJECT_DIR}/wikimedia-importance.sql.gz
@@ -106,11 +111,15 @@ else
   fi
 fi
 
+export NOMINATIM_QUERY_TIMEOUT=600
+export NOMINATIM_REQUEST_TIMEOUT=3600
 if [ "$REVERSE_ONLY" = "true" ]; then
-  sudo -H -E -u nominatim nominatim admin --warm --search-only
+  sudo -H -E -u nominatim nominatim admin --warm --reverse
 else
   sudo -H -E -u nominatim nominatim admin --warm
 fi
+export NOMINATIM_QUERY_TIMEOUT=10
+export NOMINATIM_REQUEST_TIMEOUT=60
 
 # gather statistics for query planner to potentially improve query performance
 # see, https://github.com/osm-search/Nominatim/issues/1023

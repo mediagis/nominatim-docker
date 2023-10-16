@@ -54,14 +54,14 @@ Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CON
  
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
-- `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.3.0/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
+- `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.3.1/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
 - `FREEZE`: Freeze database and disable dynamic updates to save space. (default: `false`)
 - `REVERSE_ONLY`: If you only want to use the Nominatim database for reverse lookups. (default: `false`)
 - `IMPORT_WIKIPEDIA`: Whether to download and import the Wikipedia importance dumps (`true`) or path to importance dump in the container. Importance dumps improve the scoring of results. On a beefy 10 core server, this takes around 5 minutes. (default: `false`)
 - `IMPORT_US_POSTCODES`: Whether to download and import the US postcode dump (`true`) or path to US postcode dump in the container. (default: `false`)
 - `IMPORT_GB_POSTCODES`: Whether to download and import the GB postcode dump (`true`) or path to GB postcode dump in the container. (default: `false`)
 - `IMPORT_TIGER_ADDRESSES`: Whether to download and import the Tiger address data (`true`) or path to a preprocessed Tiger address set in the container. (default: `false`)
-- `THREADS`: How many threads should be used to import (default: `16`)
+- `THREADS`: How many threads should be used to import (default: number of processing units available to the current process via `nproc`)
 - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
 
 The following run parameters are available for configuration:
@@ -82,7 +82,7 @@ The following environment variables are available to tune PostgreSQL:
 - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
 - `POSTGRES_CHECKPOINT_COMPLETION_TARGET` (default: `0.9`)
 
-See https://nominatim.org/release-docs/4.3.0/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
+See https://nominatim.org/release-docs/4.3.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
 ### Import Style
 
@@ -98,7 +98,7 @@ Available options are :
 - `full`: Default style that also includes points of interest.
 - `extratags`: Like the full style but also adds most of the OSM tags into the extratags column.
 
-See https://nominatim.org/release-docs/4.3.0/admin/Import/#filtering-imported-data for more details on those styles.
+See https://nominatim.org/release-docs/4.3.1/admin/Import/#filtering-imported-data for more details on those styles.
 
 ### Flatnode files
 
@@ -113,9 +113,11 @@ docker run -it \
   --name nominatim \
   mediagis/nominatim:4.3
 ```
+
 ### Configuration Example
 
 Here you can find a [configuration example](example.md) for all flags you can use for the container creation.
+
 
 ## Persistent container data
 
@@ -165,7 +167,7 @@ where the _/osm-maps/data/_ directory contains _monaco-latest.osm.pbf_ file that
 
 ## Updating the database
 
-Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/4.3.0/admin/Update/). For a list of other methods see the output of:
+Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/4.3.1/admin/Update/). For a list of other methods see the output of:
 
 ```sh
 docker exec -it nominatim sudo -u nominatim nominatim replication --help
@@ -210,7 +212,7 @@ docker run -it \
 
 Where the path to the importance dump is given relative to the container. (The file does not need to be named `wikimedia-importance.sql.gz`.) The same works for `IMPORT_US_POSTCODES` and `IMPORT_GB_POSTCODES`.
 
-For more information about the Tiger address file, see [Installing TIGER housenumber data for the US](https://nominatim.org/release-docs/4.3.0/customize/Tiger/).
+For more information about the Tiger address file, see [Installing TIGER housenumber data for the US](https://nominatim.org/release-docs/4.3.1/customize/Tiger/).
 
 ## Development
 
