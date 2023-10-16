@@ -8,7 +8,7 @@
     - [PostgreSQL Tuning](#postgresql-tuning)
     - [Import Style](#import-style)
     - [Flatnode files](#flatnode-files)
-    - [Configuration Example](example.md)
+    - [Configuration Example](#configuration-example)
   - [Persistent container data](#persistent-container-data)
   - [OpenStreetMap Data Extracts](#openstreetmap-data-extracts)
   - [Updating the database](#updating-the-database)
@@ -113,6 +113,9 @@ docker run -it \
   --name nominatim \
   mediagis/nominatim:4.3
 ```
+### Configuration Example
+
+Here you can find a [configuration example](example.md) for all flags you can use for the container creation.
 
 ## Persistent container data
 
