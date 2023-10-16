@@ -49,7 +49,7 @@ The following environment variables are available for configuration:
   At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
   and often a `/replication` folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
-- `REPLICATION_URL`: Where to get updates from. For example Geofabrik's update for the Europe extract are available at : https://download.geofabrik.de/europe-updates/
+- `REPLICATION_URL`: Where to get updates from. For example Geofabrik's update for the Europe extract are available at `https://download.geofabrik.de/europe-updates/`
 Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CONTINENT/$COUNTRY-updates/`
  
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
