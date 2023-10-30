@@ -6,7 +6,7 @@ docker run -it \
   #and highly recommended if you want to import the World!
   -v nominatim-flatnode:/nominatim/flatnode \
   
-  #PostgreSQL Tuning, without the need to edit the .conf after the setup(Nominatim default recommended values)  
+  #PostgreSQL Tuning, without the need to edit the .conf after the setup (Nominatim default recommended values)  
   -e POSTGRES_SHARED_BUFFERS=2GB \
   -e POSTGRES_MAINTAINENCE_WORK_MEM=10GB \
   -e POSTGRES_AUTOVACUUM_WORK_MEM=2GB \
