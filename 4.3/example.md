@@ -37,7 +37,7 @@ docker run -it \
   -e FREEZE=true/false
 
   #If you only want to use the Nominatim database for reverse lookups. (default: false)
-  -e REVERSE_ONLY=True/false
+  -e REVERSE_ONLY=true/false
 
   #When enabled additional Wikipedia Data will be loaded (default off)
   -e IMPORT_WIKIPEDIA=true\false
