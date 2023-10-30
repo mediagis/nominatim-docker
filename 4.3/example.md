@@ -46,7 +46,7 @@ docker run -it \
   -e IMPORT_US_POSTCODES=true/false/path
 
   #Whether to download and import the GB postcode dump (true) or path to GB postcode dump in the container. (default: false)
-  -e IMPORT_GB_POSTCODES=true\false 
+  -e IMPORT_GB_POSTCODES=true/false/path
 
   #Sets either an importfilter for a reduced data import or the full set and the full set with additional data (default: full):
   #admin: Only import administrative boundaries and places.
