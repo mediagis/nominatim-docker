@@ -62,7 +62,7 @@ docker run -it \
   #Sets the used threads at the import (default 16)
   -e THREADS=10 \
 
-  #Sets the Docker tmpfs. Highly recommended for bigger imports like Europe. At least 1GB - ideally half of aviable RAM. 
+  #Sets the Docker tmpfs. Highly recommended for bigger imports like Europe. At least 1GB - ideally half of the available RAM. 
   --shm-size=60g \
 
   #The password to connect to the database with (default: qaIACxO6wMR3)
