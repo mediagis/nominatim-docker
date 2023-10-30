@@ -57,7 +57,7 @@ docker run -it \
   -e IMPORT_STYLE=admin/street/address/full/extratags
 
   #Whether to download and import the Tiger address data (true) or path to a preprocessed Tiger address set in the container. (default: false)
-  -e IMPORT_TIGER_ADDRESSES=true\false 
+  -e IMPORT_TIGER_ADDRESSES=true/false/path
 
   #Sets the used threads at the import (default 16)
   -e THREADS=10 \
