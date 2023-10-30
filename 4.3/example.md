@@ -43,7 +43,7 @@ docker run -it \
   -e IMPORT_WIKIPEDIA=true/false
 
   #Whether to download and import the US postcode dump (true) or path to US postcode dump in the container. (default: false)
-  -e IMPORT_US_POSTCODES=true\false 
+  -e IMPORT_US_POSTCODES=true/false/path
 
   #Whether to download and import the GB postcode dump (true) or path to GB postcode dump in the container. (default: false)
   -e IMPORT_GB_POSTCODES=true\false 
