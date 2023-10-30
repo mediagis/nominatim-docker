@@ -17,7 +17,7 @@ docker run -it \
   -e POSTGRES_CHECKPOINT_TIMEOUT=10min \
   -e POSTGRES_CHECKPOINT_COMPLETITION_TARGET=0.9 \
 
-  #Sets the target for the initial file for the import. If the files aleready on the local System you use:
+  #Sets the target for the initial file for the import. If the file is already on the local system you use:
   #-e PBF_PATH=/path/to/your/planet-latest.osm.pbf   PBF_URL cannot be used together with PBF_PATH!
   -e PBF_URL=https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf \
 
