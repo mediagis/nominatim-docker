@@ -8,6 +8,7 @@
     - [PostgreSQL Tuning](#postgresql-tuning)
     - [Import Style](#import-style)
     - [Flatnode files](#flatnode-files)
+    - [Configuration Example](#configuration-example)
   - [Persistent container data](#persistent-container-data)
   - [OpenStreetMap Data Extracts](#openstreetmap-data-extracts)
   - [Updating the database](#updating-the-database)
@@ -42,9 +43,15 @@ If you want to check that your data import was successful, you can use the API w
 
 The following environment variables are available for configuration:
 
-- `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`. Check [https://download.geofabrik.de](https://download.geofabrik.de)
+- `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
+  Check [https://download.geofabrik.de](https://download.geofabrik.de) 
+  Since the download speed is restricted at Geofabrik, there is a recommended list of mirrors for importing the full planet at [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
+  At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
+  and often a `/replication` folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
-- `REPLICATION_URL`: Where to get updates from. Also available from Geofabrik.
+- `REPLICATION_URL`: Where to get updates from. For example Geofabrik's update for the Europe extract are available at `https://download.geofabrik.de/europe-updates/`
+Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CONTINENT/$COUNTRY-updates/`
+ 
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
 - `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/4.3.1/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
@@ -95,7 +102,22 @@ See https://nominatim.org/release-docs/4.3.1/admin/Import/#filtering-imported-da
 
 ### Flatnode files
 
-In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/4.3.1/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/4.3.0/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
+  
+```sh
+docker run -it \
+  -v nominatim-flatnode:/nominatim/flatnode \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=https://download.geofabrik.de/europe/monaco-updates/ \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:4.3
+```
+
+### Configuration Example
+
+Here you can find a [configuration example](example.md) for all flags you can use for the container creation.
+
 
 ## Persistent container data
 
@@ -219,3 +241,6 @@ These files follow the naming convention of `docker-compose-*.yml` and contain c
 - [Using an external Postgres database](https://github.com/mediagis/nominatim-docker/issues/245#issuecomment-1072205751)
   - [Using Amazon's RDS](https://github.com/mediagis/nominatim-docker/issues/378#issuecomment-1278653770)
 - [Hardware sizing for importing the entire planet](https://github.com/mediagis/nominatim-docker/discussions/265)
+- [Upgrading Nominatim](https://github.com/mediagis/nominatim-docker/discussions/317)
+- [Using Nominatim UI](https://github.com/mediagis/nominatim-docker/discussions/486#discussioncomment-7239861)
+
