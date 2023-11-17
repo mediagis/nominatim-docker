@@ -75,7 +75,7 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION=4.3.1
+ENV NOMINATIM_VERSION=4.3.2
 ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
 
 RUN true \
@@ -141,7 +141,7 @@ ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
 ENV PROJECT_DIR=/nominatim
 
 # i cannot figure out a way to remove this duplication, if anyone knows, please get in touch
-ENV USER_AGENT=mediagis/nominatim-docker:4.3.1
+ENV USER_AGENT=mediagis/nominatim-docker:4.3.2
 
 WORKDIR /app
 
