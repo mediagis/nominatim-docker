@@ -74,6 +74,8 @@ RUN true \
 # Osmium install to run continuous updates.
 RUN pip3 install osmium
 
+RUN pip3 install falcon==3.1.1 uvicorn==0.24.0.post1 gunicorn==21.2.0
+
 # Nominatim install.
 ENV NOMINATIM_VERSION=4.3.2
 ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
