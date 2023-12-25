@@ -1,3 +1,6 @@
+ARG NOMINATIM_VERSION=4.3.2
+ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
+
 FROM ubuntu:jammy AS build
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -75,8 +78,8 @@ RUN true \
 RUN pip3 install osmium
 
 # Nominatim install.
-ENV NOMINATIM_VERSION=4.3.2
-ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
+ARG NOMINATIM_VERSION
+ARG USER_AGENT
 
 RUN true \
     && curl -A $USER_AGENT https://nominatim.org/release/Nominatim-$NOMINATIM_VERSION.tar.bz2 -o nominatim.tar.bz2 \
@@ -140,8 +143,8 @@ ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
 
 ENV PROJECT_DIR=/nominatim
 
-# i cannot figure out a way to remove this duplication, if anyone knows, please get in touch
-ENV USER_AGENT=mediagis/nominatim-docker:4.3.2
+ARG USER_AGENT
+ENV USER_AGENT=${USER_AGENT}
 
 WORKDIR /app
 
