@@ -440,6 +440,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "breunigs",
+      "name": "Stefan Breunig",
+      "avatar_url": "https://avatars.githubusercontent.com/u/307954?v=4",
+      "profile": "https://github.com/breunigs",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
