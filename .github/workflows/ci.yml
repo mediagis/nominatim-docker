@@ -246,10 +246,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
+      - name: Set container date tag
+        run: |
+          echo "DATE_TAG=$(date +%Y-%m-%dT%H-%M)" >> $GITHUB_ENV
+
       - name: Build and push production docker image to Dockerhub
         if: ${{ github.ref == 'refs/heads/master' && github.repository_owner == 'mediagis' }}
         run: |-
           docker buildx build --platform linux/amd64,linux/arm64 --push \
             -t mediagis/nominatim:${{ matrix.nominatim.version }} \
-            -t mediagis/nominatim:${{ matrix.nominatim.version }}-${{ github.sha }} .
+            -t mediagis/nominatim:${{ matrix.nominatim.version }}-${DATE_TAG} .
         working-directory: ${{ matrix.nominatim.version }}
