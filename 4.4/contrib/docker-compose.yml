@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+    nominatim:
+        container_name: nominatim
+        image: mediagis/nominatim:4.3
+        ports:
+            - "8080:8080"
+        environment:
+            # see https://github.com/mediagis/nominatim-docker/tree/master/4.3#configuration for more options
+            PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+            REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+            NOMINATIM_PASSWORD: very_secure_password
+        volumes:
+            - nominatim-data:/var/lib/postgresql/14/main
+        shm_size: 1gb
+
+volumes:
+    nominatim-data:

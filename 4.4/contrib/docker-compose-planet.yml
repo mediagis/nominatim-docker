@@ -1,0 +1,31 @@
+version: "3"
+
+# For a full planet instance, we apply some best practices from the documentation (like using a flatnode file).
+# This compose file uses bind mounts, so it'll reference /data. You can either also mount the storage (for DB + flat node file) under /data or change it.
+# Minimum specification for a machine running the import (if this succeeded on a lower spec machine, please contribute them):
+# - 16 core CPU (set THREADS variable to number of cores/threads available)
+# - 64GB RAM
+# - 1.5TB (NVMe) SSD storage
+
+services:
+    nominatim:
+        container_name: nominatim
+        image: mediagis/nominatim:4.3
+        ports:
+            - "8080:8080" # Do not change the second port, only the first before the colon
+        environment:
+            PBF_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf
+            REPLICATION_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/
+            NOMINATIM_PASSWORD: very_secure_password
+            IMPORT_WIKIPEDIA: "true"
+            IMPORT_US_POSTCODES: "true"
+            IMPORT_GB_POSTCODES: "true"
+            THREADS: 16
+        volumes:
+            - type: bind
+              source: /data/db
+              target: /var/lib/postgresql/14/main
+            - type: bind
+              source: /data/flatnode
+              target: /nominatim/flatnode
+        shm_size: 1gb
