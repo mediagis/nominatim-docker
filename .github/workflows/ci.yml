@@ -12,14 +12,14 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.2"
-            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
-            postgres_version: 14
-            user_agent: mediagis/nominatim-docker-action:4.2
           - version: "4.3"
             update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
             postgres_version: 14
             user_agent: mediagis/nominatim-docker-action:4.3
+          - version: "4.4"
+            update_command: docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
+            postgres_version: 14
+            user_agent: mediagis/nominatim-docker-action:4.4
 
     runs-on: ubuntu-latest
     steps:
@@ -118,7 +118,7 @@ jobs:
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 180
+          sleep 120
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           echo "check replication log for Update completed. Count:"
           docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
@@ -139,7 +139,7 @@ jobs:
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 180
+          sleep 120
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           echo "check replication log for Update completed. Count:"
           docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
