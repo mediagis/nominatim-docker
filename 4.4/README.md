@@ -1,4 +1,4 @@
-# Nominatim Docker (Nominatim version 4.3)
+# Nominatim Docker (Nominatim version 4.4)
 
 ## Table of contents
 
