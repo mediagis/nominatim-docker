@@ -118,7 +118,7 @@ jobs:
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 180
+          sleep 120
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           echo "check replication log for Update completed. Count:"
           docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
@@ -139,7 +139,7 @@ jobs:
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 180
+          sleep 120
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           echo "check replication log for Update completed. Count:"
           docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
