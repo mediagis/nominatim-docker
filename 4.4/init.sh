@@ -11,6 +11,9 @@ if [ -z "$THREADS" ]; then
   THREADS=$(nproc)
 fi
 
+# we re-host the files because inconsiderate users eat up all of nominatim.org's bandwidth
+# https://github.com/mediagis/nominatim-docker/issues/416
+
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
   ${SCP}:wikimedia-importance.sql.gz ${PROJECT_DIR}/wikimedia-importance.sql.gz
