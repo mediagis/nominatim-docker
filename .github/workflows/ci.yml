@@ -97,7 +97,7 @@ jobs:
             -p 8004:8080 \
             --name nominatim \
             nominatim &
-          sleep 5
+          sleep 25
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
           ${{ matrix.nominatim.update_command }}
           ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
