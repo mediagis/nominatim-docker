@@ -11,7 +11,8 @@ if [ -z "$THREADS" ]; then
   THREADS=$(nproc)
 fi
 
-# we re-host the files because inconsiderate users eat up all of nominatim.org's bandwidth
+# we re-host the files on a Hetzner storage box because inconsiderate users eat up all of
+# nominatim.org's bandwidth
 # https://github.com/mediagis/nominatim-docker/issues/416
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
@@ -43,7 +44,7 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  ${SCP}:tiger2021-nominatim-preprocessed.csv.tar.gz ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  ${SCP}:tiger2023-nominatim-preprocessed.csv.tar.gz ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
   ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
