@@ -120,6 +120,10 @@ COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
 
+# Supervisor
+RUN apt-get -y update -qq && apt-get -y install supervisor && apt-get clean
+COPY conf.d/replication.conf /etc/supervisor/conf.d/replication.conf
+
 # Collapse image to single layer.
 FROM scratch
 
