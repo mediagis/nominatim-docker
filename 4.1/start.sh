@@ -21,7 +21,7 @@ fi
 
 IMPORT_FINISHED=/var/lib/postgresql/14/main/import-finished
 
-if [ ! -f ${IMPORT_FINISHED} ]; then
+if [ ! -f ${IMPORT_FINISHED} ] && [ "$SKIP_IMPORT" != "true" ]; then
   /app/init.sh
   touch ${IMPORT_FINISHED}
 else
