@@ -4,7 +4,7 @@ tailpid=0
 replicationpid=0
 
 stopServices() {
-  service apache2 stop
+  service nginx stop
   service postgresql stop
   kill $replicationpid
   kill $tailpid
@@ -23,16 +23,18 @@ IMPORT_FINISHED=/var/lib/postgresql/14/main/import-finished
 
 if [ ! -f ${IMPORT_FINISHED} ]; then
   /app/init.sh
+  echo "import finished"
   touch ${IMPORT_FINISHED}
 else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
-
+echo "begin start postgresql"
 service postgresql start
+echo "finsh start postgresql"
 
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 
-service apache2 start
+service nginx start
 
 # start continous replication process
 if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
@@ -56,7 +58,7 @@ if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
 fi
 
 # fork a process and wait for it
-tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
+tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/nginx/access.log /var/log/nginx/error.log /var/log/replication.log &
 tailpid=${!}
 
 if [ "$REVERSE_ONLY" = "true" ]; then
