@@ -57,7 +57,7 @@ jobs:
                 -p 8001:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
               docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
               ./assert-non-empty-json "http://localhost:8001/search.php?q=avenue%20pasteur"
@@ -70,7 +70,7 @@ jobs:
               -v nominatim-data:/var/lib/postgresql/14/main \
               -p 8002:8080 \
               nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8002/search.php?q=avenue%20pasteur"
           
           - name: Import with bind-mount, container restart & update
@@ -84,7 +84,7 @@ jobs:
                 -p 8003:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8003/search.php?q=avenue%20pasteur"
               
               # Stop container
@@ -98,7 +98,7 @@ jobs:
                 -p 8004:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 25
+
               ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
               docker exec -i nominatim sudo -u nominatim nominatim replication --project-dir /nominatim --once
               
@@ -116,7 +116,7 @@ jobs:
                 -p 8004:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
               echo -n "check replication log for Update completed. Count:"
               docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
@@ -133,7 +133,7 @@ jobs:
                 -p 8004:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
               echo -n "check replication log for Update completed. Count:"
               docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
@@ -146,7 +146,7 @@ jobs:
                 -e IMPORT_STYLE=full \
                 -p 8005:8080 \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8005/search.php?q=hotel%20de%20paris"
           
           - name: Import admin style
@@ -157,7 +157,7 @@ jobs:
                 -e IMPORT_STYLE=admin \
                 -p 8006:8080 \
                 nominatim &
-              sleep 120
+
               ./assert-empty-json "http://localhost:8006/search.php?q=hotel%20de%20paris"
 
           - name: Import with PBF_PATH
@@ -171,7 +171,7 @@ jobs:
                 -p 8007:8080 \
                 --name nominatim \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8007/search.php?q=avenue%20pasteur"
 
           - name: REPLICATION_URL is blank
@@ -180,7 +180,7 @@ jobs:
                 -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
                 -p 8008:8080 \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8008/search.php?q=avenue%20pasteur"
 
           - name: FREEZE
@@ -190,7 +190,7 @@ jobs:
                 -e FREEZE="true" \
                 -p 8009:8080 \
                 nominatim &
-              sleep 120
+
               ./assert-non-empty-json "http://localhost:8009/search.php?q=avenue%20pasteur"
 
           - name: GB postcode import
@@ -200,7 +200,7 @@ jobs:
                 -e IMPORT_GB_POSTCODES="true" \
                 -p 8010:8080 \
                 nominatim &
-              sleep 600
+
               ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=LE15+8TX"
               ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=PE9+3SY"
               ./assert-non-empty-json "http://localhost:8010/search.php?postalcode=PE9+4ES"
@@ -212,7 +212,7 @@ jobs:
                 -e REVERSE_ONLY="true" \
                 -p 8011:8080 \
                 nominatim &
-              sleep 120
+
               ./assert-reverse-only "http://localhost:8011/search.php?q=avenue%20pasteur"
               ./assert-non-empty-json "http://localhost:8011/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
           
@@ -223,14 +223,14 @@ jobs:
               -p 8009:8080 \
               --name nominatim \
               nominatim
-              sleep 120
+            
               ./assert-non-empty-json "http://localhost:8009/search.php?q=avenue%20pasteur"
               # Shutdown the container
               docker stop -t 60 nominatim
               # Verify that the exit code is zero
               CONTAINER_EXIT_CODE=$(docker inspect nominatim --format='{{.State.ExitCode}}')
               test "$CONTAINER_EXIT_CODE" -eq 0
-  
+    
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
