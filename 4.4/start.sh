@@ -6,7 +6,10 @@ replicationpid=0
 stopServices() {
   service apache2 stop
   service postgresql stop
-  kill $replicationpid
+  if [ $replicationpid -ne 0 ]; then
+    echo "Shutting down replication process"
+    kill $replicationpid
+  fi
   kill $tailpid
 }
 trap stopServices SIGTERM TERM INT

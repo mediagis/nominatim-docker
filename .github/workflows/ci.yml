@@ -215,7 +215,22 @@ jobs:
               sleep 120
               ./assert-reverse-only "http://localhost:8011/search.php?q=avenue%20pasteur"
               ./assert-non-empty-json "http://localhost:8011/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
-
+          
+          - name: Check for clean shutdown
+            commands: |-
+              docker run --detach --rm \
+              -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+              -p 8009:8080 \
+              --name nominatim \
+              nominatim
+              sleep 120
+              ./assert-non-empty-json "http://localhost:8009/search.php?q=avenue%20pasteur"
+              # Shutdown the container
+              docker stop -t 60 nominatim
+              # Verify that the exit code is zero
+              CONTAINER_EXIT_CODE=$(docker inspect nominatim --format='{{.State.ExitCode}}')
+              test "$CONTAINER_EXIT_CODE" -eq 0
+  
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
