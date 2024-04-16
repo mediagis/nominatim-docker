@@ -119,7 +119,7 @@ jobs:
 
               ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
               echo -n "check replication log for Update completed. Count:"
-              docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
+              docker exec nominatim /bin/bash -c 'tail -f /var/log/replication.log | grep -m 1 -c "Update completed."'
 
           - name: UPDATE_MODE=continuous with bind-mount
             commands: |-
@@ -136,7 +136,7 @@ jobs:
 
               ./assert-non-empty-json "http://localhost:8004/search.php?q=avenue%20pasteur"
               echo -n "check replication log for Update completed. Count:"
-              docker exec -i nominatim grep -c 'Update completed.' /var/log/replication.log
+              docker exec nominatim /bin/bash -c 'tail -f /var/log/replication.log | grep -m 1 -c "Update completed."'
           
           - name: Import full style
             commands: |-
