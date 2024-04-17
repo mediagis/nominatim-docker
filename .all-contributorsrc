@@ -449,6 +449,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "carlomion",
+      "name": "carlomion",
+      "avatar_url": "https://avatars.githubusercontent.com/u/161817799?v=4",
+      "profile": "https://github.com/carlomion",
+      "contributions": [
+        "code",
+        "infra"
+      ]
     }
   ],
   "contributorsPerLine": 6,
