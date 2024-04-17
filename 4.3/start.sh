@@ -6,8 +6,14 @@ replicationpid=0
 stopServices() {
   service apache2 stop
   service postgresql stop
-  kill $replicationpid
+  # Check if the replication process is active
+  if [ $replicationpid -ne 0 ]; then
+    echo "Shutting down replication process"
+    kill $replicationpid
+  fi
   kill $tailpid
+  # Force exit code 0 to signal a succesfull shutdown to Docker
+  exit 0
 }
 trap stopServices SIGTERM TERM INT
 

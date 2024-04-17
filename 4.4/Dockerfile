@@ -8,9 +8,10 @@ ENV LANG=C.UTF-8
 
 WORKDIR /app
 
-RUN true \
+RUN \
+    --mount=type=cache,target=/var/cache/apt \
     # Do not start daemons after installation.
-    && echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d \
+    echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d \
     && chmod +x /usr/sbin/policy-rc.d \
     # Install all required packages.
     && apt-get -y update -qq \
@@ -75,7 +76,8 @@ RUN true \
     && echo "listen_addresses='*'" >> /etc/postgresql/14/main/postgresql.conf
 
 # Osmium install to run continuous updates.
-RUN pip3 install osmium
+RUN --mount=type=cache,target=/root/.cache/pip \
+    pip3 install osmium
 
 # Nominatim install.
 ARG NOMINATIM_VERSION
@@ -107,12 +109,10 @@ RUN true \
         liblua*-dev \
         postgresql-server-dev-14 \
         nlohmann-json3-dev \
-    && apt-get clean \
     # Clear temporary files and directories.
     && rm -rf \
         /tmp/* \
         /var/tmp/* \
-        /root/.cache \
         /app/src/.git \
         /var/lib/apt/lists/* \
     # Remove nominatim source and build directories
