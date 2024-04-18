@@ -276,11 +276,11 @@ jobs:
           # Disable generation of latest tag
           flavor: |
             latest=false
-            prefix=${{ matrix.nominatim.version }}
           
-          # Customize the date format
+          # Add simple tag with nominatim version + tag with custom date format
           tags: |
-            type=schedule,pattern={{date 'YYYY-MM-DDTHH-mm'}},prefix=-
+            type=raw,value=${{ matrix.nominatim.version }}
+            type=raw,value=${{ matrix.nominatim.version }}-{{date 'YYYY-MM-DDTHH-mm'}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
