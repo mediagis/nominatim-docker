@@ -29,7 +29,6 @@ RUN  \
         -o APT::Install-Suggests="false" \
         # Build tools from sources.
         build-essential \
-        g++ \
         cmake \
         libpq-dev \
         zlib1g-dev \
@@ -99,18 +98,13 @@ RUN true \
 
 RUN true \
     # Remove development and unused packages.
-    && apt-get -y remove --purge \
-        cpp-9 \
-        gcc-9* \
-        g++ \
+    && apt-get -y remove --purge --auto-remove \
+        build-essential \
+        cmake \
         git \
-        make \
-        cmake* \
         llvm-10* \
-        libc6-dev \
         linux-libc-dev \
         libclang-*-dev \
-        build-essential \
         liblua*-dev \
         postgresql-server-dev-14 \
         nlohmann-json3-dev \
