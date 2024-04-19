@@ -8,8 +8,13 @@ ENV LANG=C.UTF-8
 
 WORKDIR /app
 
-RUN \
-    --mount=type=cache,target=/var/cache/apt \
+# Inspired by https://github.com/reproducible-containers/buildkit-cache-dance?tab=readme-ov-file#apt-get-github-actions
+RUN  \
+    --mount=type=cache,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,target=/var/lib/apt,sharing=locked \
+    # Keep downloaded APT packages in the docker build cache
+    rm -f /etc/apt/apt.conf.d/docker-clean && \
+    echo 'Binary::apt::APT::Keep-Downloaded-Packages "true";' >/etc/apt/apt.conf.d/keep-cache && \
     # Do not start daemons after installation.
     echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d \
     && chmod +x /usr/sbin/policy-rc.d \
@@ -24,7 +29,6 @@ RUN \
         -o APT::Install-Suggests="false" \
         # Build tools from sources.
         build-essential \
-        g++ \
         cmake \
         libpq-dev \
         zlib1g-dev \
@@ -76,7 +80,7 @@ RUN true \
     && echo "listen_addresses='*'" >> /etc/postgresql/14/main/postgresql.conf
 
 # Osmium install to run continuous updates.
-RUN --mount=type=cache,target=/root/.cache/pip \
+RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked \
     pip3 install osmium
 
 # Nominatim install.
@@ -94,18 +98,13 @@ RUN true \
 
 RUN true \
     # Remove development and unused packages.
-    && apt-get -y remove --purge \
-        cpp-9 \
-        gcc-9* \
-        g++ \
+    && apt-get -y remove --purge --auto-remove \
+        build-essential \
+        cmake \
         git \
-        make \
-        cmake* \
         llvm-10* \
-        libc6-dev \
         linux-libc-dev \
         libclang-*-dev \
-        build-essential \
         liblua*-dev \
         postgresql-server-dev-14 \
         nlohmann-json3-dev \
@@ -114,7 +113,6 @@ RUN true \
         /tmp/* \
         /var/tmp/* \
         /app/src/.git \
-        /var/lib/apt/lists/* \
     # Remove nominatim source and build directories
     && rm /app/*.tar.bz2 \
     && rm -rf /app/build \
