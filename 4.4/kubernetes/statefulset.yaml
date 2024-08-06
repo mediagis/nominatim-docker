@@ -1,0 +1,64 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: nominatim
+spec:
+  serviceName: "nominatim"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nominatim
+  template:
+    metadata:
+      labels:
+        app: nominatim
+    spec:
+      initContainers:
+        - name: init
+          image: mediagis/nominatim:4.4
+          command:
+            - bash
+          args:
+            - '-c'
+            - 'mkdir -p /var/lib/postgresql/14/main && bash /app/init.sh'
+          envFrom:
+            - configMapRef:
+                name: nominatim-config
+          volumeMounts:
+            - name: nominatim-data
+              mountPath: /nominatim
+            - name: postgres-data
+              mountPath: /var/lib/postgresql
+      containers:
+        - name: nominatim
+          image: mediagis/nominatim:4.4
+          command:
+            - bash
+          args:
+            - /app/start.sh
+          envFrom:
+            - configMapRef:
+                name: nominatim-config
+          ports:
+            - containerPort: 8080
+              name: http
+          volumeMounts:
+            - name: nominatim-data
+              mountPath: /nominatim
+            - name: postgres-data
+              mountPath: /var/lib/postgresql
+  volumeClaimTemplates:
+    - metadata:
+        name: nominatim-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 10Gi
+    - metadata:
+        name: postgres-data
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        resources:
+          requests:
+            storage: 50Gi
