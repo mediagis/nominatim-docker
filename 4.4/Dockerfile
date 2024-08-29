@@ -1,4 +1,4 @@
-ARG NOMINATIM_VERSION=4.4.0
+ARG NOMINATIM_VERSION=4.4.1
 ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
 
 FROM ubuntu:jammy AS build

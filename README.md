@@ -10,7 +10,7 @@ See relevant installation and usage instructions for each version in the ```<ver
 
 # Supported Nominatim versions #
 
-- [`4.4.0`, `4.4`](https://github.com/mediagis/nominatim-docker/tree/master/4.4)
+- [`4.4.1`, `4.4`](https://github.com/mediagis/nominatim-docker/tree/master/4.4)
 - [`4.3.2`, `4.3`](https://github.com/mediagis/nominatim-docker/tree/master/4.3)
 
 # Deprecated Nominatim versions #
