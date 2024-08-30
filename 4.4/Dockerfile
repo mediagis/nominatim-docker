@@ -130,6 +130,7 @@ COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
 COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
+RUN chmod -x /app/*.sh
 
 # Collapse image to single layer.
 FROM scratch
