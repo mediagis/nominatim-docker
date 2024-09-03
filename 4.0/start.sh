@@ -41,6 +41,7 @@ service postgresql start
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 
 service apache2 start
+service supervisor start
 
 # fork a process and wait for it
 tail -f /var/log/postgresql/postgresql-12-main.log &
