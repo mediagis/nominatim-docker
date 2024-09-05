@@ -36,13 +36,12 @@ RUN true \
         postgresql-server-dev-14 \
         postgresql-14-postgis-3 \
         postgresql-14-postgis-3-scripts \
-        # PHP and Apache 2.
+        # PHP and Nginx. \
         php \
+        php-fpm \
         php-intl \
         php-pgsql \
-        php-cgi \
-        apache2 \
-        libapache2-mod-php \
+        nginx \
         # Python 3.
         python3-dev \
         python3-pip \
@@ -113,8 +112,9 @@ RUN true \
     && rm -rf /app/build \
     && rm -rf /app/Nominatim-$NOMINATIM_VERSION
 
-# Apache configuration
-COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
+# Nginx configuration
+COPY conf.d/nginx.conf /etc/nginx/sites-enabled/default
+
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/14/main/conf.d/postgres-import.conf.disabled
@@ -123,7 +123,7 @@ COPY conf.d/postgres-tuning.conf /etc/postgresql/14/main/conf.d/
 COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
-COPY startapache.sh /app/startapache.sh
+COPY startnginx.sh /app/startnginx.sh
 COPY startpostgres.sh /app/startpostgres.sh
 
 # Collapse image to single layer.
