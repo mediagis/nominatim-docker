@@ -1,0 +1,74 @@
+name: Docker Image CI reusable
+
+on:
+  workflow_call:
+      inputs:
+        stage:
+          required: true
+          type: string
+        push:
+          required: true
+          type: boolean
+      secrets:
+        ECR_REPOSITORY:
+          required: true
+        ECR_AWS_REGION:
+          required: true
+        ECR_AWS_SECRET_ACCESS_KEY:
+          required: true
+        ECR_AWS_ACCESS_KEY_ID:
+          required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with: 
+        fetch-depth: 0
+    - name : generate run-number
+      shell: bash
+      run: echo "run-number=`git rev-list HEAD --count`" >> $GITHUB_OUTPUT
+      id: run-number
+  
+    - name: Extract branch/tag name
+      shell: bash
+      run: echo "branch=`git describe --tags --exact-match 2> /dev/null   || git symbolic-ref -q --short HEAD   || git rev-parse --short HEAD`" >> $GITHUB_OUTPUT
+      id: branch
+    
+    - name: Log out sha and build number
+      shell: bash
+      run: |
+            echo "::group::BUILD AND DEPLOY INFO::"
+            echo "BUILD NUMBER ${{ steps.run-number.outputs.run-number }}"
+            echo "BUILD SHA $GITHUB_SHA"
+            echo "STAGE : ${{inputs.stage}}"
+            echo "BRANCH : ${{ steps.branch.outputs.branch }}"
+            echo "DOCKER PUSH : ${{ inputs.push }}"
+            echo "::endgroup::"
+
+    -
+      name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+      with:
+          platforms: linux/amd64
+          buildkitd-flags: --debug
+
+    - name: Set up java
+      uses: actions/setup-java@v4
+      with:
+        distribution: temurin
+        java-version: | 
+          8
+        cache: gradle
+  
+    - name: Build and push Geocoding API
+      uses: docker/build-push-action@v5
+      with:
+        push: ${{inputs.push}}
+        context: .
+        file: Dockerfile-api
+        tags: ${{secrets.ECR_REPOSITORY}}/connectanywhere_geocoding:${{inputs.stage}}-${{ steps.branch.outputs.branch }}-${{ steps.run-number.outputs.run-number }}, ${{ secrets.ECR_REPOSITORY }}/connectanywhere_geocoding:${{inputs.stage}}-latest
+        platforms: linux/amd64
+        provenance: false
+    

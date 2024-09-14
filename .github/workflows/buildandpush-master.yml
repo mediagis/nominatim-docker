@@ -1,0 +1,18 @@
+on:
+    push:
+        branches: 
+            - "master"
+concurrency:
+    group: ${{ github.head_ref || github.run_id }}
+    cancel-in-progress: true
+jobs:
+    call-workflow-2-in-local-repo:
+        uses: ./.github/workflows/build-dockerize-and-push-all.yml
+        with:
+            stage: dev
+            push: true
+        secrets:
+            ECR_REPOSITORY : ${{secrets.ECR_REPOSITORY}}
+            ECR_AWS_REGION: ${{secrets.ECR_AWS_REGION}}
+            ECR_AWS_ACCESS_KEY_ID: ${{secrets.ECR_AWS_ACCESS_KEY_ID}}
+            ECR_AWS_SECRET_ACCESS_KEY: ${{secrets.ECR_AWS_SECRET_ACCESS_KEY}}
