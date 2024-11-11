@@ -29,10 +29,11 @@ RUN  \
         -o APT::Install-Suggests="false" \
         # Build tools from sources. \
         build-essential \
-        python3-dev \
         osm2pgsql \
         pkg-config \
-        libicu-dev python3-pip \
+        libicu-dev \
+        python3-dev \
+        python3-pip \
         # PostgreSQL.
         postgresql-contrib \
         postgresql-server-dev-16 \
@@ -69,6 +70,7 @@ RUN pip install --break-system-packages \
 RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge --auto-remove \
+        build-essential \
         postgresql-server-dev-16 \
     # Clear temporary files and directories.
     && rm -rf \
