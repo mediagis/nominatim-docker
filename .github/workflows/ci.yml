@@ -43,9 +43,9 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.3"
           - version: "4.4"
-        
+          - version: "4.5"
+
         test_scenario:
           - name: Import with PBF_URL and update
             commands: |-
@@ -257,9 +257,9 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.3"
           - version: "4.4"
-  
+          - version: "4.5"
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
