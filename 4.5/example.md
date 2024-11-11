@@ -75,5 +75,5 @@ docker run -it \
   --name nominatim \
 
   #Here you choose the Docker image and version
-  mediagis/nominatim:4.4 
+  mediagis/nominatim:4.5 
 ```
