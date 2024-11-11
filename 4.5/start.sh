@@ -38,8 +38,6 @@ service postgresql start
 
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 
-service apache2 start
-
 # start continous replication process
 if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
   # run init in case replication settings changed
@@ -62,7 +60,7 @@ if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
 fi
 
 # fork a process and wait for it
-tail -Fv /var/log/postgresql/postgresql-14-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
+tail -Fv /var/log/postgresql/postgresql-16-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
 tailpid=${!}
 
 export NOMINATIM_QUERY_TIMEOUT=600
@@ -80,4 +78,4 @@ echo "Warming finished"
 
 echo "--> Nominatim is ready to accept requests"
 
-wait
+gunicorn --bind :8000 -b unix:/run/nominatim.sock -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi

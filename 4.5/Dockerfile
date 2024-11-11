@@ -85,7 +85,6 @@ COPY conf.d/postgres-tuning.conf /etc/postgresql/16/main/conf.d/
 COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
-COPY startapache.sh /app/startapache.sh
 COPY startpostgres.sh /app/startpostgres.sh
 
 # Collapse image to single layer.
