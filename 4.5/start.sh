@@ -4,7 +4,6 @@ tailpid=0
 replicationpid=0
 
 stopServices() {
-  service apache2 stop
   service postgresql stop
   # Check if the replication process is active
   if [ $replicationpid -ne 0 ]; then
@@ -12,7 +11,7 @@ stopServices() {
     kill $replicationpid
   fi
   kill $tailpid
-  # Force exit code 0 to signal a succesfull shutdown to Docker
+  # Force exit code 0 to signal a succesful shutdown to Docker
   exit 0
 }
 trap stopServices SIGTERM TERM INT
@@ -60,7 +59,7 @@ if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
 fi
 
 # fork a process and wait for it
-tail -Fv /var/log/postgresql/postgresql-16-main.log /var/log/apache2/access.log /var/log/apache2/error.log /var/log/replication.log &
+tail -Fv /var/log/postgresql/postgresql-16-main.log &
 tailpid=${!}
 
 export NOMINATIM_QUERY_TIMEOUT=600
@@ -78,4 +77,4 @@ echo "Warming finished"
 
 echo "--> Nominatim is ready to accept requests"
 
-gunicorn --bind :8000 -b unix:/run/nominatim.sock -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
+gunicorn --bind :8080 -b unix:/run/nominatim.sock -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
