@@ -77,4 +77,5 @@ echo "Warming finished"
 
 echo "--> Nominatim is ready to accept requests"
 
-gunicorn --bind :8080 -b unix:/run/nominatim.sock -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
+cd "$PROJECT_DIR"
+sudo -u nominatim gunicorn --bind :8080 -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
