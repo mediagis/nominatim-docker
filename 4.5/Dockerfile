@@ -74,7 +74,8 @@ RUN true \
     # Clear temporary files and directories.
     && rm -rf \
         /tmp/* \
-        /var/tmp/*
+        /var/tmp/* \
+    && pip cache purge
 
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/16/main/conf.d/postgres-import.conf.disabled
