@@ -77,9 +77,6 @@ RUN true \
         /tmp/* \
         /var/tmp/*
 
-# Apache configuration
-COPY conf.d/apache.conf /etc/apache2/sites-enabled/000-default.conf
-
 # Postgres config overrides to improve import performance (but reduce crash recovery safety)
 COPY conf.d/postgres-import.conf /etc/postgresql/16/main/conf.d/postgres-import.conf.disabled
 COPY conf.d/postgres-tuning.conf /etc/postgresql/16/main/conf.d/
