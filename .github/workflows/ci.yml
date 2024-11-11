@@ -196,7 +196,7 @@ jobs:
           - name: GB postcode import
             commands: |-
               docker run -i --rm \
-                -e PBF_URL=https://download.geofabrik.de/europe/great-britain/england/rutland-latest.osm.pbf \
+                -e PBF_URL=https://download.geofabrik.de/europe/united-kingdom/england/rutland-latest.osm.pbf \
                 -e IMPORT_GB_POSTCODES="true" \
                 -p 8010:8080 \
                 nominatim &
