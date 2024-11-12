@@ -10,7 +10,7 @@ version: "3"
 services:
     nominatim:
         container_name: nominatim
-        image: mediagis/nominatim:4.4
+        image: mediagis/nominatim:4.5
         ports:
             - "8080:8080" # Do not change the second port, only the first before the colon
         environment:

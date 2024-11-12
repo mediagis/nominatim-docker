@@ -29,8 +29,15 @@ See relevant installation and usage instructions for each version in the ```<ver
 - [`3.0.1`, `3.0`](https://github.com/mediagis/nominatim-docker/tree/master/3.0)
 - [`2.5.1`, `2.5`](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
 
-
 **Caution:** Upgrading between Nominatim versions (e.g., 4.0 to 4.1) without reimporting your data may not be directly supported by the image. Always check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
+
+# Project goals and alternatives
+
+It is the goal of this project to provide and easy to use container image that runs all services in a single container.
+This is not very elegant and makes the Dockerfile quite complex.
+
+If you're looking for a project which separates the individual concepts into separate containers, check out
+https://github.com/smithmicro/n7m.
 
 # Contributors
 
