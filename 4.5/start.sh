@@ -84,5 +84,6 @@ cd "$PROJECT_DIR"
 sudo -u nominatim gunicorn \
   --bind :8080 \
   --pid $GUNICORN_PID_FILE \
-  -w 4 \
-  -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
+  --workers 4 \
+  --worker-class uvicorn.workers.UvicornWorker \
+  nominatim_api.server.falcon.server:run_wsgi
