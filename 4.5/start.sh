@@ -3,6 +3,8 @@
 tailpid=0
 replicationpid=0
 GUNICORN_PID_FILE=/tmp/gunicorn.pid
+# send gunicorn logs straight to the console without buffering: https://stackoverflow.com/questions/59812009
+export PYTHONUNBUFFERED=1
 
 stopServices() {
   service postgresql stop
