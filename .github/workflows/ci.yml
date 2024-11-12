@@ -89,6 +89,7 @@ jobs:
               
               # Stop container
               docker stop nominatim
+              docker ps --all
 
               # import to bind mount is done previously
               docker run -i --rm \
