@@ -12,8 +12,10 @@ stopServices() {
     kill $replicationpid
   fi
   kill $tailpid
-  pkill gunicorn
-  
+  echo `cat $GUNICORN_PID_FILE`
+  echo
+  cat $GUNICORN_PID_FILE | sudo xargs kill
+
   # Force exit code 0 to signal a successful shutdown to Docker
   exit 0
 }
@@ -85,5 +87,8 @@ sudo -u nominatim gunicorn \
   --bind :8080 \
   --pid $GUNICORN_PID_FILE \
   --workers 4 \
+  --daemon \
   --worker-class uvicorn.workers.UvicornWorker \
   nominatim_api.server.falcon.server:run_wsgi
+
+wait
