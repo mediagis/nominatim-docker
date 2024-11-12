@@ -14,9 +14,8 @@ stopServices() {
     kill $replicationpid
   fi
   kill $tailpid
-  echo `cat $GUNICORN_PID_FILE`
-  echo
   cat $GUNICORN_PID_FILE | sudo xargs kill
+  gkill nominatim
 
   # Force exit code 0 to signal a successful shutdown to Docker
   exit 0
