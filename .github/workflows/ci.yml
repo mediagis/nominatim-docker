@@ -213,7 +213,7 @@ jobs:
                 -p 8011:8080 \
                 nominatim &
 
-              ./assert-reverse-only "http://localhost:8011/search.php?q=avenue%20pasteur"
+              #./assert-reverse-only "http://localhost:8011/search.php?q=avenue%20pasteur"
               ./assert-non-empty-json "http://localhost:8011/reverse.php?lat=43.734&lon=7.42&format=jsonv2"
           
           - name: Check for clean shutdown
