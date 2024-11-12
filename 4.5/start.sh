@@ -12,7 +12,8 @@ stopServices() {
     kill $replicationpid
   fi
   kill $tailpid
-  cat $GUNICORN_PID_FILE | sudo xargs kill
+  pkill gunicorn
+  
   # Force exit code 0 to signal a successful shutdown to Docker
   exit 0
 }
