@@ -90,6 +90,7 @@ sudo -u nominatim gunicorn \
   --pid $GUNICORN_PID_FILE \
   --workers 4 \
   --daemon \
+  --enable-stdio-inheritance \
   --worker-class uvicorn.workers.UvicornWorker \
   nominatim_api.server.falcon.server:run_wsgi
 
