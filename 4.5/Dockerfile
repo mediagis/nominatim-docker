@@ -55,7 +55,8 @@ ARG NOMINATIM_VERSION
 ARG USER_AGENT
 
 # Osmium install to run continuous updates.
-RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked pip install --break-system-packages \
+#RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked pip install --break-system-packages \
+RUN pip install --break-system-packages \
     nominatim-db==$NOMINATIM_VERSION \
     osmium \
     psycopg[binary] \

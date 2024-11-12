@@ -2,6 +2,7 @@
 
 tailpid=0
 replicationpid=0
+GUNICORN_PID_FILE=/tmp/gunicorn.pid
 
 stopServices() {
   service postgresql stop
@@ -11,7 +12,8 @@ stopServices() {
     kill $replicationpid
   fi
   kill $tailpid
-  # Force exit code 0 to signal a succesful shutdown to Docker
+  cat $GUNICORN_PID_FILE | sudo xargs kill
+  # Force exit code 0 to signal a successful shutdown to Docker
   exit 0
 }
 trap stopServices SIGTERM TERM INT
@@ -78,4 +80,8 @@ echo "Warming finished"
 echo "--> Nominatim is ready to accept requests"
 
 cd "$PROJECT_DIR"
-sudo -u nominatim gunicorn --bind :8080 -w 4 -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
+sudo -u nominatim gunicorn \
+  --bind :8080 \
+  --pid $GUNICORN_PID_FILE \
+  -w 4 \
+  -k uvicorn.workers.UvicornWorker nominatim_api.server.falcon.server:run_wsgi
