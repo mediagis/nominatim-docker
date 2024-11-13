@@ -34,7 +34,7 @@ See relevant installation and usage instructions for each version in the ```<ver
 # Project goals and alternatives
 
 It is the goal of this project to provide and easy to use container image that runs all services in a single container.
-This is not very elegant and makes the Dockerfile quite complex.
+The downside is that this makes the Dockerfile quite complex and harder to modify.
 
 If you're looking for a project which separates the individual concepts into separate containers, check out
 https://github.com/smithmicro/n7m.
