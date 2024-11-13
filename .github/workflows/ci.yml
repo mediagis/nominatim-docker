@@ -89,7 +89,8 @@ jobs:
               
               # Stop container
               docker stop nominatim
-              sleep 60
+              # the container needs a few seconds to shutdown cleanly apparently
+              sleep 15
 
               # import to bind mount is done previously
               docker run -i --rm \
