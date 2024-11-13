@@ -54,7 +54,7 @@ RUN true \
 ARG NOMINATIM_VERSION
 ARG USER_AGENT
 
-# Osmium install to run continuous updates.
+# Nominatim install.
 RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked pip install --break-system-packages \
     nominatim-db==$NOMINATIM_VERSION \
     osmium \
@@ -64,8 +64,8 @@ RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked pip install --brea
     gunicorn \
     nominatim-api
 
-# Nominatim install.
 
+# remove build-only packages
 RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge --auto-remove \
@@ -84,7 +84,6 @@ COPY conf.d/postgres-tuning.conf /etc/postgresql/16/main/conf.d/
 COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
 COPY start.sh /app/start.sh
-COPY startpostgres.sh /app/startpostgres.sh
 
 # Collapse image to single layer.
 FROM scratch
