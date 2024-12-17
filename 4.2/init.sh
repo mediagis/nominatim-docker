@@ -8,7 +8,13 @@ SCP='sshpass -p DMg5bmLPY7npHL2Q scp -o StrictHostKeyChecking=no u355874-sub1@u3
 
 # Check if THREADS is not set or is empty
 if [ -z "$THREADS" ]; then
-  THREADS=$(nproc)
+  # Limit threads to a maximum of 16, instead of using all available threads
+  # Nominatim uses osm2pgsql which is I/O bound and does not profit much from more threads.
+  #   => https://osm2pgsql.org/doc/manual.html#parallel-processing
+  # This also mitigates https://github.com/mediagis/nominatim-docker/issues/462
+  THREADS_AVAILABLE=$(nproc)
+  MAX_THREADS=16
+  THREADS=$(($THREADS_AVAILABLE > $MAX_THREADS ? $MAX_THREADS : $THREADS_AVAILABLE))
 fi
 
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
