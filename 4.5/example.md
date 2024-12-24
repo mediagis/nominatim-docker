@@ -62,6 +62,9 @@ docker run -it \
   #Sets the used threads at the import (default 16)
   -e THREADS=10 \
 
+  #Enable or disable database warmup. Skipping warmup allows the container to answer requests immediately but possibly slower. (default: true)
+  -e ENABLE_WARMUP=true/false
+
   #Sets the Docker tmpfs. Highly recommended for bigger imports like Europe. At least 1GB - ideally half of the available RAM. 
   --shm-size=60g \
 
