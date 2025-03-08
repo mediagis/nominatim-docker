@@ -34,22 +34,11 @@ RUN  \
         libicu-dev \
         python3-dev \
         python3-pip \
-        # PostgreSQL.
-        postgresql-contrib \
-        postgresql-server-dev-16 \
-        postgresql-16-postgis-3 \
-        postgresql-16-postgis-3-scripts \
         # Misc.
         curl \
         sudo \
         sshpass \
         openssh-client
-
-
-# Configure postgres.
-RUN true \
-    && echo "host all all 0.0.0.0/0 md5" >> /etc/postgresql/16/main/pg_hba.conf \
-    && echo "listen_addresses='*'" >> /etc/postgresql/16/main/postgresql.conf
 
 ARG NOMINATIM_VERSION
 ARG USER_AGENT
@@ -70,16 +59,11 @@ RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge --auto-remove \
         build-essential \
-        postgresql-server-dev-16 \
     # Clear temporary files and directories.
     && rm -rf \
         /tmp/* \
         /var/tmp/* \
     && pip cache purge
-
-# Postgres config overrides to improve import performance (but reduce crash recovery safety)
-COPY conf.d/postgres-import.conf /etc/postgresql/16/main/conf.d/postgres-import.conf.disabled
-COPY conf.d/postgres-tuning.conf /etc/postgresql/16/main/conf.d/
 
 COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh

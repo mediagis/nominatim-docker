@@ -1,0 +1,42 @@
+name: Build & Deploy
+
+on:
+  workflow_run:
+    workflows: [ "Versioning" ]
+    types: [ completed ]
+  workflow_dispatch:
+    inputs:
+      isDispatch:
+        description: 'To detect workflow_dispatch, do not alter.'
+        required: true
+        default: true
+
+permissions:
+  id-token: write
+  contents: read
+  pull-requests: read
+  issues: read
+  statuses: write
+
+jobs:
+  docker:
+    name: Docker Build & Push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+
+      - name: Docker Login to ${{ secrets.CONTAINER_REPOSITORY }}
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ secrets.CONTAINER_REPOSITORY }}
+          username: ${{ secrets.CONTAINER_PUSH_USER }}
+          password: ${{ secrets.CONTAINER_PUSH_TOKEN }}
+
+      - name: Push Docker image ${{ steps.get-latest-tag.outputs.tag }}
+        run: |
+          docker build -t "${{ secrets.CONTAINER_REPOSITORY }}/netneural/${{ vars.CONTAINER_GROUP }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.get-latest-tag.outputs.tag }}" .
+          docker push     "${{ secrets.CONTAINER_REPOSITORY }}/netneural/${{ vars.CONTAINER_GROUP }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.get-latest-tag.outputs.tag }}"
+

@@ -1,0 +1,20 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!main'
+
+jobs:
+  docker:
+    name: Docker Build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+
+      - name: Build Docker
+        run: docker build -t "${{ secrets.CONTAINER_REPOSITORY }}/netneural/${{ vars.CONTAINER_GROUP }}/${{ vars.DOCKER_IMAGE_NAME }}:${{ steps.get-latest-tag.outputs.tag }}" .

@@ -1,19 +1,16 @@
 #!/bin/bash -ex
 
-tailpid=0
 replicationpid=0
 GUNICORN_PID_FILE=/tmp/gunicorn.pid
 # send gunicorn logs straight to the console without buffering: https://stackoverflow.com/questions/59812009
 export PYTHONUNBUFFERED=1
 
 stopServices() {
-  service postgresql stop
   # Check if the replication process is active
   if [ $replicationpid -ne 0 ]; then
     echo "Shutting down replication process"
     kill $replicationpid
   fi
-  kill $tailpid
   cat $GUNICORN_PID_FILE | sudo xargs kill
 
   # Force exit code 0 to signal a successful shutdown to Docker
@@ -29,16 +26,12 @@ else
   useradd -m -p ${NOMINATIM_PASSWORD} nominatim
 fi
 
-IMPORT_FINISHED=/var/lib/postgresql/16/main/import-finished
-
-if [ ! -f ${IMPORT_FINISHED} ]; then
+if [ "$INIT_AND_EXIT" != "" ]; then
   /app/init.sh
-  touch ${IMPORT_FINISHED}
+  exit 0
 else
   chown -R nominatim:nominatim ${PROJECT_DIR}
 fi
-
-service postgresql start
 
 cd ${PROJECT_DIR} && sudo -E -u nominatim nominatim refresh --website --functions
 
@@ -62,10 +55,6 @@ if [ "$REPLICATION_URL" != "" ] && [ "$FREEZE" != "true" ]; then
     echo "skipping replication"
   fi
 fi
-
-# fork a process and wait for it
-tail -Fv /var/log/postgresql/postgresql-16-main.log &
-tailpid=${!}
 
 export NOMINATIM_QUERY_TIMEOUT=600
 export NOMINATIM_REQUEST_TIMEOUT=3600
