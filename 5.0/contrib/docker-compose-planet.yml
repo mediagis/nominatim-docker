@@ -10,11 +10,13 @@ version: "3"
 services:
     nominatim:
         container_name: nominatim
-        image: mediagis/nominatim:4.5
+        image: mediagis/nominatim:5.0
         ports:
             - "8080:8080" # Do not change the second port, only the first before the colon
         environment:
-            PBF_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf
+            # https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-latest.osm.pbf returns 404.
+            # Use a specific version:
+            PBF_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/pbf/planet-250317.osm.pbf
             REPLICATION_URL: https://ftp5.gwdg.de/pub/misc/openstreetmap/planet.openstreetmap.org/replication/day/
             NOMINATIM_PASSWORD: very_secure_password
             IMPORT_WIKIPEDIA: "true"
