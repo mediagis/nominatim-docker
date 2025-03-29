@@ -37,6 +37,8 @@ RUN  \
         # PostgreSQL.
         postgresql-contrib \
         postgresql-server-dev-16 \
+        postgresql-postgis \
+        postgresql-postgis-scripts \
         postgresql-16-postgis-3 \
         postgresql-16-postgis-3-scripts \
         # Misc.
