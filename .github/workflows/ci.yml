@@ -12,8 +12,8 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.4"
           - version: "4.5"
+          - version: "5.0"
 
     runs-on: ubuntu-latest
     steps:
@@ -43,8 +43,8 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.4"
           - version: "4.5"
+          - version: "5.0"
 
         test_scenario:
           - name: Import with PBF_URL and update
@@ -259,8 +259,8 @@ jobs:
     strategy:
       matrix:
         nominatim:
-          - version: "4.4"
           - version: "4.5"
+          - version: "5.0"
 
     steps:
       - name: Checkout
