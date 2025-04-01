@@ -1,4 +1,4 @@
-ARG NOMINATIM_VERSION=5.0.0
+ARG NOMINATIM_VERSION=5.1.0
 ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
 
 FROM ubuntu:24.04 AS build
@@ -35,14 +35,9 @@ RUN  \
         python3-dev \
         python3-pip \
         python3-icu \
-        python3-datrie \
         # PostgreSQL.
-        postgresql-contrib \
-        postgresql-server-dev-16 \
         postgresql-postgis \
         postgresql-postgis-scripts \
-        postgresql-16-postgis-3 \
-        postgresql-16-postgis-3-scripts \
         # Misc.
         curl \
         sudo \
@@ -74,7 +69,6 @@ RUN true \
     # Remove development and unused packages.
     && apt-get -y remove --purge --auto-remove \
         build-essential \
-        postgresql-server-dev-16 \
     # Clear temporary files and directories.
     && rm -rf \
         /tmp/* \
