@@ -34,6 +34,8 @@ RUN  \
         libicu-dev \
         python3-dev \
         python3-pip \
+        python3-icu \
+        python3-datrie \
         # PostgreSQL.
         postgresql-contrib \
         postgresql-server-dev-16 \
