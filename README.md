@@ -10,7 +10,7 @@ See relevant installation and usage instructions for each version in the ```<ver
 
 # Supported Nominatim versions #
 
-- [`5.1.0`, `5.0`](https://github.com/mediagis/nominatim-docker/tree/master/5.0)
+- [`5.1.0`, `5.1`](https://github.com/mediagis/nominatim-docker/tree/master/5.1)
 - [`5.0.0`, `5.0`](https://github.com/mediagis/nominatim-docker/tree/master/5.0)
 
 # Deprecated Nominatim versions #
