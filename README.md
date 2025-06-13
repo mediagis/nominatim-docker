@@ -114,6 +114,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/carlomion"><img src="https://avatars.githubusercontent.com/u/161817799?v=4?s=100" width="100px;" alt="carlomion"/><br /><sub><b>carlomion</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=carlomion" title="Code">💻</a> <a href="#infra-carlomion" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/stouch"><img src="https://avatars.githubusercontent.com/u/17531455?v=4?s=100" width="100px;" alt="stouch"/><br /><sub><b>stouch</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=stouch" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=stouch" title="Documentation">📖</a> <a href="#infra-stouch" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/tzezar"><img src="https://avatars.githubusercontent.com/u/163430081?v=4?s=100" width="100px;" alt="Sebastian Drozd"/><br /><sub><b>Sebastian Drozd</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Documentation">📖</a></td>
+    </tr>
   </tbody>
 </table>
 

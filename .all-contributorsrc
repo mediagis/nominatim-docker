@@ -459,6 +459,27 @@
         "code",
         "infra"
       ]
+    },
+    {
+      "login": "stouch",
+      "name": "stouch",
+      "avatar_url": "https://avatars.githubusercontent.com/u/17531455?v=4",
+      "profile": "https://github.com/stouch",
+      "contributions": [
+        "code",
+        "doc",
+        "infra"
+      ]
+    },
+    {
+      "login": "tzezar",
+      "name": "Sebastian Drozd",
+      "avatar_url": "https://avatars.githubusercontent.com/u/163430081?v=4",
+      "profile": "https://github.com/tzezar",
+      "contributions": [
+        "code",
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 6,
