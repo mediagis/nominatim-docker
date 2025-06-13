@@ -80,13 +80,20 @@ export NOMINATIM_QUERY_TIMEOUT=10
 export NOMINATIM_REQUEST_TIMEOUT=60
 echo "Warming finished"
 
+# Set default number of workers if not specified
+if [ -z "$GUNICORN_WORKERS" ]; then
+  GUNICORN_WORKERS=$(nproc)
+fi
+
+echo "Starting Gunicorn with $GUNICORN_WORKERS workers"
+
 echo "--> Nominatim is ready to accept requests"
 
 cd "$PROJECT_DIR"
 sudo -u nominatim gunicorn \
   --bind :8080 \
   --pid $GUNICORN_PID_FILE \
-  --workers 4 \
+  --workers $GUNICORN_WORKERS \
   --daemon \
   --enable-stdio-inheritance \
   --worker-class uvicorn.workers.UvicornWorker \
