@@ -82,7 +82,7 @@ echo "Warming finished"
 
 # Set default number of workers if not specified
 if [ -z "$GUNICORN_WORKERS" ]; then
-  GUNICORN_WORKERS=4
+  GUNICORN_WORKERS=$(nproc)
 fi
 
 echo "Starting Gunicorn with $GUNICORN_WORKERS workers"
