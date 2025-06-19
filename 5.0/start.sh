@@ -67,6 +67,19 @@ fi
 tail -Fv /var/log/postgresql/postgresql-16-main.log &
 tailpid=${!}
 
+#start api server even before cache warming
+cd "$PROJECT_DIR"
+sudo -u nominatim gunicorn \
+  --bind :8080 \
+  --pid $GUNICORN_PID_FILE \
+  --workers 4 \
+  --daemon \
+  --enable-stdio-inheritance \
+  --worker-class uvicorn.workers.UvicornWorker \
+  nominatim_api.server.falcon.server:run_wsgi
+
+echo "--> Nominatim is ready to accept requests"
+
 export NOMINATIM_QUERY_TIMEOUT=600
 export NOMINATIM_REQUEST_TIMEOUT=3600
 if [ "$REVERSE_ONLY" = "true" ]; then
@@ -79,17 +92,5 @@ fi
 export NOMINATIM_QUERY_TIMEOUT=10
 export NOMINATIM_REQUEST_TIMEOUT=60
 echo "Warming finished"
-
-echo "--> Nominatim is ready to accept requests"
-
-cd "$PROJECT_DIR"
-sudo -u nominatim gunicorn \
-  --bind :8080 \
-  --pid $GUNICORN_PID_FILE \
-  --workers 4 \
-  --daemon \
-  --enable-stdio-inheritance \
-  --worker-class uvicorn.workers.UvicornWorker \
-  nominatim_api.server.falcon.server:run_wsgi
 
 wait
