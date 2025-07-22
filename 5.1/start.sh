@@ -80,6 +80,14 @@ export NOMINATIM_QUERY_TIMEOUT=10
 export NOMINATIM_REQUEST_TIMEOUT=60
 echo "Warming finished"
 
+# Wait for PostgreSQL to be ready
+echo "Waiting for PostgreSQL to be ready..."
+until pg_isready -h localhost -p 5432 -U postgres; do
+  echo "PostgreSQL is unavailable - sleeping"
+  sleep 1
+done
+echo "PostgreSQL is up - continuing"
+
 # Set default number of workers if not specified
 if [ -z "$GUNICORN_WORKERS" ]; then
   GUNICORN_WORKERS=$(nproc)
