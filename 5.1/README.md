@@ -82,6 +82,7 @@ The following environment variables are available to tune PostgreSQL:
 - `POSTGRES_MAX_WAL_SIZE` (default: `1GB`)
 - `POSTGRES_CHECKPOINT_TIMEOUT` (default: `10min`)
 - `POSTGRES_CHECKPOINT_COMPLETION_TARGET` (default: `0.9`)
+- `POSTGRES_MAX_CONNECTIONS` (default: `100`)
 
 See https://nominatim.org/release-docs/5.1/admin/Installation/#tuning-the-postgresql-database for more details on those settings.
 
