@@ -47,7 +47,7 @@ else
 fi;
 
 if [ "$IMPORT_TIGER_ADDRESSES" = "true" ]; then
-  ${SCP}:tiger2023-nominatim-preprocessed.csv.tar.gz ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  ${SCP}:tiger2024-nominatim-preprocessed.csv.tar.gz ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
 elif [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
   # use local file if asked
   ln -s "$IMPORT_TIGER_ADDRESSES" ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
