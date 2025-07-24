@@ -67,18 +67,22 @@ fi
 tail -Fv /var/log/postgresql/postgresql-16-main.log &
 tailpid=${!}
 
-export NOMINATIM_QUERY_TIMEOUT=600
-export NOMINATIM_REQUEST_TIMEOUT=3600
-if [ "$REVERSE_ONLY" = "true" ]; then
-  echo "Warm database caches for reverse queries"
-  sudo -H -E -u nominatim nominatim admin --warm --reverse > /dev/null
+if [ "$WARMUP_ON_STARTUP" = "true" ]; then
+  export NOMINATIM_QUERY_TIMEOUT=600
+  export NOMINATIM_REQUEST_TIMEOUT=3600
+  if [ "$REVERSE_ONLY" = "true" ]; then
+    echo "Warm database caches for reverse queries"
+    sudo -H -E -u nominatim nominatim admin --warm --reverse > /dev/null
+  else
+    echo "Warm database caches for search and reverse queries"
+    sudo -H -E -u nominatim nominatim admin --warm > /dev/null
+  fi
+  export NOMINATIM_QUERY_TIMEOUT=10
+  export NOMINATIM_REQUEST_TIMEOUT=60
+  echo "Warming finished"
 else
-  echo "Warm database caches for search and reverse queries"
-  sudo -H -E -u nominatim nominatim admin --warm > /dev/null
+  echo "Skipping cache warmup"
 fi
-export NOMINATIM_QUERY_TIMEOUT=10
-export NOMINATIM_REQUEST_TIMEOUT=60
-echo "Warming finished"
 
 # Set default number of workers if not specified
 if [ -z "$GUNICORN_WORKERS" ]; then

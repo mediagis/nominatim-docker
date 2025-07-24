@@ -63,6 +63,7 @@ Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CON
 - `IMPORT_TIGER_ADDRESSES`: Whether to download and import the Tiger address data (`true`) or path to a preprocessed Tiger address set in the container. (default: `false`)
 - `THREADS`: How many threads should be used to import (default: number of processing units available to the current process via `nproc`)
 - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
+- `WARMUP_ON_STARTUP`: Whether to warm up the database caches on container startup by loading tables and indices into RAM. This can improve initial query performance, especially on systems with slow disks and sufficient RAM. However, it will increase the container's startup time. Set to `true` to enable. (default: `false`)
 
 The following run parameters are available for configuration:
 
