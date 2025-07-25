@@ -284,7 +284,9 @@ jobs:
       
       - name: Extract Nominatim Version
         id: get_version
-        run: echo "NOMINATIM_VERSION=$(grep -oP '(?<=ARG NOMINATIM_VERSION=)[0-9.]+' Dockerfile)" >> $GITHUB_OUTPUT
+        run: |
+          echo "NOMINATIM_VERSION=$(grep -oP '(?<=ARG NOMINATIM_VERSION=)[0-9.]+' Dockerfile)" >> $GITHUB_OUTPUT
+          echo "NOMINATIM_VERSION_MINOR=$(grep -oP '(?<=ARG NOMINATIM_VERSION=)[0-9]+\.[0-9]+' Dockerfile)" >> $GITHUB_OUTPUT
 
       # Compute the Docker tags and labels to apply to the built image
       - name: Docker meta
@@ -303,6 +305,8 @@ jobs:
           tags: |
             type=raw,value=${{ steps.get_version.outputs.NOMINATIM_VERSION }}
             type=raw,value=${{ steps.get_version.outputs.NOMINATIM_VERSION }}-{{date 'YYYY-MM-DDTHH-mm'}}
+            type=raw,value=${{ steps.get_version.outputs.NOMINATIM_VERSION_MINOR }}
+            type=raw,value=${{ steps.get_version.outputs.NOMINATIM_VERSION_MINOR }}-{{date 'YYYY-MM-DDTHH-mm'}}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
