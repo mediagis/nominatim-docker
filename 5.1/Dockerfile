@@ -90,6 +90,7 @@ COPY --from=build / /
 
 # Please override this
 ENV NOMINATIM_PASSWORD=qaIACxO6wMR3
+ENV WARMUP_ON_STARTUP=false
 
 ENV PROJECT_DIR=/nominatim
 

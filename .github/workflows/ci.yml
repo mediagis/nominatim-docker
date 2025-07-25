@@ -232,6 +232,30 @@ jobs:
               # Verify that the exit code is zero
               CONTAINER_EXIT_CODE=$(docker inspect nominatim --format='{{.State.ExitCode}}')
               test "$CONTAINER_EXIT_CODE" -eq 0
+
+          - name: WARMUP_ON_STARTUP=true
+            commands: |-
+              docker run -i --rm \
+                -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+                -e WARMUP_ON_STARTUP=true \
+                -p 8012:8080 \
+                --name nominatim \
+                nominatim &
+
+              ./assert-non-empty-json "http://localhost:8012/search.php?q=avenue%20pasteur"
+              docker logs nominatim | grep "Warming finished"
+
+          - name: WARMUP_ON_STARTUP=false
+            commands: |-
+              docker run -i --rm \
+                -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+                -e WARMUP_ON_STARTUP=false \
+                -p 8013:8080 \
+                --name nominatim \
+                nominatim &
+
+              ./assert-non-empty-json "http://localhost:8013/search.php?q=avenue%20pasteur"
+              docker logs nominatim | grep "Skipping cache warmup"
     
     steps:
       - name: Download artifact
