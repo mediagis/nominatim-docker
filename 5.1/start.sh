@@ -84,6 +84,14 @@ else
   echo "Skipping cache warmup"
 fi
 
+# Wait for PostgreSQL to be ready
+echo "Waiting for PostgreSQL to be ready..."
+until pg_isready -h localhost -p 5432 -U postgres; do
+  echo "PostgreSQL is unavailable - sleeping"
+  sleep 1
+done
+echo "PostgreSQL is up - continuing"
+
 # Set default number of workers if not specified
 if [ -z "$GUNICORN_WORKERS" ]; then
   GUNICORN_WORKERS=$(nproc)
