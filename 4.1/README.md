@@ -56,6 +56,8 @@ The following environment variables are available for configuration:
 - `IMPORT_TIGER_ADDRESSES`: Whether to download and import the Tiger address data (`true`) or path to a preprocessed Tiger address set in the container. (default: `false`)
 - `THREADS`: How many threads should be used to import (default: `16`)
 - `NOMINATIM_PASSWORD`: The password to connect to the database with (default: `qaIACxO6wMR3`)
+- `PGDATABASE`: Name of the database (default: `nominatim`)
+- `SKIP_IMPORT`: If it `yes` it can skip import and create new database. It is used when the container is naive, i.e. it has not imported data, but is used only to update existing data.
 
 The following run parameters are available for configuration:
 
@@ -205,6 +207,57 @@ docker run -it \
     -p 8080:8080 \
     --name nominatim \
     nominatim
+```
+
+## Using an external PostgreSQL database and setup with updating data container
+
+If you want to safely update your data and set up regular updates, then you can do the following.
+
+First of all you need build new container from Dockerfile from 4.1 folder:
+
+```
+cd nominatim-docker/4.1
+docker build -t nominatim .
+```
+
+Then you need to import data into the new `nominatim_new` database so as not to touch the `nominatim` database.
+
+```
+sudo docker run -d --rm \
+  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e NOMINATIM_TOKENIZER=icu \
+  -e NOMINATIM_DATABASE_DSN="pgsql:dbname=nominatim_new;hostaddr=192.168.0.1;user=postgres;password=SUPER_PASSWORD" \
+  -e PGHOSTADDR=192.168.0.1 \
+  -e PGDATABASE=nominatim_new \
+  -e PGUSER=postgres \
+  -e PGPASSWORD=SUPER_PASSWORD \
+  -e NOMINATIM_PASSWORD=very_secure_password \
+  -p 8080:8080 \
+  --name nominatim-import \
+  nominatim
+```
+
+Next, you make any adjustments and checks in `nominatim_new`. After making sure that everything is in order, we can rename the database to `nominatim`. And then safely update as follows:
+
+```
+sudo docker run -it \
+  -e PBF_URL=http://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -e REPLICATION_URL=http://download.geofabrik.de/europe/monaco-updates/ \
+  -e UPDATE_MODE=once \
+  -e SKIP_IMPORT=true \
+  -e NOMINATIM_DATABASE_DSN="pgsql:dbname=nominatim;hostaddr=192.168.0.1;user=postgres;password=SUPER_PASSWORD" \
+  -e PGHOSTADDR=192.168.0.1 \
+  -e PGDATABASE=nominatim \
+  -e PGUSER=postgres \
+  -e PGPASSWORD=SUPER_PASSWORD \
+  -p 8080:8080 \
+  --name nominatim-update \
+  nominatim
+```
+
+After all, we can just restart the container for daily updates
+```
+sudo docker start -i nominatim-update
 ```
 
 ## Docker Compose
