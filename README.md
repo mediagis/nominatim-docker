@@ -2,36 +2,41 @@
 
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
+![Nominatim Version](https://img.shields.io/badge/Nominatim%20Version-5.1.0-blue?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
 
-# How to use
+## Quick Start
 
-See relevant installation and usage instructions for each version in the ```<version>/README.md``` file.
+The easiest way to use Nominatim Docker is by pulling the pre-built images from [Docker Hub](https://hub.docker.com/r/mediagis/nominatim).
 
-# Supported Nominatim versions #
+To quickly get a Nominatim instance up and running with a small dataset (e.g., Monaco):
 
-- [`5.1.0`, `5.1`](https://github.com/mediagis/nominatim-docker/tree/master/5.1)
-- [`5.0.0`, `5.0`](https://github.com/mediagis/nominatim-docker/tree/master/5.0)
+```sh
+docker run -it \
+  -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
+  -p 8080:8080 \
+  --name nominatim \
+  mediagis/nominatim:5.1
+```
 
-# Deprecated Nominatim versions #
+After the import is complete, you can access the Nominatim API at `http://localhost:8080/search.php?q=avenue%20pasteur`.
 
-- [`4.5.0`, `4.5`](https://github.com/mediagis/nominatim-docker/tree/master/4.5)
-- [`4.4.1`, `4.4`](https://github.com/mediagis/nominatim-docker/tree/master/4.4)
-- [`4.3.2`, `4.3`](https://github.com/mediagis/nominatim-docker/tree/master/4.3)
-- [`4.2.4`, `4.2`](https://github.com/mediagis/nominatim-docker/tree/master/4.2)
-- [`4.1.2`, `4.1`](https://github.com/mediagis/nominatim-docker/tree/master/4.1)
-- [`4.0.2`, `4.0`](https://github.com/mediagis/nominatim-docker/tree/master/4.0)
-- [`3.7.3`, `3.7`](https://github.com/mediagis/nominatim-docker/tree/master/3.7)
-- [`3.6.0`, `3.6`](https://github.com/mediagis/nominatim-docker/tree/master/3.6)
-- [`3.5.2`, `3.5`](https://github.com/mediagis/nominatim-docker/tree/master/3.5)
-- [`3.4.2`, `3.4`](https://github.com/mediagis/nominatim-docker/tree/master/3.4)
-- [`3.3.1`, `3.3`](https://github.com/mediagis/nominatim-docker/tree/master/3.3)
-- [`3.2.1`, `3.2`](https://github.com/mediagis/nominatim-docker/tree/master/3.2)
-- [`3.1.0`, `3.1`](https://github.com/mediagis/nominatim-docker/tree/master/3.1)
-- [`3.0.1`, `3.0`](https://github.com/mediagis/nominatim-docker/tree/master/3.0)
-- [`2.5.1`, `2.5`](https://github.com/mediagis/nominatim-docker/tree/master/2.5)
+## Accessing Different Versions
 
-**Caution:** Upgrading between Nominatim versions (e.g., 4.0 to 4.1) without reimporting your data may not be directly supported by the image. Always check the Nominatim migration guide [https://www.nominatim.org/release-docs/latest/admin/Migration/](https://www.nominatim.org/release-docs/latest/admin/Migration/).
+You can pull specific versions of the Nominatim Docker image by specifying the tag. For example, to use Nominatim version `5.1`:
+
+```sh
+docker pull mediagis/nominatim:5.1
+```
+
+For a list of available tags, please refer to the [Docker Hub page](https://hub.docker.com/r/mediagis/nominatim/tags).
+
+## Security Information
+
+For information regarding the latest supported security version and security policies for Nominatim, please refer to the official Nominatim security documentation: [Nominatim Security Policy](https://github.com/osm-search/Nominatim/blob/master/SECURITY.md).
+
+## Detailed Usage and Configuration
+
+For comprehensive instructions on advanced configuration, importing custom PBF files, persistent data, updating the database, PostgreSQL tuning, and more, please refer to the [detailed how-to guide](howto.md).
 
 # Project goals and alternatives
 
