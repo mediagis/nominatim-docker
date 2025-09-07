@@ -10,6 +10,7 @@ Obtenir une instance Nominatim limitée à la Normandie, mise à jour en continu
 ### 2. Prérequis
 * Docker & Docker Compose
 * Windows PowerShell (5.1 ou 7) – scripts fournis en PS1
+* OU un shell Bash (Linux/macOS/WSL) – scripts `.sh` équivalents
 * Connexion internet stable
 
 Optionnel (Linux/macOS) : adapter les commandes en shell (wget + osmium).
@@ -33,6 +34,14 @@ cd nominatim-docker
 docker compose -f contrib/docker-compose-normandie.yml up -d --force-recreate
 docker logs -f nominatim-normandie   # suivre l’import
 curl.exe -s 'http://localhost:8080/search?q=Rouen&format=jsonv2'
+```
+Version Bash (Linux / WSL / macOS) :
+```bash
+git clone <votre-fork-ou-repo>
+cd nominatim-docker
+./scripts/prepare-normandie.sh      # auto
+docker compose -f contrib/docker-compose-normandie.yml up -d --force-recreate
+curl -s 'http://localhost:8080/search?q=Rouen&format=jsonv2'
 ```
 
 ---
@@ -137,6 +146,12 @@ docker compose -f contrib/docker-compose-normandie-region.yml up -d --force-recr
 ```
 Fichier attendu : `data/normandie-region.osm.pbf`.
 
+Version Bash :
+```bash
+./scripts/prepare-normandie-region.sh
+docker compose -f contrib/docker-compose-normandie-region.yml up -d --force-recreate
+```
+
 ---
 ### 14. Bonnes pratiques
 * Garder les PBF sources datés si besoin d’audit (ne pas écraser sans archive).
@@ -156,3 +171,40 @@ Ouvrir une issue (si contribution upstream) ou adapter ce fichier localement. Fo
 
 ---
 Fin.
+
+---
+### Annexe A. Export sur clé USB
+Objectif: transférer le PBF fusionné (et métadonnées) vers une machine sans accès internet.
+
+PowerShell:
+```powershell
+./scripts/export-normandie.ps1
+Get-ChildItem .\export\ -Filter *.zip
+```
+
+Bash:
+```bash
+./scripts/export-normandie.sh
+ls -lh export/*.zip
+```
+
+Contenu de l’archive:
+* normandie.osm.pbf
+* INFO.txt
+* SHA256SUMS.txt
+* verify.sh / verify.ps1
+
+Validation sur la machine cible (PowerShell):
+```powershell
+Expand-Archive -Path .\normandie-<date>.zip -DestinationPath .\normandie-import
+cd .\normandie-import
+./verify.ps1
+```
+Bash:
+```bash
+unzip normandie-<date>.zip -d normandie-import
+cd normandie-import
+./verify.sh
+```
+
+Ensuite copier `normandie.osm.pbf` dans `data/` et lancer le compose.
