@@ -45,7 +45,7 @@ foreach($r in $regions){
     $fname = "$($r.id)-$Date.osm.pbf"
     $target = Join-Path $dataDir $fname
     $url = "https://download.geofabrik.de/europe/france/$fname"
-    if(Test-Path $target -and -not $Force){
+  if( (Test-Path $target) -and (-not $Force) ){
         Write-Host "[INFO] $fname existe" -ForegroundColor Cyan
     } else {
         Write-Host "[INFO] Téléchargement $url" -ForegroundColor Cyan
@@ -63,16 +63,11 @@ $mergedBase = Join-Path $dataDir 'normandie.osm.pbf'
 if(-not (Test-Path $mergedBase)){ throw "normandie.osm.pbf introuvable. Relancer prepare-normandie.ps1" }
 
 $final = Join-Path $dataDir 'normandie-region.osm.pbf'
-if(Test-Path $final -and -not $Force){ Write-Host "[WARN] normandie-region.osm.pbf existe déjà (utiliser -Force)" -ForegroundColor Yellow; exit 0 }
+if( (Test-Path $final) -and (-not $Force) ){ Write-Host "[WARN] normandie-region.osm.pbf existe déjà (utiliser -Force)" -ForegroundColor Yellow; exit 0 }
 
 Write-Host "[INFO] Fusion région étendue" -ForegroundColor Cyan
-$cmd = @(
-  'apk add --no-cache osmium-tool',
-  'ls -1 /data/*.osm.pbf | wc -l',
-  "osmium cat -o /data/normandie-region.osm.pbf /data/normandie.osm.pbf /data/bretagne-$Date.osm.pbf /data/pays-de-la-loire-$Date.osm.pbf /data/ile-de-france-$Date.osm.pbf",
-  'osmium fileinfo /data/normandie-region.osm.pbf | head -n 10'
-) -join ' && '
-docker run --rm -v "$dataDir:/data" alpine:3.20 sh -c "$cmd"
+$bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && ls -1 /data/*.osm.pbf | wc -l && osmium cat /data/normandie.osm.pbf /data/bretagne-$Date.osm.pbf /data/pays-de-la-loire-$Date.osm.pbf /data/ile-de-france-$Date.osm.pbf -o /data/_tmp-region-raw.osm.pbf && osmium sort -u -o /data/normandie-region.osm.pbf /data/_tmp-region-raw.osm.pbf && rm /data/_tmp-region-raw.osm.pbf && osmium fileinfo /data/normandie-region.osm.pbf | head -n 10"
+docker run --rm -v "${dataDir}:/data" ubuntu:24.04 bash -lc "$bashCmd"
 
 Write-Host "[INFO] Fichier final prêt: normandie-region.osm.pbf" -ForegroundColor Green
 Write-Host "Lancez: docker compose -f contrib/docker-compose-normandie-region.yml up -d --force-recreate" -ForegroundColor Green

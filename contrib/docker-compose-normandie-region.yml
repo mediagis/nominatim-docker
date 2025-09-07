@@ -30,7 +30,7 @@ services:
       THREADS: 4
     volumes:
       - type: bind
-        source: ./data
+        source: ../data
         target: /nominatim/data
       - nominatim-normandie-region-db:/var/lib/postgresql/16/main
     shm_size: 1gb

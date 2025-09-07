@@ -27,7 +27,8 @@ services:
       # THREADS: 4              # décommentez pour fixer le nombre de threads
     volumes:
       - type: bind
-        source: ./data
+        # Use parent directory because compose file sits in contrib/
+        source: ../data
         target: /nominatim/data
       - nominatim-normandie-data:/var/lib/postgresql/16/main
     shm_size: 1gb               # augmenter selon la RAM disponible

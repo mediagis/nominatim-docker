@@ -37,19 +37,19 @@ $dataDir = Join-Path $PSScriptRoot '..' | Join-Path -ChildPath 'data'
 if(-not (Test-Path $dataDir)){ New-Item -ItemType Directory -Path $dataDir | Out-Null }
 
 if(-not $Date){
-    $tryDate = (Get-Date -AsUTC).ToString('yyMMdd')
-    $found = $false
-    for($i=0;$i -lt 7 -and -not $found;$i++){
-        $d = (Get-Date -AsUTC).AddDays(-$i).ToString('yyMMdd')
-        $testUrl = "https://download.geofabrik.de/europe/france/haute-normandie-$d.osm.pbf"
-        try {
-            $resp = Invoke-WebRequest -Uri $testUrl -Method Head -TimeoutSec 30 -ErrorAction Stop
-            if($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 400){
-                $Date = $d; $found = $true; Write-Info "Date trouvée: $Date"; break
-            }
-        } catch { }
-    }
-    if(-not $found){ throw "Aucune date disponible sur les 7 derniers jours." }
+  $utcNow = [DateTime]::UtcNow
+  $found = $false
+  for($i=0;$i -lt 7 -and -not $found;$i++){
+    $d = $utcNow.AddDays(-$i).ToString('yyMMdd')
+    $testUrl = "https://download.geofabrik.de/europe/france/haute-normandie-$d.osm.pbf"
+    try {
+      $resp = Invoke-WebRequest -Uri $testUrl -Method Head -TimeoutSec 30 -ErrorAction Stop
+      if($resp.StatusCode -ge 200 -and $resp.StatusCode -lt 400){
+        $Date = $d; $found = $true; Write-Info "Date trouvée: $Date"; break
+      }
+    } catch { }
+  }
+  if(-not $found){ throw "Aucune date disponible sur les 7 derniers jours." }
 } else {
     if($Date -notmatch '^[0-9]{6}$'){ throw "Format -Date invalide. Utiliser yymmdd (ex: 250906)." }
 }
@@ -64,7 +64,7 @@ $files = @(
 foreach($f in $files){
     $target = Join-Path $dataDir $f.name
     $url = "https://download.geofabrik.de/europe/france/$($f.name)"
-    if(Test-Path $target -and -not $Force){
+  if( (Test-Path $target) -and (-not $Force) ){
         Write-Info "$($f.name) existe déjà (utiliser -Force pour re-télécharger)"
     } else {
         Write-Info "Téléchargement $url"
@@ -86,16 +86,14 @@ $haute = Join-Path $dataDir "haute-normandie-$Date.osm.pbf"
 $basse = Join-Path $dataDir "basse-normandie-$Date.osm.pbf"
 $merged = Join-Path $dataDir 'normandie.osm.pbf'
 
-if(Test-Path $merged -and -not $Force){
+if( (Test-Path $merged) -and (-not $Force) ){
     Write-Warn "Fichier fusionné existe déjà: normandie.osm.pbf (utiliser -Force pour régénérer)"
 } else {
     Write-Info "Fusion avec osmium"
-    $cmd = @(
-        'apk add --no-cache osmium-tool',
-        "osmium cat -o /data/normandie.osm.pbf /data/$([IO.Path]::GetFileName($haute)) /data/$([IO.Path]::GetFileName($basse))",
-        'osmium fileinfo /data/normandie.osm.pbf | head -n 15'
-    ) -join ' && '
-    docker run --rm -v "$dataDir:/data" alpine:3.20 sh -c "$cmd"
+  $hauteLeaf = [IO.Path]::GetFileName($haute)
+  $basseLeaf = [IO.Path]::GetFileName($basse)
+  $bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && osmium cat /data/$hauteLeaf /data/$basseLeaf -o /data/_tmp-normandie-raw.osm.pbf && osmium sort -u -o /data/normandie.osm.pbf /data/_tmp-normandie-raw.osm.pbf && rm /data/_tmp-normandie-raw.osm.pbf && osmium fileinfo /data/normandie.osm.pbf | head -n 15"
+  docker run --rm -v "${dataDir}:/data" ubuntu:24.04 bash -lc "$bashCmd"
     if(-not (Test-Path $merged)){ throw "Fusion échouée: normandie.osm.pbf absent." }
     $sizeMB = [math]::Round((Get-Item $merged).Length/1MB,2)
     Write-Info "Fichier fusionné créé ($sizeMB MB)."
