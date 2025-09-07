@@ -66,7 +66,7 @@ $final = Join-Path $dataDir 'normandie-region.osm.pbf'
 if( (Test-Path $final) -and (-not $Force) ){ Write-Host "[WARN] normandie-region.osm.pbf existe déjà (utiliser -Force)" -ForegroundColor Yellow; exit 0 }
 
 Write-Host "[INFO] Fusion région étendue" -ForegroundColor Cyan
-$bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && ls -1 /data/*.osm.pbf | wc -l && osmium cat /data/normandie.osm.pbf /data/bretagne-$Date.osm.pbf /data/pays-de-la-loire-$Date.osm.pbf /data/ile-de-france-$Date.osm.pbf -o /data/_tmp-region-raw.osm.pbf && osmium sort -u -o /data/normandie-region.osm.pbf /data/_tmp-region-raw.osm.pbf && rm /data/_tmp-region-raw.osm.pbf && osmium fileinfo /data/normandie-region.osm.pbf | head -n 10"
+$bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && ls -1 /data/*.osm.pbf | wc -l && osmium merge /data/normandie.osm.pbf /data/bretagne-$Date.osm.pbf /data/pays-de-la-loire-$Date.osm.pbf /data/ile-de-france-$Date.osm.pbf -o /data/normandie-region.osm.pbf -O && osmium fileinfo /data/normandie-region.osm.pbf | head -n 10"
 docker run --rm -v "${dataDir}:/data" ubuntu:24.04 bash -lc "$bashCmd"
 
 Write-Host "[INFO] Fichier final prêt: normandie-region.osm.pbf" -ForegroundColor Green

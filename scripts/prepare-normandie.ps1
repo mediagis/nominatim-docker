@@ -92,7 +92,7 @@ if( (Test-Path $merged) -and (-not $Force) ){
     Write-Info "Fusion avec osmium"
   $hauteLeaf = [IO.Path]::GetFileName($haute)
   $basseLeaf = [IO.Path]::GetFileName($basse)
-  $bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && osmium cat /data/$hauteLeaf /data/$basseLeaf -o /data/_tmp-normandie-raw.osm.pbf && osmium sort -u -o /data/normandie.osm.pbf /data/_tmp-normandie-raw.osm.pbf && rm /data/_tmp-normandie-raw.osm.pbf && osmium fileinfo /data/normandie.osm.pbf | head -n 15"
+  $bashCmd = "set -e; apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get install -yqq osmium-tool > /dev/null && osmium merge /data/$hauteLeaf /data/$basseLeaf -o /data/normandie.osm.pbf -O && osmium fileinfo /data/normandie.osm.pbf | head -n 15"
   docker run --rm -v "${dataDir}:/data" ubuntu:24.04 bash -lc "$bashCmd"
     if(-not (Test-Path $merged)){ throw "Fusion échouée: normandie.osm.pbf absent." }
     $sizeMB = [math]::Round((Get-Item $merged).Length/1MB,2)
