@@ -38,6 +38,81 @@ For information regarding the latest supported security version and security pol
 
 For comprehensive instructions on advanced configuration, importing custom PBF files, persistent data, updating the database, PostgreSQL tuning, and more, please refer to the [detailed how-to guide](howto.md).
 
+## Regional Example: Normandy (France)
+
+Geofabrik does not provide a unified `normandie-latest.osm.pbf`. The historical sub-regions `haute-normandie` and `basse-normandie` must be merged to build a current "Normandie" extract. This repository now includes helper scripts and compose files to automate that workflow and optionally extend to neighbouring regions (Bretagne, Pays de la Loire, Île-de-France).
+
+### Files Added
+
+| Path | Purpose |
+|------|---------|
+| `scripts/prepare-normandie.ps1` | PowerShell script: auto-detect recent date, download + MD5 verify Haute & Basse Normandie, merge to `data/normandie.osm.pbf`. |
+| `scripts/prepare-normandie-region.ps1` | Extends the above by downloading neighbouring regions and creating `data/normandie-region.osm.pbf`. |
+| `contrib/docker-compose-normandie.yml` | Compose file to run Nominatim limited to merged Normandy. |
+| `contrib/docker-compose-normandie-region.yml` | Compose file for extended region dataset. |
+
+### Prerequisites
+* Windows PowerShell 5.1+ (or PowerShell 7) for the scripts (they use only core cmdlets).
+* Docker with internet access.
+
+### 1. Prepare Normandy Dataset
+
+Run the script (auto date discovery, tries last 7 days until a date with available files is found):
+
+```powershell
+./scripts/prepare-normandie.ps1
+```
+
+Outputs: `data/haute-normandie-<date>.osm.pbf`, `data/basse-normandie-<date>.osm.pbf`, merged `data/normandie.osm.pbf`.
+
+Force re-download or specify a date (format yymmdd, UTC):
+
+```powershell
+./scripts/prepare-normandie.ps1 -Date 250906 -Force -Verbose
+```
+
+### 2. Start Normandy Nominatim
+
+```powershell
+docker compose -f contrib/docker-compose-normandie.yml up -d --force-recreate
+```
+
+Import progress:
+
+```powershell
+docker logs -f nominatim
+```
+
+### 3. (Optional) Extended Region Dataset
+
+Create merged `normandie-region.osm.pbf` (keeps previously downloaded Normandy parts):
+
+```powershell
+./scripts/prepare-normandie-region.ps1
+```
+
+Then launch:
+
+```powershell
+docker compose -f contrib/docker-compose-normandie-region.yml up -d --force-recreate
+```
+
+### 4. Test Queries
+
+Once import finished (API responds), try:
+
+```powershell
+curl "http://localhost:8080/search?q=Rouen&format=jsonv2"
+curl "http://localhost:8080/search?q=Caen&format=jsonv2"
+```
+
+### Notes
+* The scripts verify MD5 checksums. A mismatch aborts before import.
+* `REPLICATION_URL` in the compose files points to `france-updates` so differential updates keep Normandy current.
+* Adjust `IMPORT_STYLE` or tuning env vars in the compose files as needed.
+* To rebuild from a new daily extract later: rerun the script with `-Force`.
+* For Linux/macOS you can manually download the same PBFs and run the merge with `osmium cat` directly; scripts are Windows-focused convenience.
+
 # Project goals and alternatives
 
 It is the goal of this project to provide and easy to use container image that runs all services in a single container.

@@ -1,0 +1,36 @@
+version: "3"
+
+# Instance Nominatim pour la Normandie (région actuelle) en fusionnant les anciens extraits
+# haute-normandie + basse-normandie (Geofabrik ne fournit pas un fichier 'normandie-latest').
+# Préparation (PowerShell) AVANT de lancer ce docker-compose :
+#   mkdir data
+#   Invoke-WebRequest https://download.geofabrik.de/europe/france/haute-normandie-250906.osm.pbf -OutFile .\data\haute-normandie.osm.pbf
+#   Invoke-WebRequest https://download.geofabrik.de/europe/france/basse-normandie-250906.osm.pbf -OutFile .\data\basse-normandie.osm.pbf
+#   docker run --rm -v ${PWD}\data:/data osmcode/osmium osmium cat \
+#       -o /data/normandie.osm.pbf /data/haute-normandie.osm.pbf /data/basse-normandie.osm.pbf
+# (Option: remplacer les dates 250906 par la plus récente disponible dans l'index si nécessaire.)
+# Lancement ensuite: docker compose -f contrib/docker-compose-normandie.yml up -d
+
+services:
+  nominatim:
+    container_name: nominatim-normandie
+    image: mediagis/nominatim:5.1
+    ports:
+      - "8080:8080"   # API http://localhost:8080
+    environment:
+      PBF_PATH: /nominatim/data/normandie.osm.pbf
+      # Pas de flux updates unifié; on peut utiliser france-updates pour couvrir tout et ignorer le reste.
+      REPLICATION_URL: https://download.geofabrik.de/europe/france-updates/
+      UPDATE_MODE: continuous
+      NOMINATIM_PASSWORD: change_me_normandie
+      IMPORT_STYLE: full        # ou address pour accélérer l'import
+      # THREADS: 4              # décommentez pour fixer le nombre de threads
+    volumes:
+      - type: bind
+        source: ./data
+        target: /nominatim/data
+      - nominatim-normandie-data:/var/lib/postgresql/16/main
+    shm_size: 1gb               # augmenter selon la RAM disponible
+
+volumes:
+  nominatim-normandie-data:

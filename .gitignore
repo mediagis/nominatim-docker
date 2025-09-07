@@ -1,1 +1,42 @@
 .project
+
+# Local data directory (raw & merged PBFs, database, temp files)
+data/*.osm.pbf
+data/*.osm.pbf.*
+data/*.pbf
+data/*.pbf.*
+data/*.md5
+data/*.sha256
+data/*.sql.gz
+data/pgdata/
+data/postgres-data/
+data/*-journal
+data/*.log
+!data/.gitkeep
+
+# Docker artifacts
+*.pid
+*.pid.lock
+
+# OS / editor noise
+Thumbs.db
+*.swp
+*.swo
+.DS_Store
+
+# Node / dependency caches (if later added)
+node_modules/
+
+# Python caches (if scripts expanded)
+__pycache__/
+*.pyc
+
+# Archives / dumps
+*.tar
+*.tar.gz
+*.zip
+*.7z
+
+# Environment / secrets templates (keep example if needed)
+.env
+!conf.d/env

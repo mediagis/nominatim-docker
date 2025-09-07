@@ -1,0 +1,39 @@
+version: "3"
+
+# Instance couvrant Normandie (fusion haute + basse) + régions voisines (Bretagne, Pays de la Loire, Île-de-France).
+# Préparation (PowerShell) :
+#  mkdir data
+#  # Téléchargements (remplacez 250906 par la date courante si besoin). Vous pouvez aussi prendre *-latest.osm.pbf si accessible.
+#  Invoke-WebRequest https://download.geofabrik.de/europe/france/haute-normandie-250906.osm.pbf -OutFile .\data\haute-normandie.osm.pbf
+#  Invoke-WebRequest https://download.geofabrik.de/europe/france/basse-normandie-250906.osm.pbf -OutFile .\data\basse-normandie.osm.pbf
+#  Invoke-WebRequest https://download.geofabrik.de/europe/france/bretagne-250906.osm.pbf -OutFile .\data\bretagne.osm.pbf
+#  Invoke-WebRequest https://download.geofabrik.de/europe/france/pays-de-la-loire-250906.osm.pbf -OutFile .\data\paysdeloire.osm.pbf
+#  Invoke-WebRequest https://download.geofabrik.de/europe/france/ile-de-france-250906.osm.pbf -OutFile .\data\iledefrance.osm.pbf
+#  # Fusion Normandie puis fusion région élargie:
+#  docker run --rm -v ${PWD}\data:/data osmcode/osmium osmium cat -o /data/normandie.osm.pbf /data/haute-normandie.osm.pbf /data/basse-normandie.osm.pbf
+#  docker run --rm -v ${PWD}\data:/data osmcode/osmium osmium cat -o /data/normandie-region.osm.pbf \
+#        /data/normandie.osm.pbf /data/bretagne.osm.pbf /data/paysdeloire.osm.pbf /data/iledefrance.osm.pbf
+#  # Lancement: docker compose -f contrib/docker-compose-normandie-region.yml up -d
+
+services:
+  nominatim:
+    container_name: nominatim-normandie-region
+    image: mediagis/nominatim:5.1
+    ports:
+      - "8080:8080"
+    environment:
+      PBF_PATH: /nominatim/data/normandie-region.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/france-updates/
+      UPDATE_MODE: continuous
+      NOMINATIM_PASSWORD: change_me_region
+      IMPORT_STYLE: full
+      THREADS: 4
+    volumes:
+      - type: bind
+        source: ./data
+        target: /nominatim/data
+      - nominatim-normandie-region-db:/var/lib/postgresql/16/main
+    shm_size: 1gb
+
+volumes:
+  nominatim-normandie-region-db:
