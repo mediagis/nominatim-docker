@@ -2,7 +2,7 @@
 
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
-![Nominatim Version](https://img.shields.io/badge/Nominatim%20Version-5.1.0-blue?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
+![Nominatim Version](https://img.shields.io/badge/Nominatim%20Version-5.2.0-blue?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
 
 ## Quick Start
 
@@ -15,17 +15,17 @@ docker run -it \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -p 8080:8080 \
   --name nominatim \
-  mediagis/nominatim:5.1
+  mediagis/nominatim:5.2
 ```
 
 After the import is complete, you can access the Nominatim API at `http://localhost:8080/search.php?q=avenue%20pasteur`.
 
 ## Accessing Different Versions
 
-You can pull specific versions of the Nominatim Docker image by specifying the tag. For example, to use Nominatim version `5.1`:
+You can pull specific versions of the Nominatim Docker image by specifying the tag. For example, to use Nominatim version `5.2`:
 
 ```sh
-docker pull mediagis/nominatim:5.1
+docker pull mediagis/nominatim:5.2
 ```
 
 For a list of available tags, please refer to the [Docker Hub page](https://hub.docker.com/r/mediagis/nominatim/tags).

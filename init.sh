@@ -15,7 +15,7 @@ fi
 # nominatim.org's bandwidth
 # https://github.com/mediagis/nominatim-docker/issues/416
 
-# https://nominatim.org/release-docs/5.1/admin/Import/#wikipediawikidata-rankings
+# https://nominatim.org/release-docs/5.2/admin/Import/#wikipediawikidata-rankings
 # TODO: Should we need a new env var $IMPORT_SECONDARY_WIKIPEDIA
 #  (using wget -O secondary_importance.sql.gz https://nominatim.org/data/wikimedia-secondary-importance.sql.gz)
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
