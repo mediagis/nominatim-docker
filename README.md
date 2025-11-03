@@ -121,6 +121,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/tzezar"><img src="https://avatars.githubusercontent.com/u/163430081?v=4?s=100" width="100px;" alt="Sebastian Drozd"/><br /><sub><b>Sebastian Drozd</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://www.linkedin.com/in/ilialaz/"><img src="https://avatars.githubusercontent.com/u/33663870?v=4?s=100" width="100px;" alt="Ilia Lazebnik"/><br /><sub><b>Ilia Lazebnik</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=DrFaust92" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

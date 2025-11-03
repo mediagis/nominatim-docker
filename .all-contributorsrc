@@ -480,6 +480,15 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "DrFaust92",
+      "name": "Ilia Lazebnik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33663870?v=4",
+      "profile": "https://www.linkedin.com/in/ilialaz/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
