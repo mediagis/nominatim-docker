@@ -10,6 +10,7 @@ services:
             # see https://github.com/mediagis/nominatim-docker/tree/master/5.1#configuration for more options
             PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
             REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+            WAIT_FOR_POSTGRES: false
             NOMINATIM_PASSWORD: very_secure_password
         volumes:
             - nominatim-data:/var/lib/postgresql/16/main
