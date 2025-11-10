@@ -498,6 +498,15 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "EricHayter",
+      "name": "Eric Hayter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57542086?v=4",
+      "profile": "https://github.com/EricHayter",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 6,
