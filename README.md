@@ -18,7 +18,7 @@ docker run -it \
   mediagis/nominatim:5.2
 ```
 
-After the import is complete, you can access the Nominatim API at `http://localhost:8080/search.php?q=avenue%20pasteur`.
+After the import is complete, you can access the Nominatim API at `http://localhost:8080/search?q=avenue%20pasteur`.
 
 ## Accessing Different Versions
 
