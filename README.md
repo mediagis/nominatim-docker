@@ -124,6 +124,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="16.66%"><a href="https://www.linkedin.com/in/ilialaz/"><img src="https://avatars.githubusercontent.com/u/33663870?v=4?s=100" width="100px;" alt="Ilia Lazebnik"/><br /><sub><b>Ilia Lazebnik</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=DrFaust92" title="Code">💻</a></td>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/drnextgis"><img src="https://avatars.githubusercontent.com/u/866124?v=4?s=100" width="100px;" alt="Denis Rykov"/><br /><sub><b>Denis Rykov</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=drnextgis" title="Code">💻</a></td>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/EricHayter"><img src="https://avatars.githubusercontent.com/u/57542086?v=4?s=100" width="100px;" alt="Eric Hayter"/><br /><sub><b>Eric Hayter</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=EricHayter" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://wiki.debian.org/AnthonyFok"><img src="https://avatars.githubusercontent.com/u/1274764?v=4?s=100" width="100px;" alt="Anthony Fok"/><br /><sub><b>Anthony Fok</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=anthonyfok" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>

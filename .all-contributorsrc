@@ -507,6 +507,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "anthonyfok",
+      "name": "Anthony Fok",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1274764?v=4",
+      "profile": "https://wiki.debian.org/AnthonyFok",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,
