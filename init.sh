@@ -16,8 +16,6 @@ fi
 # https://github.com/mediagis/nominatim-docker/issues/416
 
 # https://nominatim.org/release-docs/5.2/admin/Import/#wikipediawikidata-rankings
-# TODO: Should we need a new env var $IMPORT_SECONDARY_WIKIPEDIA
-#  (using wget -O secondary_importance.sql.gz https://nominatim.org/data/wikimedia-secondary-importance.sql.gz)
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
   ${SCP}:wikimedia-importance.csv.gz ${PROJECT_DIR}/wikimedia-importance.csv.gz
@@ -26,6 +24,16 @@ elif [ -f "$IMPORT_WIKIPEDIA" ]; then
   ln -s "$IMPORT_WIKIPEDIA" ${PROJECT_DIR}/wikimedia-importance.csv.gz
 else
   echo "Skipping optional Wikipedia importance import"
+fi;
+
+if [ "$IMPORT_SECONDARY_WIKIPEDIA" = "true" ]; then
+  echo "Downloading Wikipedia secondary importance dump"
+  ${SCP}:wikimedia-importance-secondary.sql.gz ${PROJECT_DIR}/secondary_importance.sql.gz
+elif [ -f "$IMPORT_SECONDARY_WIKIPEDIA" ]; then
+  # use local file if asked
+  ln -s "$IMPORT_SECONDARY_WIKIPEDIA" ${PROJECT_DIR}/secondary_importance.sql.gz
+else
+  echo "Skipping optional Wikipedia secondary importance import"
 fi;
 
 if [ "$IMPORT_GB_POSTCODES" = "true" ]; then

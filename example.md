@@ -39,8 +39,11 @@ docker run -it \
   #If you only want to use the Nominatim database for reverse lookups. (default: false)
   -e REVERSE_ONLY=true/false
 
-  #When enabled additional Wikipedia Data will be loaded (default off)
-  -e IMPORT_WIKIPEDIA=true/false
+  # Whether to download and import Wikipedia primary importance data (true) or path to importance dump in the container. (default: false)
+  -e IMPORT_WIKIPEDIA=true/false/path \
+
+  # Whether to download and import Wikipedia data for secondary importance (true) or path to secondary importance dump in the container. (default: false)
+  -e IMPORT_SECONDARY_WIKIPEDIA=true/false/path \
 
   #Whether to download and import the US postcode dump (true) or path to US postcode dump in the container. (default: false)
   -e IMPORT_US_POSTCODES=true/false/path
