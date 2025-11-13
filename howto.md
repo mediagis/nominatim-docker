@@ -35,7 +35,7 @@ docker run -it \
 
 Port 8080 is the nominatim HTTP API port and 5432 is the Postgres port, which you may or may not want to expose.
 
-If you want to check that your data import was successful, you can use the API with the following URL: http://localhost:8080/search.php?q=avenue%20pasteur
+If you want to check that your data import was successful, you can use the API with the following URL: http://localhost:8080/search?q=avenue%20pasteur
 
 ## Configuration
 
@@ -44,14 +44,14 @@ If you want to check that your data import was successful, you can use the API w
 The following environment variables are available for configuration:
 
 - `PBF_URL`: Which [OSM extract](#openstreetmap-data-extracts) to download and import. It cannot be used together with `PBF_PATH`.
-  Check [https://download.geofabrik.de](https://download.geofabrik.de) 
+  Check [https://download.geofabrik.de](https://download.geofabrik.de)
   Since the download speed is restricted at Geofabrik, there is a recommended list of mirrors for importing the full planet at [OSM Wiki](https://wiki.openstreetmap.org/wiki/Planet.osm#Planet.osm_mirrors).
   At the mirror sites you can find the folder /planet which contains the planet-latest.osm.pbf
   and often a `/replication` folder for the `REPLICATION_URL`.
 - `PBF_PATH`: Which [OSM extract](#openstreetmap-data-extracts) to import from the .pbf file inside the container. It cannot be used together with `PBF_URL`.
 - `REPLICATION_URL`: Where to get updates from. For example Geofabrik's update for the Europe extract are available at `https://download.geofabrik.de/europe-updates/`
 Other places at Geofabrik follow the pattern `https://download.geofabrik.de/$CONTINENT/$COUNTRY-updates/`
- 
+
 - `REPLICATION_UPDATE_INTERVAL`: How often upstream publishes diffs (in seconds, default: `86400`). _Requires `REPLICATION_URL` to be set._
 - `REPLICATION_RECHECK_INTERVAL`: How long to sleep if no update found yet (in seconds, default: `900`). _Requires `REPLICATION_URL` to be set._
 - `UPDATE_MODE`: How to run replication to [update nominatim data](https://nominatim.org/release-docs/5.2/admin/Update/#updating-nominatim). Options: `continuous`/`once`/`catch-up`/`none` (default: `none`)
@@ -107,7 +107,7 @@ See https://nominatim.org/release-docs/5.2/admin/Import/#filtering-imported-data
 ### Flatnode files
 
 In addition you can also mount a volume / bind-mount on `/nominatim/flatnode` (see: Persistent container data) to use flatnode storage. This is advised for bigger imports (Europe, North America etc.), see: https://nominatim.org/release-docs/5.2/admin/Import/#flatnode-files. If the mount is available for the container, the flatnode configuration is automatically set and used.
-  
+
 ```sh
 docker run -it \
   -v nominatim-flatnode:/nominatim/flatnode \
@@ -125,12 +125,12 @@ Here you can find a [configuration example](example.md) for all flags you can us
 
 ## Persistent container data
 
-If you want to keep your imported data across deletion and recreation of your container, make the following folder a volume:
+If you want to keep your imported data across deletion and recreation of your container, make each of the following folder a volume:
 
-- `/var/lib/postgresql/16/main` is the storage location of the Postgres database & holds the state about whether the import was successful
-- `/nominatim/flatnode` is the storage location of the flatnode file.
+- `/var/lib/postgresql/16/main` is the storage location of the Postgres database. It holds the state about whether the import was successful.
+- `/nominatim/flatnode` is the storage location of the flatnode file, if used.
 
-So if you want to be able to kill your container and start it up again with all the data still present use the following command:
+Here is an example command which ensures your data persists when you stop and restart the container:
 
 ```sh
 docker run -it --shm-size=1g \
