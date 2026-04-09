@@ -127,6 +127,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="16.66%"><a href="https://wiki.debian.org/AnthonyFok"><img src="https://avatars.githubusercontent.com/u/1274764?v=4?s=100" width="100px;" alt="Anthony Fok"/><br /><sub><b>Anthony Fok</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=anthonyfok" title="Code">💻</a></td>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/harriteja"><img src="https://avatars.githubusercontent.com/u/37623394?v=4?s=100" width="100px;" alt="Hari Teja"/><br /><sub><b>Hari Teja</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=harriteja" title="Code">💻</a></td>
     </tr>
+    <tr>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/onlygecko"><img src="https://avatars.githubusercontent.com/u/3233376?v=4?s=100" width="100px;" alt="onlygecko"/><br /><sub><b>onlygecko</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=onlygecko" title="Code">💻</a></td>
+    </tr>
   </tbody>
 </table>
 
