@@ -15,7 +15,7 @@ fi
 # nominatim.org's bandwidth
 # https://github.com/mediagis/nominatim-docker/issues/416
 
-# https://nominatim.org/release-docs/5.2/admin/Import/#wikipediawikidata-rankings
+# https://nominatim.org/release-docs/5.3/admin/Import/#wikipediawikidata-rankings
 if [ "$IMPORT_WIKIPEDIA" = "true" ]; then
   echo "Downloading Wikipedia importance dump"
   ${SCP}:wikimedia-importance.csv.gz ${PROJECT_DIR}/wikimedia-importance.csv.gz
