@@ -480,6 +480,60 @@
         "code",
         "doc"
       ]
+    },
+    {
+      "login": "DrFaust92",
+      "name": "Ilia Lazebnik",
+      "avatar_url": "https://avatars.githubusercontent.com/u/33663870?v=4",
+      "profile": "https://www.linkedin.com/in/ilialaz/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "drnextgis",
+      "name": "Denis Rykov",
+      "avatar_url": "https://avatars.githubusercontent.com/u/866124?v=4",
+      "profile": "https://github.com/drnextgis",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "EricHayter",
+      "name": "Eric Hayter",
+      "avatar_url": "https://avatars.githubusercontent.com/u/57542086?v=4",
+      "profile": "https://github.com/EricHayter",
+      "contributions": [
+        "doc"
+      ]
+    },
+    {
+      "login": "anthonyfok",
+      "name": "Anthony Fok",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1274764?v=4",
+      "profile": "https://wiki.debian.org/AnthonyFok",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "harriteja",
+      "name": "Hari Teja",
+      "avatar_url": "https://avatars.githubusercontent.com/u/37623394?v=4",
+      "profile": "https://github.com/harriteja",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "onlygecko",
+      "name": "onlygecko",
+      "avatar_url": "https://avatars.githubusercontent.com/u/3233376?v=4",
+      "profile": "https://github.com/onlygecko",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 6,

@@ -94,7 +94,7 @@ echo "Starting Gunicorn with $GUNICORN_WORKERS workers"
 echo "--> Nominatim is ready to accept requests"
 
 cd "$PROJECT_DIR"
-sudo -u nominatim gunicorn \
+sudo -E -u nominatim gunicorn \
   --bind :8080 \
   --pid $GUNICORN_PID_FILE \
   --workers $GUNICORN_WORKERS \

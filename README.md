@@ -2,7 +2,7 @@
 
 100% working container for [Nominatim](https://github.com/openstreetmap/Nominatim).
 
-![Nominatim Version](https://img.shields.io/badge/Nominatim%20Version-5.1.0-blue?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
+![Nominatim Version](https://img.shields.io/badge/Nominatim%20Version-5.3.0-blue?style=flat-square) ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/mediagis/nominatim-docker/ci.yml?branch=master&style=flat-square) ![Github All Contributors](https://img.shields.io/github/all-contributors/mediagis/nominatim-docker?style=flat-square) ![Docker Pulls](https://img.shields.io/docker/pulls/mediagis/nominatim?style=flat-square) ![Docker Image Size with architecture (latest by date/latest semver)](https://img.shields.io/docker/image-size/mediagis/nominatim?style=flat-square)
 
 ## Quick Start
 
@@ -15,17 +15,17 @@ docker run -it \
   -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
   -p 8080:8080 \
   --name nominatim \
-  mediagis/nominatim:5.1
+  mediagis/nominatim:5.3
 ```
 
-After the import is complete, you can access the Nominatim API at `http://localhost:8080/search.php?q=avenue%20pasteur`.
+After the import is complete, you can access the Nominatim API at `http://localhost:8080/search?q=avenue%20pasteur`.
 
 ## Accessing Different Versions
 
-You can pull specific versions of the Nominatim Docker image by specifying the tag. For example, to use Nominatim version `5.1`:
+You can pull specific versions of the Nominatim Docker image by specifying the tag. For example, to use Nominatim version `5.3`:
 
 ```sh
-docker pull mediagis/nominatim:5.1
+docker pull mediagis/nominatim:5.3
 ```
 
 For a list of available tags, please refer to the [Docker Hub page](https://hub.docker.com/r/mediagis/nominatim/tags).
@@ -196,6 +196,14 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     </tr>
     <tr>
       <td align="center" valign="top" width="16.66%"><a href="https://github.com/tzezar"><img src="https://avatars.githubusercontent.com/u/163430081?v=4?s=100" width="100px;" alt="Sebastian Drozd"/><br /><sub><b>Sebastian Drozd</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Code">💻</a> <a href="https://github.com/mediagis/nominatim-docker/commits?author=tzezar" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://www.linkedin.com/in/ilialaz/"><img src="https://avatars.githubusercontent.com/u/33663870?v=4?s=100" width="100px;" alt="Ilia Lazebnik"/><br /><sub><b>Ilia Lazebnik</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=DrFaust92" title="Code">💻</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/drnextgis"><img src="https://avatars.githubusercontent.com/u/866124?v=4?s=100" width="100px;" alt="Denis Rykov"/><br /><sub><b>Denis Rykov</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=drnextgis" title="Code">💻</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/EricHayter"><img src="https://avatars.githubusercontent.com/u/57542086?v=4?s=100" width="100px;" alt="Eric Hayter"/><br /><sub><b>Eric Hayter</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=EricHayter" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://wiki.debian.org/AnthonyFok"><img src="https://avatars.githubusercontent.com/u/1274764?v=4?s=100" width="100px;" alt="Anthony Fok"/><br /><sub><b>Anthony Fok</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=anthonyfok" title="Code">💻</a></td>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/harriteja"><img src="https://avatars.githubusercontent.com/u/37623394?v=4?s=100" width="100px;" alt="Hari Teja"/><br /><sub><b>Hari Teja</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=harriteja" title="Code">💻</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="16.66%"><a href="https://github.com/onlygecko"><img src="https://avatars.githubusercontent.com/u/3233376?v=4?s=100" width="100px;" alt="onlygecko"/><br /><sub><b>onlygecko</b></sub></a><br /><a href="https://github.com/mediagis/nominatim-docker/commits?author=onlygecko" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
