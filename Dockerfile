@@ -61,7 +61,7 @@ RUN --mount=type=cache,target=/root/.cache/pip,sharing=locked pip install --brea
     falcon \
     uvicorn \
     gunicorn \
-    nominatim-api
+    nominatim-api==$NOMINATIM_VERSION
 
 
 # remove build-only packages
