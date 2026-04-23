@@ -22,6 +22,7 @@ RUN  \
     && apt-get -y update -qq \
     && apt-get -y install \
         locales \
+        osmctools \
     && locale-gen en_US.UTF-8 \
     && update-locale LANG=en_US.UTF-8 \
     && apt-get -y install \
