@@ -1,0 +1,63 @@
+volumes:
+  nominatim:
+  pg:
+
+services:
+  nominatim:
+    image: nominatim-local:latest
+    container_name: nominatim
+    ports:
+      - 8080:8080
+    volumes:
+      - nominatim:/nominatim
+    depends_on:
+      nominatim-postgres:
+        condition: service_healthy
+    environment:
+      PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+      REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
+
+      REPLICATION_UPDATE_INTERVAL: 43200
+      REPLICATION_RECHECK_INTERVAL: 450
+      UPDATE_MODE: continuous
+      FREEZE: "false"
+      REVERSE_ONLY: "false"
+      IMPORT_WIKIPEDIA: "true"
+      IMPORT_SECONDARY_WIKIPEDIA: "true"
+
+      # Postcodes
+      IMPORT_US_POSTCODES: "false"
+      IMPORT_GB_POSTCODES: "false"
+
+      # Import style: admin | street | address | full | extratags
+      IMPORT_STYLE: full
+      IMPORT_TIGER_ADDRESSES: "false"
+      THREADS: 10
+
+      PGHOST: ${PGHOST}
+      PGDATABASE: ${PGDATABASE}
+      PGUSER: ${PGUSER}
+      PGPASSWORD: ${PGPASSWORD}
+      NOMINATIM_PASSWORD: ${PGPASSWORD}
+      NOMINATIM_TOKENIZER: icu
+      NOMINATIM_DATABASE_DSN: "host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD}"
+
+  nominatim-postgres:
+    image: docker.io/imresamu/postgis:18-3.6
+    volumes:
+      - pg:/var/lib/postgresql
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    environment:
+      POSTGRES_USER: ${PGUSER}
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+      POSTGRES_DB: postgres
+    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${PGUSER} -d postgres && psql -U ${PGUSER} -d postgres -c 'SELECT 1'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 10 # Increased from 5
