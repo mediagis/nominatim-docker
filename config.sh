@@ -1,56 +1,34 @@
-CONFIG_FILE=${PROJECT_DIR}/.env
+#!/bin/bash
 
+CONFIG_FILE="${PROJECT_DIR}/.env"
+CONFIG_TEMPLATE="/app/env.template"
 
-if [[ "$PBF_URL" = "" && "$PBF_PATH" = "" ]]  ||  [[ "$PBF_URL" != "" && "$PBF_PATH" != "" ]]; then
-  echo "You need to specify either the PBF_URL or PBF_PATH environment variable"
-  echo "docker run -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf ..."
-  echo "docker run -e PBF_PATH=/nominatim/data/monaco-latest.osm.pbf ..."
-  exit 1
-fi
+apply_config() {
+  cp "$CONFIG_TEMPLATE" "$CONFIG_FILE"
 
-if [ "$NOMINATIM_DATABASE_DSN" = "" ]; then
-  echo "NOMINATIM_DATABASE_DSN is required"
-  exit 1
-fi
+  sed -i "s|__NOMINATIM_DATABASE_DSN__|$NOMINATIM_DATABASE_DSN|g" "$CONFIG_FILE"
 
-sed -i "s|__NOMINATIM_DATABASE_DSN__|$NOMINATIM_DATABASE_DSN|g" ${CONFIG_FILE}
-
-if [ "$REPLICATION_URL" != "" ]; then
-  sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" ${CONFIG_FILE}
-fi
-
-# Use the specified replication update and recheck interval values if either or both are numbers, or use the default values
-
-reg_num='^[0-9]+$'
-if [[ $REPLICATION_UPDATE_INTERVAL =~ $reg_num ]]; then
-  if [ "$REPLICATION_URL" = "" ]; then
-    echo "You need to specify the REPLICATION_URL variable in order to set a REPLICATION_UPDATE_INTERVAL"
-    exit 1
+  if [ "$REPLICATION_URL" != "" ]; then
+    sed -i "s|__REPLICATION_URL__|$REPLICATION_URL|g" "$CONFIG_FILE"
+    if [[ "$REPLICATION_UPDATE_INTERVAL" =~ ^[0-9]+$ ]]; then
+      sed -i "s/NOMINATIM_REPLICATION_UPDATE_INTERVAL=86400/NOMINATIM_REPLICATION_UPDATE_INTERVAL=$REPLICATION_UPDATE_INTERVAL/g" "$CONFIG_FILE"
+    fi
+    if [[ "$REPLICATION_RECHECK_INTERVAL" =~ ^[0-9]+$ ]]; then
+      sed -i "s/NOMINATIM_REPLICATION_RECHECK_INTERVAL=900/NOMINATIM_REPLICATION_RECHECK_INTERVAL=$REPLICATION_RECHECK_INTERVAL/g" "$CONFIG_FILE"
+    fi
   fi
-  sed -i "s/NOMINATIM_REPLICATION_UPDATE_INTERVAL=86400/NOMINATIM_REPLICATION_UPDATE_INTERVAL=$REPLICATION_UPDATE_INTERVAL/g" ${CONFIG_FILE}
-fi
-if [[ $REPLICATION_RECHECK_INTERVAL =~ $reg_num ]]; then
-  if [ "$REPLICATION_URL" = "" ]; then
-    echo "You need to specify the REPLICATION_URL variable in order to set a REPLICATION_RECHECK_INTERVAL"
-    exit 1
+
+  if [ ! -z "$IMPORT_STYLE" ]; then
+    sed -i "s|__IMPORT_STYLE__|${IMPORT_STYLE}|g" "$CONFIG_FILE"
+  else
+    sed -i "s|__IMPORT_STYLE__|full|g" "$CONFIG_FILE"
   fi
-  sed -i "s/NOMINATIM_REPLICATION_RECHECK_INTERVAL=900/NOMINATIM_REPLICATION_RECHECK_INTERVAL=$REPLICATION_RECHECK_INTERVAL/g" ${CONFIG_FILE}
-fi
 
-# import style tuning
+  if [ -d "${PROJECT_DIR}/flatnode" ]; then
+    sed -i 's|^NOMINATIM_FLATNODE_FILE=$|NOMINATIM_FLATNODE_FILE="'"${PROJECT_DIR}"'/flatnode/flatnode.file"|g' "$CONFIG_FILE"
+  fi
 
-if [ ! -z "$IMPORT_STYLE" ]; then
-  sed -i "s|__IMPORT_STYLE__|${IMPORT_STYLE}|g" ${CONFIG_FILE}
-else
-  sed -i "s|__IMPORT_STYLE__|full|g" ${CONFIG_FILE}
-fi
-
-# if flatnode directory was created by volume / mount, use flatnode files
-
-if [ -d "${PROJECT_DIR}/flatnode" ]; then sed -i 's\^NOMINATIM_FLATNODE_FILE=$\NOMINATIM_FLATNODE_FILE="/nominatim/flatnode/flatnode.file"\g' ${CONFIG_FILE}; fi
-
-# enable use of optional TIGER address data
-
-if [ "$IMPORT_TIGER_ADDRESSES" = "true" ] || [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
-  echo NOMINATIM_USE_US_TIGER_DATA=yes >> ${CONFIG_FILE}
-fi
+  if [ "$IMPORT_TIGER_ADDRESSES" = "true" ] || [ -f "$IMPORT_TIGER_ADDRESSES" ]; then
+    echo NOMINATIM_USE_US_TIGER_DATA=yes >> "$CONFIG_FILE"
+  fi
+}

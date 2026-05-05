@@ -2,50 +2,90 @@ volumes:
   nominatim:
   pg:
 
+x-image: &image
+  image: ghcr.io/frozenbug-dev/nominatim:5.3.2
+
+x-pg-env: &pg-env
+  PGHOST: ${PGHOST}
+  PGDATABASE: ${PGDATABASE}
+  PGUSER: ${PGUSER}
+  PGPASSWORD: ${PGPASSWORD}
+  NOMINATIM_PASSWORD: ${PGPASSWORD}
+  NOMINATIM_TOKENIZER: icu
+  NOMINATIM_DATABASE_DSN: "host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD}"
+
+x-import-env: &import-env
+  FREEZE: "false"
+  REVERSE_ONLY: "false"
+
+  IMPORT_WIKIPEDIA: "true"
+  IMPORT_SECONDARY_WIKIPEDIA: "true"
+  IMPORT_US_POSTCODES: "false"
+  IMPORT_GB_POSTCODES: "false"
+
+  # Import style: admin | street | address | full | extratags
+  IMPORT_STYLE: full
+  IMPORT_TIGER_ADDRESSES: "false"
+  THREADS: 10
+
 services:
   nominatim:
-    image: ghcr.io/frozenbug-dev/nominatim:5.3.2
+    <<: *image
+    command: serve
     container_name: nominatim
     ports:
       - 8080:8080
     volumes:
       - nominatim:/nominatim
     depends_on:
+      nominatim-import:
+        condition: service_completed_successfully
+      nominatim-postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/status"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+      start_period: 5s
+    environment:
+      <<: *pg-env
+
+  nominatim-import:
+    <<: *image
+    command: import
+    restart: no
+    volumes:
+      - nominatim:/nominatim
+    depends_on:
       nominatim-postgres:
         condition: service_healthy
     environment:
+      <<: [*pg-env, *import-env]
       PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
+
+  nominatim-sync:
+    <<: *image
+    command: sync
+    restart: unless-stopped
+    volumes:
+      - nominatim:/nominatim
+    depends_on:
+      nominatim-import:
+        condition: service_completed_successfully
+      nominatim-postgres:
+        condition: service_healthy
+    environment:
+      <<: [*pg-env, *import-env]
       REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
-
-      REPLICATION_UPDATE_INTERVAL: 43200
-      REPLICATION_RECHECK_INTERVAL: 450
+      REPLICATION_UPDATE_INTERVAL: 86400
+      REPLICATION_RECHECK_INTERVAL: 900
       UPDATE_MODE: continuous
-      FREEZE: "false"
-      REVERSE_ONLY: "false"
-      IMPORT_WIKIPEDIA: "true"
-      IMPORT_SECONDARY_WIKIPEDIA: "true"
-
-      # Postcodes
-      IMPORT_US_POSTCODES: "false"
-      IMPORT_GB_POSTCODES: "false"
-
-      # Import style: admin | street | address | full | extratags
-      IMPORT_STYLE: full
-      IMPORT_TIGER_ADDRESSES: "false"
-      THREADS: 10
-
-      PGHOST: ${PGHOST}
-      PGDATABASE: ${PGDATABASE}
-      PGUSER: ${PGUSER}
-      PGPASSWORD: ${PGPASSWORD}
-      NOMINATIM_PASSWORD: ${PGPASSWORD}
-      NOMINATIM_TOKENIZER: icu
-      NOMINATIM_DATABASE_DSN: "host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD}"
 
   nominatim-postgres:
-    image: postgis/postgis:18-3.6
+    # image: postgis/postgis:18-3.6
     # or use the following image for arm-based systems
-    # image: docker.io/imresamu/postgis:18-3.6
+    image: docker.io/imresamu/postgis:18-3.6
     volumes:
       - pg:/var/lib/postgresql
       - ./postgresql.conf:/etc/postgresql/postgresql.conf

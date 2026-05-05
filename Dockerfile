@@ -1,6 +1,6 @@
 # check=skip=SecretsUsedInArgOrEnv
 ARG NOMINATIM_VERSION=5.3.2
-ARG USER_AGENT=mediagis/nominatim-docker:${NOMINATIM_VERSION}
+ARG USER_AGENT=frozenbug-dev/nominatim-docker:${NOMINATIM_VERSION}
 
 FROM ubuntu:24.04 AS build
 
@@ -69,7 +69,8 @@ RUN true \
 
 COPY config.sh /app/config.sh
 COPY init.sh /app/init.sh
-COPY start.sh /app/start.sh
+COPY entrypoint.sh /app/entrypoint.sh
+COPY conf.d/env /app/env.template
 
 # Collapse image to single layer.
 FROM scratch
@@ -90,4 +91,5 @@ EXPOSE 8080
 
 COPY conf.d/env $PROJECT_DIR/.env
 
-CMD ["/app/start.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
+CMD ["serve"]
