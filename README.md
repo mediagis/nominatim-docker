@@ -2,70 +2,35 @@
 
 An alternative Docker image for [Nominatim](https://github.com/openstreetmap/Nominatim) based on the [nominatim-docker](https://github.com/mediagis/nominatim-docker) project.
 
-- Bring-your-own-database
-- arm64 and x86 compatible image
+```bash
+docker pull ghcr.io/frozenbug-dev/nominatim:5.3.2
+```
+
+- Bring-your-own-postgres
+- Multi-arch (`arm64` and `x86`) Docker image
+- Separate scripts for each stage of the process, allowing for more flexibility in deployment.
+  - `serve` to run the API
+  - `import` to start the initial import
+  - `sync` to initiate the continous replication
 
 ## Quick Start
 
-To get started, a mostly-complete docker-compose example is provided in the [`deploy/`](./deploy) directory.
+To get started, a mostly-complete docker-compose example is provided in the [`deploy/`](./deploy) directory. Make sure to update the database password in `.env` and the `PBF_URL` and `REPLICATION_URL` in the `compose.yaml` file.
 
-```yaml
-volumes:
-  nominatim:
-  pg:
+```bash
+# first run the import
+docker compose up nominatim-import
+# wait until it finishes
+# depending on the size of your dataset, it can take hours
 
-services:
-  nominatim:
-    image: ghcr.io/frozenbug-dev/nominatim:5.3.2
-    container_name: nominatim
-    ports:
-      - 8080:8080
-    volumes:
-      - nominatim:/nominatim
-    depends_on:
-      nominatim-postgres:
-        condition: service_healthy
-    environment:
-      # for larger imports make sure to tune postgres!
-      PBF_URL: https://download.geofabrik.de/europe/monaco-latest.osm.pbf
-      REPLICATION_URL: https://download.geofabrik.de/europe/monaco-updates/
-      IMPORT_STYLE: full
-      # these are required because the script uses psql to create the `nominatim` database
-      PGHOST: ${PGHOST}
-      PGDATABASE: ${PGDATABASE}
-      PGUSER: ${PGUSER}
-      PGPASSWORD: ${PGPASSWORD}
-      NOMINATIM_PASSWORD: ${PGPASSWORD}
-      # the DSN is used by nominatim itself internally and needs to exist. in the future I might
-      # make this simpler
-      NOMINATIM_DATABASE_DSN: "host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD}"
-      NOMINATIM_TOKENIZER: icu
+# at this point it's recommended to update your postgresql.conf
+docker compose restart nominatim-postgres
 
-  nominatim-postgres:
-    image: postgis/postgis:18-3.6
-    # or use the following image for arm-based systems
-    # image: docker.io/imresamu/postgis:18-3.6
-    volumes:
-      - pg:/var/lib/postgresql
-      # use the conf in deploy/ and tune the settings based on your system configuration
-      # https://nominatim.org/release-docs/latest/admin/Installation/#tuning-the-postgresql-database
-      - ./postgresql.conf:/etc/postgresql/postgresql.conf
-    environment:
-      POSTGRES_USER: ${PGUSER}
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-      POSTGRES_DB: ${PGDATABASE}
-    command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${PGUSER} -d postgres"]
-      interval: 10s
-      timeout: 10s
-      retries: 10
+# then start up the the API and the sync process
+docker compose up -d
 ```
 
-After the import is complete, you can access the Nominatim API at `http://localhost:8080/search?q=avenue%20pasteur`.
-
-> [!note]
-> Work in progress.
+Now you can access the Nominatim API at `http://localhost:8080/search?q=avenue%20pasteur`.
 
 ---
 
