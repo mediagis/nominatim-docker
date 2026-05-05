@@ -9,7 +9,7 @@ An alternative Docker image for [Nominatim](https://github.com/openstreetmap/Nom
 
 To get started, a mostly-complete docker-compose example is provided in the [`deploy/`](./deploy) directory.
 
-```sh
+```yaml
 volumes:
   nominatim:
   pg:
