@@ -4,7 +4,7 @@ volumes:
 
 services:
   nominatim:
-    image: nominatim-local:latest
+    image: ghcr.io/frozenbug-dev/nominatim:5.3.2
     container_name: nominatim
     ports:
       - 8080:8080
@@ -43,7 +43,9 @@ services:
       NOMINATIM_DATABASE_DSN: "host=${PGHOST} dbname=${PGDATABASE} user=${PGUSER} password=${PGPASSWORD}"
 
   nominatim-postgres:
-    image: docker.io/imresamu/postgis:18-3.6
+    image: postgis/postgis:18-3.6
+    # or use the following image for arm-based systems
+    # image: docker.io/imresamu/postgis:18-3.6
     volumes:
       - pg:/var/lib/postgresql
       - ./postgresql.conf:/etc/postgresql/postgresql.conf

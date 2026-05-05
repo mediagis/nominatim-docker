@@ -16,7 +16,7 @@ volumes:
 
 services:
   nominatim:
-    image: frozenbug-dev/nominatim:5.3.2
+    image: ghcr.io/frozenbug-dev/nominatim:5.3.2
     container_name: nominatim
     ports:
       - 8080:8080
