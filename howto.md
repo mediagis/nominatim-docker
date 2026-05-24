@@ -176,16 +176,19 @@ where the _/osm-maps/data/_ directory contains _monaco-latest.osm.pbf_ file that
 Full documentation for Nominatim update available [here](https://nominatim.org/release-docs/5.3/admin/Update/). For a list of other methods see the output of:
 
 ```sh
-docker exec -it nominatim sudo -u nominatim nominatim replication --help
+docker exec -it -w /nominatim nominatim sudo -E -u nominatim nominatim --help
 ```
 
 The following command will keep updating the database forever:
 
 ```sh
-docker exec -it nominatim sudo -u nominatim nominatim replication --project-dir /nominatim
+docker exec -it -w /nominatim nominatim sudo -E -u nominatim nominatim replication
 ```
 
 If there are no updates available this process will sleep for 15 minutes and try again.
+
+You can also use the scripts [contrib/nominatim.sh](contrib/nominatim.sh) resp. [contrib/nominatim.bat](contrib/nominatim.bat) to call the nominatim command inside the container.
+The name of the container may need to be adjusted in the scripts.
 
 ## Custom PBF Files
 
