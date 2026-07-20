@@ -88,21 +88,148 @@ sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='no
 sudo -E -u postgres psql postgres -tAc "SELECT 1 FROM pg_roles WHERE rolname='www-data'" | grep -q 1 || sudo -E -u postgres createuser -SDR www-data && \
 
 sudo -E -u postgres psql postgres -tAc "ALTER USER nominatim WITH ENCRYPTED PASSWORD '$NOMINATIM_PASSWORD'" && \
-sudo -E -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'" && \
-
-sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
+sudo -E -u postgres psql postgres -tAc "ALTER USER \"www-data\" WITH ENCRYPTED PASSWORD '${NOMINATIM_PASSWORD}'"
 
 chown -R nominatim:nominatim ${PROJECT_DIR}
 
 cd ${PROJECT_DIR}
 
-if [ "$REVERSE_ONLY" = "true" ]; then
-  sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS --reverse-only
-else
-  sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
-fi
+psql_true() {
+  case "$1" in
+    t | true) return 0 ;;
+    *) return 1 ;;
+  esac
+}
 
-if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
+# Fail closed: never map probe errors to empty/"fresh" (that would DROP DATABASE).
+psql_scalar() {
+  sudo -E -u postgres psql -d nominatim -Atqc "$1"
+}
+
+# Prints "exists" or "missing". Returns 1 on query failure (caller must not treat as missing).
+probe_nominatim_db() {
+  local out
+  out="$(sudo -E -u postgres psql -d postgres -Atqc \
+    "SELECT 1 FROM pg_database WHERE datname = 'nominatim'")" || return 1
+  if [ "${out}" = "1" ]; then
+    echo "exists"
+  else
+    echo "missing"
+  fi
+}
+
+flatnode_nonempty() {
+  local f="${NOMINATIM_FLATNODE_FILE:-}"
+  if [ -z "${f}" ] && [ -d "${PROJECT_DIR}/flatnode" ]; then
+    f="${PROJECT_DIR}/flatnode/flatnode.file"
+  fi
+  [ -n "${f}" ] && [ -f "${f}" ] && [ -s "${f}" ]
+}
+
+# Detect --continue checkpoint from DB state (see nominatim_db/tools/database_import.py).
+# Prints one of: done|import-from-file|load-data|indexing|db-postprocess|fresh
+detect_continue_at() {
+  local db_state
+  db_state="$(probe_nominatim_db)" || {
+    echo "Failed to query whether nominatim database exists; refusing DROP" >&2
+    return 1
+  }
+  if [ "${db_state}" = "missing" ]; then
+    echo "fresh"
+    return 0
+  fi
+
+  local has_place_rel has_place has_placex_rel placex_loaded indexing_started has_pending has_props_rel has_version
+
+  # Missing place relation (createdb/pre-osm2pgsql) is fresh — not a probe failure.
+  has_place_rel="$(psql_scalar "SELECT to_regclass('public.place') IS NOT NULL")"
+  if ! psql_true "${has_place_rel}"; then
+    echo "fresh"
+    return 0
+  fi
+
+  has_place="$(psql_scalar "SELECT COALESCE((SELECT true FROM place LIMIT 1), false)")"
+  if ! psql_true "${has_place}"; then
+    # No successful osm2pgsql output — safe to DROP + re-import.
+    echo "fresh"
+    return 0
+  fi
+
+  # place has rows: after osm2pgsql the next stage is load-data (creates/fills placex).
+  # Do NOT auto-select import-from-file — that re-runs osm2pgsql and rebuilds place.
+  has_placex_rel="$(psql_scalar "SELECT to_regclass('public.placex') IS NOT NULL")"
+  if ! psql_true "${has_placex_rel}"; then
+    echo "load-data"
+    return 0
+  fi
+
+  placex_loaded="$(psql_scalar "SELECT EXISTS (SELECT 1 FROM placex LIMIT 1)")"
+  if ! psql_true "${placex_loaded}"; then
+    echo "load-data"
+    return 0
+  fi
+
+  has_props_rel="$(psql_scalar "SELECT to_regclass('public.nominatim_properties') IS NOT NULL")"
+  if psql_true "${has_props_rel}"; then
+    has_version="$(psql_scalar \
+      "SELECT EXISTS (SELECT 1 FROM nominatim_properties WHERE property = 'database_version')")"
+    if psql_true "${has_version}"; then
+      echo "done"
+      return 0
+    fi
+  fi
+
+  # indexed_status: 0 = indexed; >0 = pending (load_data insert triggers set 1)
+  indexing_started="$(psql_scalar \
+    "SELECT EXISTS (SELECT 1 FROM placex WHERE indexed_status = 0 LIMIT 1)")"
+  if ! psql_true "${indexing_started}"; then
+    # Placex loaded but indexing never committed a row — still in postcodes or pre-index.
+    # --continue indexing would skip postcodes; use load-data.
+    echo "load-data"
+    return 0
+  fi
+
+  has_pending="$(psql_scalar \
+    "SELECT EXISTS (SELECT 1 FROM placex WHERE indexed_status > 0 LIMIT 1)")"
+  if psql_true "${has_pending}"; then
+    echo "indexing"
+    return 0
+  fi
+
+  echo "db-postprocess"
+}
+
+stage="$(detect_continue_at)"
+echo "Detected import stage: ${stage}"
+
+case "${stage}" in
+  done)
+    echo "Import already complete; skipping fresh import / continue"
+    ;;
+  fresh)
+    if flatnode_nonempty; then
+      echo "Stage is fresh but flatnode file is non-empty; refusing DROP DATABASE"
+      echo "Wipe the flatnode volume or restore a consistent database before retrying"
+      exit 1
+    fi
+    sudo -E -u postgres psql postgres -c "DROP DATABASE IF EXISTS nominatim"
+    if [ "$REVERSE_ONLY" = "true" ]; then
+      sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS --reverse-only
+    else
+      sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
+    fi
+    ;;
+  import-from-file | load-data | indexing | db-postprocess)
+    /app/import-continue.sh "${stage}"
+    ;;
+  *)
+    echo "Unhandled import stage '${stage}'; refusing DROP"
+    exit 1
+    ;;
+esac
+
+# Skip on done: a prior complete import already applied Tiger (and may have cleaned the archive).
+if [ "${stage}" != "done" ] && [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
   echo "Importing Tiger address data"
   sudo -E -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
 fi

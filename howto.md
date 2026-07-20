@@ -12,6 +12,7 @@
     - [Flatnode files](#flatnode-files)
     - [Configuration Example](#configuration-example)
   - [Persistent container data](#persistent-container-data)
+  - [Interrupted imports](#interrupted-imports)
   - [OpenStreetMap Data Extracts](#openstreetmap-data-extracts)
   - [Updating the database](#updating-the-database)
   - [Custom PBF Files](#custom-pbf-files)
@@ -145,6 +146,27 @@ docker run -it --shm-size=1g \
   --name nominatim \
   mediagis/nominatim:5.3
 ```
+
+## Interrupted imports
+
+Long imports (planet / large extracts) can be interrupted by a container restart, OOM kill, or host reboot. When the Postgres data directory is a volume and `import-finished` is not present yet, `init.sh` **does not** blindly `DROP DATABASE`.
+
+On each import attempt it:
+
+1. Prepares Postgres and downloads as usual
+2. Detects the Nominatim import stage from the existing database (fail closed on probe errors)
+3. Either runs a fresh import (`DROP` + full `nominatim import`), continues with `nominatim import --continue <stage>`, or skips import if the database is already complete
+4. Runs the usual post-import checks and then `start.sh` writes `import-finished`
+
+**What you should do:** restart the same container (same Postgres volume, and the same flatnode volume if you use one). You do not need a special resume command.
+
+**Fail-closed cases** (container exits; progress is not dropped):
+
+- Database probes fail (Postgres/query errors)
+- Stage looks empty/`fresh` but a non-empty flatnode file is present (inconsistent state — wipe flatnode or restore a matching DB)
+- Continue from `import-from-file` but the OSM extract is missing (`PBF_PATH` / downloaded `data.osm.pbf`)
+
+PBF downloads already use `curl -C -` so a partial download can resume when `PBF_URL` is set.
 
 ## OpenStreetMap Data Extracts
 
