@@ -126,8 +126,20 @@ flatnode_nonempty() {
   [ -n "${f}" ] && [ -f "${f}" ] && [ -s "${f}" ]
 }
 
-# Detect --continue checkpoint from DB state (see nominatim_db/tools/database_import.py).
-# Prints one of: done|import-from-file|load-data|indexing|db-postprocess|fresh
+# True when Tiger address rows are already present (never treat probe errors as "missing").
+tiger_data_present() {
+  local has_rel has_rows
+  has_rel="$(psql_scalar "SELECT to_regclass('public.location_property_tiger') IS NOT NULL")" || return 1
+  if ! psql_true "${has_rel}"; then
+    return 1
+  fi
+  has_rows="$(psql_scalar "SELECT EXISTS (SELECT 1 FROM location_property_tiger LIMIT 1)")" || return 1
+  psql_true "${has_rows}"
+}
+
+# Detect --continue checkpoint from DB state (see nominatim_db/clicmd/setup.py).
+# Prints one of: done|load-data|indexing|db-postprocess|fresh
+# Returns 1 (fail closed) when resume would be destructive or ambiguous.
 detect_continue_at() {
   local db_state
   db_state="$(probe_nominatim_db)" || {
@@ -139,7 +151,8 @@ detect_continue_at() {
     return 0
   fi
 
-  local has_place_rel has_place has_placex_rel placex_loaded indexing_started has_pending has_props_rel has_version
+  local has_place_rel has_place has_placex_rel placex_loaded indexing_started has_pending \
+    has_props_rel has_version has_postcode_rel has_postcodes
 
   # Missing place relation (createdb/pre-osm2pgsql) is fresh — not a probe failure.
   has_place_rel="$(psql_scalar "SELECT to_regclass('public.place') IS NOT NULL")"
@@ -155,14 +168,16 @@ detect_continue_at() {
     return 0
   fi
 
-  # place has rows: after osm2pgsql the next stage is load-data (creates/fills placex).
-  # Do NOT auto-select import-from-file — that re-runs osm2pgsql and rebuilds place.
+  # place has rows but placex is missing: mid-osm2pgsql / pre-table-setup.
+  # --continue load-data does not re-run osm2pgsql and will fail; do not DROP.
   has_placex_rel="$(psql_scalar "SELECT to_regclass('public.placex') IS NOT NULL")"
   if ! psql_true "${has_placex_rel}"; then
-    echo "load-data"
-    return 0
+    echo "place has rows but placex is missing (likely mid-osm2pgsql); refusing auto-resume/DROP" >&2
+    echo "Restore a consistent DB or wipe the Postgres volume (and flatnode, if used) for a fresh import" >&2
+    return 1
   fi
 
+  # placex exists but empty: load-data was interrupted (or never started after create_tables).
   placex_loaded="$(psql_scalar "SELECT EXISTS (SELECT 1 FROM placex LIMIT 1)")"
   if ! psql_true "${placex_loaded}"; then
     echo "load-data"
@@ -183,10 +198,21 @@ detect_continue_at() {
   indexing_started="$(psql_scalar \
     "SELECT EXISTS (SELECT 1 FROM placex WHERE indexed_status = 0 LIMIT 1)")"
   if ! psql_true "${indexing_started}"; then
-    # Placex loaded but indexing never committed a row — still in postcodes or pre-index.
-    # --continue indexing would skip postcodes; use load-data.
-    echo "load-data"
-    return 0
+    # Placex loaded but no indexed row yet: postcodes window or very early indexing.
+    # NEVER map this to load-data — Nominatim --continue load-data truncates placex.
+    has_postcode_rel="$(psql_scalar "SELECT to_regclass('public.location_postcodes') IS NOT NULL")"
+    if psql_true "${has_postcode_rel}"; then
+      has_postcodes="$(psql_scalar "SELECT EXISTS (SELECT 1 FROM location_postcodes LIMIT 1)")"
+      if psql_true "${has_postcodes}"; then
+        # Postcodes have committed; safe to resume indexing (matches Nominatim FAQ).
+        echo "indexing"
+        return 0
+      fi
+    fi
+    echo "Ambiguous pre-index state (placex loaded, no indexed rows, postcodes empty/missing); refusing destructive --continue load-data" >&2
+    echo "If postcodes finished, run: nominatim import --continue indexing" >&2
+    echo "If still in load-data/postcodes with empty placex expected, wipe volumes for a fresh import" >&2
+    return 1
   fi
 
   has_pending="$(psql_scalar \
@@ -219,7 +245,7 @@ case "${stage}" in
       sudo -E -u nominatim nominatim import --osm-file $OSMFILE --threads $THREADS
     fi
     ;;
-  import-from-file | load-data | indexing | db-postprocess)
+  load-data | indexing | db-postprocess)
     /app/import-continue.sh "${stage}"
     ;;
   *)
@@ -228,10 +254,15 @@ case "${stage}" in
     ;;
 esac
 
-# Skip on done: a prior complete import already applied Tiger (and may have cleaned the archive).
-if [ "${stage}" != "done" ] && [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
-  echo "Importing Tiger address data"
-  sudo -E -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
+# Tiger runs after nominatim import finalize. On stage=done, still import when archive
+# is present and Tiger rows are missing (crash between import complete and Tiger).
+if [ -f tiger-nominatim-preprocessed.csv.tar.gz ]; then
+  if [ "${stage}" = "done" ] && tiger_data_present; then
+    echo "Tiger address data already present; skipping Tiger import"
+  else
+    echo "Importing Tiger address data"
+    sudo -E -u nominatim nominatim add-data --tiger-data tiger-nominatim-preprocessed.csv.tar.gz
+  fi
 fi
 
 # Sometimes Nominatim marks parent places to be indexed during the initial
@@ -276,7 +307,14 @@ rm /etc/postgresql/16/main/conf.d/postgres-import.conf
 echo "Deleting downloaded dumps in ${PROJECT_DIR}"
 rm -f ${PROJECT_DIR}/*sql.gz
 rm -f ${PROJECT_DIR}/*csv.gz
-rm -f ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+# Keep Tiger archive until rows exist so a done-path recovery cannot delete it unapplied.
+if [ -f ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz ]; then
+  if tiger_data_present; then
+    rm -f ${PROJECT_DIR}/tiger-nominatim-preprocessed.csv.tar.gz
+  else
+    echo "Leaving Tiger archive in place; Tiger data not loaded yet"
+  fi
+fi
 
 if [ "$PBF_URL" != "" ]; then
   rm -f ${OSMFILE}

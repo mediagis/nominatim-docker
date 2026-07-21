@@ -164,7 +164,10 @@ On each import attempt it:
 
 - Database probes fail (Postgres/query errors)
 - Stage looks empty/`fresh` but a non-empty flatnode file is present (inconsistent state — wipe flatnode or restore a matching DB)
-- Continue from `import-from-file` but the OSM extract is missing (`PBF_PATH` / downloaded `data.osm.pbf`)
+- `place` has rows but `placex` is missing (likely mid-osm2pgsql; wipe volumes for a fresh import)
+- Placex is loaded but indexing has not started and postcodes look incomplete — auto-resume refuses `--continue load-data` because that truncates `placex`
+
+When the Nominatim import itself is already complete (`database_version` set) but Tiger was configured and not yet loaded, restart still imports Tiger from the archive and only deletes the archive after Tiger rows exist.
 
 PBF downloads already use `curl -C -` so a partial download can resume when `PBF_URL` is set.
 

@@ -261,11 +261,11 @@ jobs:
               docker run -i --rm \
                 -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
                 -v nominatim-resume-marker:/var/lib/postgresql/16/main \
-                -p 8020:8080 \
+                -p 8120:8080 \
                 --name nominatim \
                 nominatim:$NOMINATIM_VERSION &
 
-              ./assert-non-empty-json "http://localhost:8020/search?q=avenue%20pasteur"
+              ./assert-non-empty-json "http://localhost:8120/search?q=avenue%20pasteur"
               docker stop nominatim
               sleep 15
 
@@ -278,52 +278,66 @@ jobs:
               docker run -i --rm \
                 -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
                 -v nominatim-resume-marker:/var/lib/postgresql/16/main \
-                -p 8021:8080 \
+                -p 8121:8080 \
                 --name nominatim \
                 nominatim:$NOMINATIM_VERSION &
 
-              ./assert-non-empty-json "http://localhost:8021/search?q=avenue%20pasteur"
-              docker logs nominatim 2>&1 | grep -q "Detected import stage: done"
+              ./assert-non-empty-json "http://localhost:8121/search?q=avenue%20pasteur"
+              # Capture logs first: `docker logs | grep -q` under pipefail exits 141 (SIGPIPE).
+              docker logs nominatim > /tmp/nominatim-resume-marker.log 2>&1
+              grep -q "Detected import stage: done" /tmp/nominatim-resume-marker.log
+              grep -q "Import already complete; skipping fresh import / continue" /tmp/nominatim-resume-marker.log
+              ! grep -q "DROP DATABASE" /tmp/nominatim-resume-marker.log
 
           - name: Resume interrupted import with volume
             commands: |-
               docker volume create nominatim-resume-mid
-              docker run -d --rm \
+              # Complete a small import first, then recreate a pre-finalize DB state.
+              # Prefer db-postprocess over flipping indexed_status: re-pending already-indexed
+              # rows without clearing location_road_* causes UniqueViolation on --continue indexing.
+              docker run -i --rm \
                 -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
                 -v nominatim-resume-mid:/var/lib/postgresql/16/main \
-                -p 8022:8080 \
+                -p 8122:8080 \
                 --name nominatim \
-                nominatim:$NOMINATIM_VERSION
+                nominatim:$NOMINATIM_VERSION &
 
-              # Wait until osm2pgsql has written place rows, then kill mid-import when possible
-              for i in $(seq 1 180); do
-                if docker exec nominatim sudo -u postgres psql -d nominatim -Atqc \
-                  "SELECT COALESCE((SELECT true FROM place LIMIT 1), false)" 2>/dev/null | grep -qx t; then
-                  break
-                fi
-                sleep 2
-              done
-              docker exec nominatim sudo -u postgres psql -d nominatim -Atqc \
-                "SELECT COALESCE((SELECT true FROM place LIMIT 1), false)" | grep -qx t
+              ./assert-non-empty-json "http://localhost:8122/search?q=avenue%20pasteur"
+              docker stop nominatim
+              sleep 15
 
-              docker kill nominatim || true
-              sleep 5
-
-              # Ensure init.sh runs even if the tiny Monaco import finished before kill
               docker run --rm --entrypoint bash \
                 -v nominatim-resume-mid:/var/lib/postgresql/16/main \
                 nominatim:$NOMINATIM_VERSION \
-                -c 'rm -f /var/lib/postgresql/16/main/import-finished'
+                -c '
+                  set -ex
+                  rm -f /var/lib/postgresql/16/main/import-finished
+                  service postgresql start
+                  for i in $(seq 1 60); do
+                    if sudo -u postgres psql -d nominatim -c "SELECT 1" >/dev/null 2>&1; then
+                      break
+                    fi
+                    sleep 1
+                  done
+                  sudo -u postgres psql -d nominatim -c "DELETE FROM nominatim_properties WHERE property = '\''database_version'\''"
+                  sudo -u postgres psql -d nominatim -Atqc "SELECT EXISTS (SELECT 1 FROM placex WHERE indexed_status = 0 LIMIT 1)" | grep -qx t
+                  sudo -u postgres psql -d nominatim -Atqc "SELECT EXISTS (SELECT 1 FROM placex WHERE indexed_status > 0 LIMIT 1)" | grep -qx f
+                  service postgresql stop
+                '
 
               docker run -i --rm \
                 -e PBF_URL=https://download.geofabrik.de/europe/monaco-latest.osm.pbf \
                 -v nominatim-resume-mid:/var/lib/postgresql/16/main \
-                -p 8023:8080 \
+                -p 8123:8080 \
                 --name nominatim \
                 nominatim:$NOMINATIM_VERSION &
 
-              ./assert-non-empty-json "http://localhost:8023/search?q=avenue%20pasteur"
-              docker logs nominatim 2>&1 | grep -E "Detected import stage: (load-data|indexing|db-postprocess|import-from-file|done)"
+              ./assert-non-empty-json "http://localhost:8123/search?q=avenue%20pasteur"
+              docker logs nominatim > /tmp/nominatim-resume-mid.log 2>&1
+              grep -q "Detected import stage: db-postprocess" /tmp/nominatim-resume-mid.log
+              grep -qE "nominatim import --continue db-postprocess|--continue db-postprocess" /tmp/nominatim-resume-mid.log
+              ! grep -q "Detected import stage: done" /tmp/nominatim-resume-mid.log
+              ! grep -q "DROP DATABASE" /tmp/nominatim-resume-mid.log
 
     steps:
       - name: Download artifact
