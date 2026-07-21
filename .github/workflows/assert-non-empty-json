@@ -3,32 +3,59 @@
 # This script sends a HTTP request to a URL and asserts that its JSON
 # response contains a non-empty array.
 #
-# It retries the HTTP request a number of times.
+# It retries on connection/read failures and transient HTTP statuses while
+# the container is still importing / starting gunicorn.
 
 import logging
 import requests
 import sys
 import json
+import time
 
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from urllib3.util.retry import Retry
 
 logging.basicConfig(level=logging.WARNING)
 
+url = sys.argv[1]
+
 s = requests.Session()
-retries = Retry(total=18, backoff_factor=2, status_forcelist=[ 502, 503, 504 ])
-s.mount('http://', HTTPAdapter(max_retries=retries))
+# urllib3 retries help for some transport errors; we also loop explicitly
+# because "connection reset by peer" after accept is a read error that is
+# easy to miss depending on urllib3 version defaults.
+retries = Retry(
+    total=5,
+    connect=5,
+    read=5,
+    backoff_factor=0.5,
+    status_forcelist=[502, 503, 504],
+    raise_on_status=False,
+)
+s.mount("http://", HTTPAdapter(max_retries=retries))
 
-resp = s.get(sys.argv[1])
-
-if(resp.status_code != 200):
-    print(f'Endpoint returned status code {resp.status_code}: {resp.content}')
+last_err = None
+resp = None
+for attempt in range(1, 37):  # ~a few minutes with sleep below
+    try:
+        resp = s.get(url, timeout=30)
+        if resp.status_code == 200:
+            break
+        last_err = f"status {resp.status_code}: {resp.content!r}"
+    except requests.RequestException as exc:
+        last_err = str(exc)
+        resp = None
+    # Cap wait so CI/local import can finish; exponential-ish but bounded.
+    time.sleep(min(2 ** min(attempt // 3, 4), 15))
+else:
+    print(f"Endpoint never became ready at {url}: {last_err}")
     sys.exit(1)
 
-else:
-    jsn = resp.json()
-    print(f"JSON response returned by {sys.argv[1]}:")
-    print(json.dumps(jsn, indent = 2))
-    assert len(jsn) > 0
-    print("✅ JSON was non-empty array")
+if resp is None or resp.status_code != 200:
+    print(f"Endpoint returned error at {url}: {last_err}")
+    sys.exit(1)
 
+jsn = resp.json()
+print(f"JSON response returned by {url}:")
+print(json.dumps(jsn, indent=2))
+assert len(jsn) > 0
+print("✅ JSON was non-empty array")
