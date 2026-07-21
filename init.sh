@@ -246,7 +246,9 @@ case "${stage}" in
     fi
     ;;
   load-data | indexing | db-postprocess)
-    /app/import-continue.sh "${stage}"
+    sudo -E -u nominatim nominatim import \
+      --continue "${stage}" \
+      --threads $THREADS
     ;;
   *)
     echo "Unhandled import stage '${stage}'; refusing DROP"
